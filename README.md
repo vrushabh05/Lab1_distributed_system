@@ -1,4 +1,4 @@
-# Airbnb Lab 1 — Full Working Solution (React + Node/Express + MySQL + FastAPI Agent)
+# Airbnb Lab 1 — (React + Node/Express + MySQL + FastAPI Agent)
 
 Monorepo with Docker Compose for fast bring-up.
 
@@ -62,7 +62,3 @@ Set environment variables if needed:
 - Agent: FastAPI endpoint creates trip plan, activities, restaurants, checklist; optional Tavily enrichment.
 - API Docs: Postman collection in `/postman`.
 
-## Notes
-- Availability blocking is accomplished by excluding accepted overlapping bookings in search.
-- Replace demo dates/locations as needed.
-- For production, add HTTPS, stronger validation, input sanitization, and rate limits.
