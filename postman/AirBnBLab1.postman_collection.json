@@ -1,0 +1,168 @@
+{
+  "info": {
+    "name": "Airbnb Lab1 Collection",
+    "_postman_id": "a1111111-b222-3333-4444-555555555555",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3001/api/health"
+      }
+    },
+    {
+      "name": "Signup Traveler",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3001/api/auth/signup",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"role\": \"TRAVELER\", \"name\": \"T\", \"email\": \"t@t.com\", \"password\": \"password123\"}"
+        }
+      }
+    },
+    {
+      "name": "Signup Owner",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3001/api/auth/signup",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"role\": \"OWNER\", \"name\": \"O\", \"email\": \"o@o.com\", \"password\": \"password123\"}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3001/api/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"traveler@example.com\", \"password\": \"password123\"}"
+        }
+      }
+    },
+    {
+      "name": "Profile",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3001/api/users/me"
+      }
+    },
+    {
+      "name": "Post Property",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3001/api/properties",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"Cozy Apt\", \"type\": \"Apartment\", \"city\": \"San Jose\", \"country\": \"USA\", \"price_per_night\": 120}"
+        }
+      }
+    },
+    {
+      "name": "Search",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3001/api/search?location=San%20Jose&start=2025-10-22&end=2025-10-25&guests=2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "location",
+              "value": "San Jose"
+            },
+            {
+              "key": "start",
+              "value": "2025-10-22"
+            },
+            {
+              "key": "end",
+              "value": "2025-10-25"
+            },
+            {
+              "key": "guests",
+              "value": "2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:3001/api/bookings",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"property_id\": 1, \"start_date\": \"2025-10-22\", \"end_date\": \"2025-10-25\", \"guests\": 2}"
+        }
+      }
+    },
+    {
+      "name": "Owner Bookings",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3001/api/bookings/owner"
+      }
+    },
+    {
+      "name": "Agent Plan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "http://localhost:8000/agent/plan",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"location\": \"San Jose, USA\", \"dates\": {\"start\": \"2025-10-22\", \"end\": \"2025-10-25\"}, \"party_type\": \"family\", \"preferences\": {\"dietary\": \"vegan\"}}"
+        }
+      }
+    }
+  ]
+}
