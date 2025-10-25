@@ -1,0 +1,78 @@
+# docker-compose.yml
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: airbnb_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: airbnb
+      MYSQL_USER: airbnb
+      MYSQL_PASSWORD: airbnbpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/1_init.sql:ro
+
+  backend:
+    build: ./backend
+    container_name: airbnb_backend
+    depends_on:
+      - mysql
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      SESSION_SECRET: "supersecret"
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: airbnb
+      DB_PASSWORD: airbnbpassword
+      DB_NAME: airbnb
+      CORS_ORIGIN: "http://localhost:5173"
+      FILE_BASE_URL: "http://localhost:3001/uploads"
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - backend_uploads:/app/uploads
+    command: sh -lc "npm install && npm run dev"
+
+  agent:
+    build: ./agent
+    container_name: airbnb_agent
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: airbnb
+      DB_PASSWORD: airbnbpassword
+      DB_NAME: airbnb
+      TAVILY_API_KEY: "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"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./agent:/app
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  frontend:
+    build: ./frontend
+    container_name: airbnb_frontend
+    depends_on:
+      - backend
+      - agent
+    environment:
+      VITE_API_BASE: "http://localhost:3001"
+      VITE_AGENT_BASE: "http://localhost:8000"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -lc "npm install && npm run dev -- --host"
+
+volumes:
+  db_data:
+  backend_uploads:
