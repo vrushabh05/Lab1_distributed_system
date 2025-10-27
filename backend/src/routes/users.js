@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Router } from 'express';
+=======
+import { Router } from 'express'; 
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
 import multer from 'multer';
 import path from 'path';
 import { requireAuth } from '../middleware/auth.js';
@@ -18,7 +22,14 @@ const upload = multer({ storage });
 router.get('/me', requireAuth, async (req, res, next) => {
   const pool = req.pool;
   try {
+<<<<<<< HEAD
     const [rows] = await pool.query('SELECT id, role, name, email, phone, about, city, state, country, languages, gender, avatar_url FROM users WHERE id = ?', [req.session.user.id]);
+=======
+    const [rows] = await pool.query(
+      'SELECT id, role, name, email, phone, about, city, state, country, languages, gender, avatar_url FROM users WHERE id = ?',
+      [req.session.user.id]
+    );
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
     res.json({ profile: rows[0] });
   } catch (e) { next(e); }
 });

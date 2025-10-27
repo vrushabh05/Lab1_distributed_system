@@ -50,7 +50,11 @@ services:
       DB_USER: airbnb
       DB_PASSWORD: airbnbpassword
       DB_NAME: airbnb
+<<<<<<< HEAD
       TAVILY_API_KEY: "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"
+=======
+      TAVILY_API_KEY: "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"
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
     ports:
       - "8000:8000"
     volumes:

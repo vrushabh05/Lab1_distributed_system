@@ -10,6 +10,26 @@ export default function OwnerDashboard() {
     api.get('/api/bookings/owner').then(r => setItems(r.data.bookings)).catch(()=>{})
   }, [])
 
+<<<<<<< HEAD
+=======
+  const patchLocal = (id, status) => setItems(prev => prev.map(b => b.id===id ? { ...b, status } : b))
+
+  const act = async (id, action) => {
+    try {
+      await api.post(`/api/bookings/${id}/${action}`)
+      patchLocal(id, action.toUpperCase()==='ACCEPT' ? 'ACCEPTED' : 'CANCELLED')
+      // bump stats in-memory
+      setStats(s => {
+        if (!s) return s
+        const out = { ...s }
+        if (action==='accept') { out.pending = Math.max(0,(out.pending||1)-1); out.accepted = (out.accepted||0)+1 }
+        if (action==='cancel') { out.pending = Math.max(0,(out.pending||1)-1); out.cancelled = (out.cancelled||0)+1 }
+        return out
+      })
+    } catch (_) {}
+  }
+
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
   return (
     <div className="space-y-3">
       <div className="bg-white p-4 rounded shadow">
@@ -32,8 +52,13 @@ export default function OwnerDashboard() {
               </div>
               <div className="flex gap-2">
                 {b.status === 'PENDING' && <>
+<<<<<<< HEAD
                   <button onClick={async()=>{await api.post(`/api/bookings/${b.id}/accept`); location.reload()}} className="bg-green-600 text-white px-3 py-1 rounded">Accept</button>
                   <button onClick={async()=>{await api.post(`/api/bookings/${b.id}/cancel`); location.reload()}} className="bg-red-600 text-white px-3 py-1 rounded">Cancel</button>
+=======
+                  <button onClick={()=>act(b.id,'accept')} className="bg-green-600 text-white px-3 py-1 rounded">Accept</button>
+                  <button onClick={()=>act(b.id,'cancel')} className="bg-red-600 text-white px-3 py-1 rounded">Cancel</button>
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
                 </>}
               </div>
             </div>
