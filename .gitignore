@@ -6,3 +6,6 @@ uploads/
 .DS_Store
 dist/
 coverage/
+__pycache__/
+*.pyc
+*.cookie
