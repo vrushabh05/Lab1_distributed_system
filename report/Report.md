@@ -22,4 +22,8 @@ Use `/postman/AirBnBLab1.postman_collection.json`.
 - Agent provides itinerary and suggestions integrated via UI button.
 
 ## Conclusion
+<<<<<<< HEAD
 All required features implemented with clean separation of concerns and extensible architecture.
+=======
+All required features implemented with clean separation of concerns and extensible architecture.
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)

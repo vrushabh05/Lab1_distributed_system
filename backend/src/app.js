@@ -56,7 +56,11 @@ app.use(session({
   }
 }));
 
+<<<<<<< HEAD
 // Static for uploaded files
+=======
+// Static for uploaded files (backend/src/uploads)
+>>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
 const uploadsDir = path.join(__dirname, 'uploads');
 app.use('/uploads', express.static(uploadsDir));
 
