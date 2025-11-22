@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: frontend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5173
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5173
+          initialDelaySeconds: 5
+          periodSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: default
+spec:
+  selector:
+    app: frontend
+  ports:
+  - port: 5173
+    targetPort: 5173
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent-service
+  template:
+    metadata:
+      labels:
+        app: agent-service
+    spec:
+      containers:
+      - name: agent-service
+        image: agent-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 7000
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: MONGODB_URI
+        - name: AGENT_MODEL
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: AGENT_MODEL
+        - name: OLLAMA_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: OLLAMA_BASE_URL
+        - name: TAVILY_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: TAVILY_API_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent-service
+  namespace: default
+spec:
+  selector:
+    app: agent-service
+  ports:
+  - port: 7000
+    targetPort: 7000
+  type: ClusterIP

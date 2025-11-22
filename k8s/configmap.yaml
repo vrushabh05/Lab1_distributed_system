@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airbnb-config
+  namespace: default
+data:
+  NODE_ENV: "production"
+  CORS_ORIGIN: "http://localhost:7173"
+  MONGODB_URI: "mongodb://admin:adminpassword@mongodb-service:27017/airbnb?authSource=admin"
+  KAFKA_BROKER: "kafka-service:9092"
+  AGENT_MODEL: "qwen2.5-coder:1.5b-base"
+  OLLAMA_BASE_URL: "http://host.docker.internal:11434"

@@ -1,0 +1,213 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongodb:
+    image: mongo:7.0
+    container_name: airbnb_mongodb
+    ports:
+      - "7017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+      MONGO_INITDB_DATABASE: airbnb
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Zookeeper (required for Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: airbnb_zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "7181:2181"
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Kafka
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: airbnb_kafka
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "7092:9092"
+      - "7093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: [ "CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Traveler Service
+  traveler-service:
+    build:
+      context: .
+      dockerfile: services/traveler-service/Dockerfile
+    container_name: airbnb_traveler_service
+    ports:
+      - "7001:3001"
+    environment:
+      PORT: 3001
+      MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      KAFKA_BROKERS: kafka:9092
+      CORS_ORIGIN: http://localhost:5173
+      NODE_ENV: ${NODE_ENV:-development}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3001/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Owner Service
+  owner-service:
+    build:
+      context: .
+      dockerfile: services/owner-service/Dockerfile
+    container_name: airbnb_owner_service
+    ports:
+      - "7002:3002"
+    environment:
+      PORT: 3002
+      MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      KAFKA_BROKERS: kafka:9092
+      CORS_ORIGIN: http://localhost:5173
+      NODE_ENV: ${NODE_ENV:-development}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Property Service
+  property-service:
+    build:
+      context: .
+      dockerfile: services/property-service/Dockerfile
+    container_name: airbnb_property_service
+    ports:
+      - "7003:3003"
+    environment:
+      PORT: 3003
+      MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      CORS_ORIGIN: http://localhost:5173
+      NODE_ENV: ${NODE_ENV:-development}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3003/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Booking Service (Status Sync)
+  booking-service:
+    build:
+      context: .
+      dockerfile: services/booking-service/Dockerfile
+    container_name: airbnb_booking_service
+    ports:
+      - "7004:3004"
+    environment:
+      PORT: 3004
+      MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      KAFKA_BROKERS: kafka:9092
+      NODE_ENV: ${NODE_ENV:-development}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3004/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Agent Service
+  agent-service:
+    build:
+      context: .
+      dockerfile: services/agent-service/Dockerfile
+    container_name: airbnb_agent_service
+    ports:
+      - "7000:8000"
+    environment:
+      MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      AGENT_MODEL: ${AGENT_MODEL:-qwen2.5-coder:1.5b-base}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      TAVILY_API_KEY: ${TAVILY_API_KEY}
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: services/frontend/Dockerfile
+    container_name: airbnb_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_TRAVELER_API_URL: http://localhost:7001
+      VITE_OWNER_API_URL: http://localhost:7002
+      VITE_PROPERTY_API_URL: http://localhost:7003
+      VITE_AGENT_API_URL: http://localhost:7000
+    depends_on:
+      - traveler-service
+      - owner-service
+      - property-service
+    healthcheck:
+      test: [ "CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5173" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  default:
+    name: airbnb_network

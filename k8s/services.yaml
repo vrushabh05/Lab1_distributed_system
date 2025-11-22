@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: property-service
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: property-service
+  template:
+    metadata:
+      labels:
+        app: property-service
+    spec:
+      containers:
+      - name: property-service
+        image: property-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3003
+        env:
+        - name: PORT
+          value: "3003"
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: MONGODB_URI
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: JWT_SECRET
+        - name: CORS_ORIGIN
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: CORS_ORIGIN
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: NODE_ENV
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3003
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3003
+          initialDelaySeconds: 10
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: property-service
+  namespace: default
+spec:
+  selector:
+    app: property-service
+  ports:
+  - port: 3003
+    targetPort: 3003
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-service
+  template:
+    metadata:
+      labels:
+        app: booking-service
+    spec:
+      containers:
+      - name: booking-service
+        image: booking-service:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3004
+        env:
+        - name: PORT
+          value: "3004"
+        - name: MONGODB_URI
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: MONGODB_URI
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: JWT_SECRET
+        - name: KAFKA_BROKER
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: KAFKA_BROKER
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: NODE_ENV
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3004
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3004
+          initialDelaySeconds: 10
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-service
+  namespace: default
+spec:
+  selector:
+    app: booking-service
+  ports:
+  - port: 3004
+    targetPort: 3004
+  type: ClusterIP

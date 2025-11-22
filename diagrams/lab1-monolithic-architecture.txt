@@ -1,0 +1,126 @@
+# Lab 1 - Monolithic Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         FRONTEND (React + Vite)                     │
+│                      http://localhost:5173                          │
+│                                                                     │
+│  Components:                                                        │
+│  • Login/Signup Pages          • Property Search                   │
+│  • Profile Management          • Property Details                  │
+│  • Booking Flow                • Favorites                         │
+│  • Owner Dashboard             • Agent UI Button                   │
+│                                                                     │
+│  Technologies: React, TailwindCSS, Axios, React Router             │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             │ REST API Calls (Axios)
+                             │ Session Cookies
+                             │
+                             ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│                    BACKEND (Node.js + Express)                      │
+│                      http://localhost:3001                          │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │                      API Routes                                │ │
+│  │                                                                │ │
+│  │  /api/auth/*         - Signup, Login, Logout                  │ │
+│  │  /api/users/*        - Profile CRUD, Avatar upload            │ │
+│  │  /api/properties/*   - Property CRUD, Photos                  │ │
+│  │  /api/bookings/*     - Create, List, Accept, Cancel           │ │
+│  │  /api/favorites/*    - Add, Remove, List favorites            │ │
+│  │  /api/search/*       - Property search with filters           │ │
+│  │  /api/dashboards/*   - Owner/Traveler dashboards              │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐ │
+│  │                      Middleware                                │ │
+│  │                                                                │ │
+│  │  • express-session     - Session management                   │ │
+│  │  • bcrypt              - Password hashing                     │ │
+│  │  • multer              - File uploads                         │ │
+│  │  • helmet              - Security headers                     │ │
+│  │  • cors                - Cross-origin requests                │ │
+│  │  • express-rate-limit  - Rate limiting                        │ │
+│  └───────────────────────────────────────────────────────────────┘ │
+└────────────┬────────────────────────────────┬───────────────────────┘
+             │                                │
+             │                                │
+             ↓                                ↓
+┌────────────────────────────┐    ┌──────────────────────────────┐
+│      MySQL Database        │    │   Agent Service (FastAPI)    │
+│     Port: 3306             │    │     Port: 8000               │
+│                            │    │                              │
+│  Tables:                   │    │  Endpoints:                  │
+│  • users                   │    │  • POST /agent/plan          │
+│  • properties              │    │                              │
+│  • bookings                │    │  Features:                   │
+│  • favorites               │    │  • Trip planning             │
+│  • sessions                │    │  • Activity recommendations  │
+│                            │    │  • Restaurant suggestions    │
+│  Relationships:            │    │  • Packing checklist         │
+│  users ← bookings          │    │  • Tavily web search         │
+│  users ← properties        │    │  • NLU query processing      │
+│  properties ← bookings     │    │                              │
+│  users ← favorites         │    │  Technologies:               │
+│  properties ← favorites    │    │  Python, FastAPI, Langchain  │
+└────────────────────────────┘    └──────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                           DATA FLOW                                 │
+│                                                                     │
+│  1. User Sign up/Login                                              │
+│     Frontend → Backend → MySQL (store user + session)               │
+│                                                                     │
+│  2. Property Search                                                 │
+│     Frontend → Backend → MySQL (query with filters)                 │
+│     ← Return results                                                │
+│                                                                     │
+│  3. Create Booking                                                  │
+│     Frontend → Backend → MySQL (insert booking, status=PENDING)     │
+│                                                                     │
+│  4. Owner Accept/Cancel                                             │
+│     Frontend → Backend → MySQL (update booking status)              │
+│                                                                     │
+│  5. Agent Query                                                     │
+│     Frontend → Agent Service → MySQL (get booking details)          │
+│                           → Tavily API (web search)                 │
+│                           → LLM (generate plan)                     │
+│     ← Return trip plan                                              │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                      KEY CHARACTERISTICS                            │
+│                                                                     │
+│  ✓ Monolithic architecture - Single backend service                │
+│  ✓ Centralized database - All data in MySQL                        │
+│  ✓ Session-based auth - express-session + cookies                  │
+│  ✓ Synchronous communication - Direct HTTP calls                   │
+│  ✓ Simple deployment - 4 containers (frontend, backend, db, agent) │
+│  ✓ Easy development - All code in one repository                   │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## Deployment (docker-compose.yml)
+
+```
+Services:
+  1. mysql         - Port 3306
+  2. backend       - Port 3001
+  3. agent         - Port 8000
+  4. frontend      - Port 5173
+
+Networks: Default bridge network
+Volumes:  db_data, backend_uploads
+```
+
+## Technology Stack
+
+| Layer | Technologies |
+|-------|-------------|
+| Frontend | React, Vite, TailwindCSS, Axios, React Router |
+| Backend | Node.js, Express, MySQL2, bcrypt, multer |
+| Database | MySQL 8.0 |
+| Agent | Python 3.11, FastAPI, Langchain, Tavily API |
+| Deployment | Docker, Docker Compose |

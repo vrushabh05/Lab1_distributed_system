@@ -1,0 +1,14 @@
+node_modules
+.git
+.env
+.DS_Store
+*.md
+*.pdf
+diagrams
+k8s
+report
+screenshots
+test-results
+playwright-report
+postman
+tests

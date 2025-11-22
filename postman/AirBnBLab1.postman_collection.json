@@ -6,13 +6,6 @@
   },
   "item": [
     {
-      "name": "Health",
-      "request": {
-        "method": "GET",
-        "url": "http://localhost:3001/api/health"
-      }
-    },
-    {
       "name": "Signup Traveler",
       "request": {
         "method": "POST",
@@ -22,10 +15,22 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:3001/api/auth/signup",
         "body": {
           "mode": "raw",
           "raw": "{\"role\": \"TRAVELER\", \"name\": \"T\", \"email\": \"t@t.com\", \"password\": \"password123\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/auth/signup",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "auth",
+            "signup"
+          ]
         }
       }
     },
@@ -39,10 +44,22 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:3001/api/auth/signup",
         "body": {
           "mode": "raw",
           "raw": "{\"role\": \"OWNER\", \"name\": \"O\", \"email\": \"o@o.com\", \"password\": \"password123\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/auth/signup",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "auth",
+            "signup"
+          ]
         }
       }
     },
@@ -56,10 +73,22 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:3001/api/auth/login",
         "body": {
           "mode": "raw",
           "raw": "{\"email\": \"traveler@example.com\", \"password\": \"password123\"}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
         }
       }
     },
@@ -67,7 +96,19 @@
       "name": "Profile",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3001/api/users/me"
+        "url": {
+          "raw": "http://localhost:3001/api/users/me",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "users",
+            "me"
+          ]
+        }
       }
     },
     {
@@ -80,10 +121,21 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:3001/api/properties",
         "body": {
           "mode": "raw",
           "raw": "{\"title\": \"Cozy Apt\", \"type\": \"Apartment\", \"city\": \"San Jose\", \"country\": \"USA\", \"price_per_night\": 120}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/properties",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "properties"
+          ]
         }
       }
     },
@@ -133,10 +185,21 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:3001/api/bookings",
         "body": {
           "mode": "raw",
           "raw": "{\"property_id\": 1, \"start_date\": \"2025-10-22\", \"end_date\": \"2025-10-25\", \"guests\": 2}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/api/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "bookings"
+          ]
         }
       }
     },
@@ -144,7 +207,19 @@
       "name": "Owner Bookings",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3001/api/bookings/owner"
+        "url": {
+          "raw": "http://localhost:3001/api/bookings/owner",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3001",
+          "path": [
+            "api",
+            "bookings",
+            "owner"
+          ]
+        }
       }
     },
     {
@@ -157,16 +232,23 @@
             "value": "application/json"
           }
         ],
-        "url": "http://localhost:8000/agent/plan",
         "body": {
           "mode": "raw",
           "raw": "{\"location\": \"San Jose, USA\", \"dates\": {\"start\": \"2025-10-22\", \"end\": \"2025-10-25\"}, \"party_type\": \"family\", \"preferences\": {\"dietary\": \"vegan\"}}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/agent/plan",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "agent",
+            "plan"
+          ]
         }
       }
     }
   ]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ffcac8c (Added my updated backend + frontend fixes and report)
