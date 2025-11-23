@@ -31,9 +31,52 @@ router.get('/', authMiddleware, async (req, res) => {
       return res.status(403).json({ error: 'Only owners can view bookings' });
     }
 
-    const bookings = await Booking.find({ ownerId: req.user.id })
-      .sort({ createdAt: -1 });
-    
+    const bookings = await Booking.aggregate([
+      { $match: { ownerId: req.user.id } },
+      { $sort: { createdAt: -1 } },
+      {
+        $addFields: {
+          travelerObjectId: { $toObjectId: "$travelerId" }
+        }
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "travelerObjectId",
+          foreignField: "_id",
+          as: "traveler"
+        }
+      },
+      { $unwind: { path: "$traveler", preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          travelerId: 1,
+          propertyId: 1,
+          ownerId: 1,
+          startDate: 1,
+          endDate: 1,
+          totalPrice: 1,
+          pricePerNight: 1,
+          guests: 1,
+          title: 1,
+          city: 1,
+          state: 1,
+          country: 1,
+          comments: 1,
+          status: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          traveler: {
+            name: 1,
+            email: 1,
+            phone: 1,
+            avatar_url: 1
+          }
+        }
+      }
+    ]);
+
     res.json({ bookings });
   } catch (error) {
     console.error('Get bookings error:', error);

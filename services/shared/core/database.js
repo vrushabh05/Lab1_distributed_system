@@ -15,7 +15,7 @@ export class DatabaseManager {
     this.isConnected = false;
     this.connectionPromise = null;
   }
-  
+
   /**
    * Connect to MongoDB with retry logic
    */
@@ -23,40 +23,40 @@ export class DatabaseManager {
     if (this.connectionPromise) {
       return this.connectionPromise;
     }
-    
+
     this.connectionPromise = this._attemptConnection(retries, delay);
     return this.connectionPromise;
   }
-  
+
   async _attemptConnection(retries, delay) {
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
         this.logger.info(`Connecting to MongoDB (attempt ${attempt}/${retries})...`);
-        
+
         await mongoose.connect(this.config.MONGODB_URI, this.config.MONGODB_OPTIONS);
-        
+
         this.isConnected = true;
         const connection = mongoose.connection;
         this.logger.info('MongoDB connected successfully', {
           host: connection.host,
           poolSize: this.config.MONGODB_OPTIONS.maxPoolSize,
         });
-        
+
         // Ensure indexes are created (runs in background)
         mongoose.connection.db.command({ listCollections: 1 }).then(() => {
           this.logger.info('Checking database indexes...');
         }).catch(err => {
           this.logger.warn('Could not verify indexes', err);
         });
-        
+
         // Setup event listeners
         this._setupEventListeners();
-        
+
         return mongoose.connection;
-        
+
       } catch (error) {
         this.logger.error(`MongoDB connection failed (attempt ${attempt}/${retries})`, error);
-        
+
         if (attempt < retries) {
           this.logger.info(`Retrying in ${delay}ms...`);
           await this._sleep(delay);
@@ -67,7 +67,7 @@ export class DatabaseManager {
       }
     }
   }
-  
+
   /**
    * Setup MongoDB event listeners
    */
@@ -76,17 +76,17 @@ export class DatabaseManager {
       this.isConnected = false;
       this.logger.warn('MongoDB disconnected');
     });
-    
+
     mongoose.connection.on('reconnected', () => {
       this.isConnected = true;
       this.logger.info('MongoDB reconnected');
     });
-    
+
     mongoose.connection.on('error', (error) => {
       this.logger.error('MongoDB error', error);
     });
   }
-  
+
   /**
    * Health check with detailed connection info
    * @returns {Promise<Object>}
@@ -95,7 +95,7 @@ export class DatabaseManager {
     try {
       if (!mongoose.connection || mongoose.connection.readyState !== 1) {
         return {
-          ok: false,
+          healthy: false,
           status: 'disconnected',
           message: 'Database not connected'
         };
@@ -103,7 +103,7 @@ export class DatabaseManager {
 
       // Ping database to verify connectivity
       await mongoose.connection.db.admin().ping();
-      
+
       // Get connection pool stats
       const poolStats = {
         readyState: mongoose.connection.readyState,
@@ -113,7 +113,7 @@ export class DatabaseManager {
       };
 
       return {
-        ok: true,
+        healthy: true,
         status: 'connected',
         message: 'Database is healthy',
         pool: poolStats
@@ -121,13 +121,13 @@ export class DatabaseManager {
     } catch (error) {
       this.logger.error('Health check failed', error);
       return {
-        ok: false,
+        healthy: false,
         status: 'error',
         message: error.message
       };
     }
   }
-  
+
   /**
    * Graceful shutdown
    */
@@ -136,7 +136,7 @@ export class DatabaseManager {
       this.logger.info('MongoDB already disconnected');
       return;
     }
-    
+
     try {
       this.logger.info('Closing MongoDB connection...');
       await mongoose.connection.close();
@@ -148,7 +148,7 @@ export class DatabaseManager {
       throw error;
     }
   }
-  
+
   /**
    * Extract host from MongoDB URI
    */
@@ -160,7 +160,7 @@ export class DatabaseManager {
       return 'unknown';
     }
   }
-  
+
   _sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

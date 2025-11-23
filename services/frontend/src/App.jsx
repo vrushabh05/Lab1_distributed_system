@@ -49,30 +49,30 @@ export default function App() {
           {/* Global Header - Clean & Minimal */}
           <Header />
 
-        {/* Main Content */}
-        <main>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/property/:id" element={<PropertyDetails />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/bookings" element={<TravelerBookings />} />
-              <Route path="/dashboard" element={<OwnerDashboard />} />
-              <Route path="/properties" element={<OwnerProperties />} />
-              <Route path="/new" element={<NewProperty />} />
-            </Routes>
-          </Suspense>
-        </main>
+          {/* Main Content */}
+          <main>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/search" element={<Search />} />
+                <Route path="/property/:id" element={<PropertyDetails />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/bookings" element={<TravelerBookings />} />
+                <Route path="/dashboard" element={<OwnerDashboard />} />
+                <Route path="/owner/properties" element={<OwnerProperties />} />
+                <Route path="/owner/new" element={<NewProperty />} />
+              </Routes>
+            </Suspense>
+          </main>
 
-        {/* AI Agent - Only show for authenticated travelers */}
-        {isAuthenticated && user?.role === 'TRAVELER' && <AgentButton />}
-      </div>
-    </ErrorBoundary>
+          {/* AI Agent - Only show for authenticated travelers */}
+          {isAuthenticated && user?.role === 'TRAVELER' && <AgentButton />}
+        </div>
+      </ErrorBoundary>
     </ToastProvider>
   )
 }

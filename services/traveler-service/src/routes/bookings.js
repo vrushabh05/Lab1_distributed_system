@@ -37,20 +37,20 @@ router.get('/', authMiddleware, sanitizeRequest, async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 50));
     const skip = (page - 1) * limit;
-    
+
     const query = { travelerId: req.user.id };
-    
+
     // Get total count for pagination metadata
     const totalCount = await Booking.countDocuments(query);
-    
+
     const bookings = await Booking.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
-      
+
     const totalPages = Math.ceil(totalCount / limit);
-    
+
     res.json({
       bookings,
       pagination: {
@@ -75,20 +75,20 @@ router.get('/mine', authMiddleware, sanitizeRequest, async (req, res) => {
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit) || 50));
     const skip = (page - 1) * limit;
-    
+
     const query = { travelerId: req.user.id };
-    
+
     // Get total count for pagination metadata
     const totalCount = await Booking.countDocuments(query);
-    
+
     const bookings = await Booking.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .lean();
-      
+
     const totalPages = Math.ceil(totalCount / limit);
-    
+
     res.json({
       bookings,
       pagination: {
@@ -111,7 +111,7 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
   // Start MongoDB session for transaction
   const session = await mongoose.startSession();
   session.startTransaction();
-  
+
   try {
     if (req.user.role !== 'TRAVELER') {
       await session.abortTransaction();
@@ -185,8 +185,8 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
     if (guestsCount > maxGuests) {
       await session.abortTransaction();
       session.endSession();
-      return res.status(400).json({ 
-        error: `Property maximum is ${maxGuests} guest${maxGuests > 1 ? 's' : ''}` 
+      return res.status(400).json({
+        error: `Property maximum is ${maxGuests} guest${maxGuests > 1 ? 's' : ''}`
       });
     }
 
@@ -196,9 +196,9 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       availabilityCheck = await axios.post(
         `${BOOKING_SERVICE_URL}/api/bookings/availability`,
         { propertyId, startDate, endDate },
-        { 
+        {
           headers: { 'x-api-key': BOOKING_API_KEY },
-          timeout: 5000 
+          timeout: 5000
         }
       );
     } catch (err) {
@@ -248,8 +248,8 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       travelerId: req.user.id,
       propertyId,
       ownerId: property.ownerId,
-      startDate: start,
-      endDate: end,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
       totalPrice: computedTotal,
       pricePerNight: nightlyRate,
       guests: guestsCount,
@@ -257,41 +257,43 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       city: property.city,
       state: property.state,
       country: property.country,
+      comments: req.body.comments,
       status: 'PENDING',
     });
 
-    await booking.save({ session });
+    await booking.save();
 
     // Commit transaction before publishing to Kafka
     await session.commitTransaction();
     session.endSession();
 
-    // Publish to Kafka for Owner service AND Booking service ledger
+    // Publish booking request to Kafka using shared KafkaManager
     await kafka.sendMessage(
       'booking-requests',
       {
         bookingId: booking._id,
-        travelerId: booking.travelerId,
-        propertyId: booking.propertyId,
-        ownerId: booking.ownerId,
+        travelerId: req.user.id,
+        propertyId,
+        ownerId: property.ownerId,
         startDate: booking.startDate,
         endDate: booking.endDate,
-        totalPrice: booking.totalPrice,
-        pricePerNight: booking.pricePerNight,
-        guests: booking.guests,
-        title: booking.title,
-        city: booking.city,
-        state: booking.state,
-        country: booking.country,
-        status: booking.status,
+        totalPrice: computedTotal,
+        pricePerNight: nightlyRate,
+        guests: guestsCount,
+        title: property.title,
+        city: property.city,
+        state: property.state,
+        country: property.country,
+        comments: req.body.comments,
+        status: 'PENDING',
         timestamp: new Date().toISOString(),
       },
       booking._id.toString()
     );
     console.log(`📤 Booking request published to Kafka: ${booking._id}`);
 
-    res.json({ 
-      message: 'Booking created successfully', 
+    res.json({
+      message: 'Booking created successfully',
       booking,
     });
   } catch (error) {

@@ -26,10 +26,11 @@ const bookingSchema = new mongoose.Schema({
   city: { type: String },
   state: { type: String },
   country: { type: String },
-  status: { 
-    type: String, 
-    enum: ['PENDING', 'ACCEPTED', 'CANCELLED', 'COMPLETED'], 
-    default: 'PENDING' 
+  comments: { type: String },
+  status: {
+    type: String,
+    enum: ['PENDING', 'ACCEPTED', 'CANCELLED', 'COMPLETED'],
+    default: 'PENDING'
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },

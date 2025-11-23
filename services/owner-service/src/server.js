@@ -98,6 +98,7 @@ async function setupKafkaConsumer() {
         city: bookingData.city,
         state: bookingData.state,
         country: bookingData.country,
+        comments: bookingData.comments,
         status: bookingData.status,
       });
 

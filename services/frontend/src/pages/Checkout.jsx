@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBooking } from '../store/slices/bookingsSlice'
 import { useToast } from '../context/ToastContext'
-import { 
-  Calendar, Users, Home, Shield, CreditCard, Check, 
-  ChevronRight, AlertCircle, Lock, Star, MapPin, X 
+import {
+  Calendar, Users, Home, Shield, CreditCard, Check,
+  ChevronRight, AlertCircle, Lock, Star, MapPin, X
 } from 'lucide-react'
 
 export default function Checkout() {
@@ -49,9 +49,9 @@ export default function Checkout() {
   const { startDate, endDate, guests, pricePerNight, numNights, subtotal, serviceFee, totalPrice } = bookingData
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
+    return new Date(dateString).toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
       day: 'numeric',
       year: 'numeric'
     })
@@ -88,7 +88,8 @@ export default function Checkout() {
         startDate,
         endDate,
         totalPrice,
-        guests
+        guests,
+        comments: paymentInfo.comments
       }))
 
       if (createBooking.fulfilled.match(result)) {
@@ -122,9 +123,9 @@ export default function Checkout() {
       {/* Trip Summary */}
       <div className="card">
         <div className="flex items-start gap-6">
-          <img 
+          <img
             src={
-              (property.photos && property.photos[0]) || 
+              (property.photos && property.photos[0]) ||
               (property.images && property.images[0]) ||
               `https://images.unsplash.com/photo-${property.type === 'Condo' ? '1545324418-cc1a3fa10c00' : property.type === 'House' ? '1580587771525-78b9dba3b914' : '1522708323590-d24dbb6b0267'}?w=400&q=80`
             }
@@ -158,7 +159,7 @@ export default function Checkout() {
       {/* Dates & Guests */}
       <div className="card">
         <h3 className="text-xl font-bold text-[var(--color-ink)] mb-6">Your trip</h3>
-        
+
         <div className="space-y-4">
           <div className="flex justify-between items-center pb-4 border-b border-[var(--color-cloud)] group">
             <div className="flex-1">
@@ -167,7 +168,7 @@ export default function Checkout() {
                 {formatDate(startDate)} → {formatDate(endDate)}
               </div>
             </div>
-            <button 
+            <button
               onClick={() => navigate(-1)}
               className="flex items-center gap-2 text-sm text-[var(--color-primary)] hover:text-[var(--color-action-dark)] font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -181,7 +182,7 @@ export default function Checkout() {
               <div className="font-semibold text-[var(--color-ink)] mb-1">Guests</div>
               <div className="text-[var(--color-slate)]">{guests} guest{guests > 1 ? 's' : ''}</div>
             </div>
-            <button 
+            <button
               onClick={() => navigate(-1)}
               className="flex items-center gap-2 text-sm text-[var(--color-primary)] hover:text-[var(--color-action-dark)] font-semibold opacity-0 group-hover:opacity-100 transition-opacity"
             >
@@ -195,7 +196,7 @@ export default function Checkout() {
       {/* House Rules */}
       <div className="card">
         <h3 className="text-xl font-bold text-[var(--color-ink)] mb-6">House rules</h3>
-        
+
         <div className="space-y-3 text-[var(--color-charcoal)]">
           <div className="flex items-start gap-3">
             <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5">
@@ -230,6 +231,16 @@ export default function Checkout() {
         </div>
 
         <div className="mt-6 pt-6 border-t border-[var(--color-cloud)]">
+          <label className="label mb-2 block">Special Requests (Optional)</label>
+          <textarea
+            className="input w-full h-24 resize-none"
+            placeholder="Any special requests or comments for the host?"
+            value={paymentInfo.comments || ''}
+            onChange={(e) => setPaymentInfo({ ...paymentInfo, comments: e.target.value })}
+          />
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-[var(--color-cloud)]">
           <label className="flex items-start gap-3 cursor-pointer group">
             <input
               type="checkbox"
@@ -259,15 +270,14 @@ export default function Checkout() {
           </div>
         </div>
       )}
-      
+
       <button
         onClick={() => setCurrentStep(2)}
         disabled={!agreed}
-        className={`btn w-full btn-lg transition-all duration-200 ${
-          agreed 
-            ? 'btn-primary hover:shadow-lg' 
-            : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
-        }`}
+        className={`btn w-full btn-lg transition-all duration-200 ${agreed
+          ? 'btn-primary hover:shadow-lg'
+          : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
+          }`}
       >
         Continue to payment
         <ChevronRight className="w-5 h-5 ml-2" />
@@ -304,7 +314,7 @@ export default function Checkout() {
             <div>
               <h4 className="font-bold text-yellow-900 mb-1">Demo Mode - Mock Payment</h4>
               <p className="text-sm text-yellow-800">
-                This is a demonstration environment. <strong>No real payment will be processed.</strong> 
+                This is a demonstration environment. <strong>No real payment will be processed.</strong>
                 Enter any name to proceed with booking. In production, this would integrate with Stripe, PayPal, or similar payment processor.
               </p>
             </div>
@@ -342,8 +352,9 @@ export default function Checkout() {
                 setPaymentInfo({ ...paymentInfo, cardNumber: formatted })
               }}
               maxLength={19}
-              className="input"
-              disabled
+              className="input bg-gray-50"
+              readOnly
+              tabIndex={0}
             />
           </div>
 
@@ -362,8 +373,9 @@ export default function Checkout() {
                   setPaymentInfo({ ...paymentInfo, expiryDate: value })
                 }}
                 maxLength={5}
-                className="input"
-                disabled
+                className="input bg-gray-50"
+                readOnly
+                tabIndex={0}
               />
             </div>
             <div>
@@ -377,8 +389,9 @@ export default function Checkout() {
                   setPaymentInfo({ ...paymentInfo, cvv: value })
                 }}
                 maxLength={3}
-                className="input"
-                disabled
+                className="input bg-gray-50"
+                readOnly
+                tabIndex={0}
               />
             </div>
           </div>
@@ -394,8 +407,9 @@ export default function Checkout() {
                 setPaymentInfo({ ...paymentInfo, billingZip: value })
               }}
               maxLength={5}
-              className="input"
-              disabled
+              className="input bg-gray-50"
+              readOnly
+              tabIndex={0}
             />
           </div>
         </div>
@@ -408,7 +422,7 @@ export default function Checkout() {
           <div>
             <h4 className="font-bold text-blue-900 mb-1">Production Payment Security</h4>
             <p className="text-sm text-blue-800">
-              In a production environment, payments would be processed securely through PCI-compliant providers like Stripe or PayPal. 
+              In a production environment, payments would be processed securely through PCI-compliant providers like Stripe or PayPal.
               Your card details would be encrypted and tokenized. You would only be charged after the host accepts your booking.
             </p>
           </div>
@@ -551,13 +565,12 @@ export default function Checkout() {
                 {[1, 2].map((step) => (
                   <React.Fragment key={step}>
                     <div className={`flex items-center gap-2 ${currentStep >= step ? 'text-[var(--color-primary)]' : 'text-[var(--color-mist)]'}`}>
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                        currentStep > step 
-                          ? 'bg-[var(--color-primary)] text-white' 
-                          : currentStep === step
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep > step
+                        ? 'bg-[var(--color-primary)] text-white'
+                        : currentStep === step
                           ? 'bg-[var(--color-primary)] text-white'
                           : 'bg-[var(--color-cloud)] text-[var(--color-mist)]'
-                      }`}>
+                        }`}>
                         {currentStep > step ? <Check className="w-5 h-5" /> : step}
                       </div>
                       <span className="hidden md:block font-semibold">
@@ -596,8 +609,8 @@ export default function Checkout() {
                   <div className="flex justify-between text-[var(--color-charcoal)]">
                     <span className="flex items-center gap-1">
                       Service fee
-                      <button 
-                        className="text-[var(--color-slate)] hover:text-[var(--color-ink)]" 
+                      <button
+                        className="text-[var(--color-slate)] hover:text-[var(--color-ink)]"
                         title="Platform service fee (15%)"
                       >
                         <AlertCircle className="w-3.5 h-3.5" />
@@ -608,8 +621,8 @@ export default function Checkout() {
                   <div className="flex justify-between text-[var(--color-charcoal)]">
                     <span className="flex items-center gap-1">
                       Taxes & fees
-                      <button 
-                        className="text-[var(--color-slate)] hover:text-[var(--color-ink)]" 
+                      <button
+                        className="text-[var(--color-slate)] hover:text-[var(--color-ink)]"
                         title="Local occupancy taxes"
                       >
                         <AlertCircle className="w-3.5 h-3.5" />
