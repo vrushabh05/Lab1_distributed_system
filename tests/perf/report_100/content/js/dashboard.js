@@ -133,7 +133,7 @@ $(document).ready(function() {
         widgets: ['zebra']
     });
 
-    var data = {"OkPercent": 66.66666666666667, "KoPercent": 33.333333333333336};
+    var data = {"OkPercent": 100.0, "KoPercent": 0.0};
     var dataset = [
         {
             "label" : "FAIL",
@@ -173,7 +173,7 @@ $(document).ready(function() {
     });
 
     // Creates APDEX table
-    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [0.6666666666666666, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [1.0, 500, 1500, "Create Booking"], "isController": false}, {"data": [0.0, 500, 1500, "Search Properties"], "isController": false}, {"data": [1.0, 500, 1500, "Login"], "isController": false}]}, function(index, item){
+    createTable($("#apdexTable"), {"supportsControllersDiscrimination": true, "overall": {"data": [1.0, 500, 1500, "Total"], "isController": false}, "titles": ["Apdex", "T (Toleration threshold)", "F (Frustration threshold)", "Label"], "items": [{"data": [1.0, 500, 1500, "Create Booking"], "isController": false}, {"data": [1.0, 500, 1500, "Search Properties"], "isController": false}, {"data": [1.0, 500, 1500, "Login"], "isController": false}]}, function(index, item){
         switch(index){
             case 0:
                 item = item.toFixed(3);
@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 300, 100, 33.333333333333336, 1.093333333333334, 0, 54, 1.0, 2.0, 2.0, 3.990000000000009, 30.712530712530715, 19.545246596027845, 5.708611665642915], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["Create Booking", 100, 0, 0.0, 0.9000000000000001, 0, 4, 1.0, 1.0, 2.0, 3.989999999999995, 10.362694300518134, 3.89613018134715, 3.2079825129533677], "isController": false}, {"data": ["Search Properties", 100, 100, 100.0, 0.0, 0, 0, 0.0, 0.0, 0.0, 0.0, 10.362694300518134, 11.35443652849741, 0.0], "isController": false}, {"data": ["Login", 100, 0, 0.0, 2.379999999999999, 1, 54, 1.0, 2.0, 2.0, 54.0, 10.239606799098913, 4.479827974605775, 2.5399024677452386], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 300, 0, 0.0, 0.8800000000000001, 0, 58, 1.0, 1.0, 1.0, 2.0, 30.534351145038165, 13.150047709923665, 7.206186386768448], "isController": false}, "titles": ["Label", "#Samples", "FAIL", "Error %", "Average", "Min", "Max", "Median", "90th pct", "95th pct", "99th pct", "Transactions/s", "Received", "Sent"], "items": [{"data": ["Create Booking", 100, 0, 0.0, 0.32, 0, 1, 0.0, 1.0, 1.0, 1.0, 10.27221366204417, 3.862111581920904, 3.1799723934257833], "isController": false}, {"data": ["Search Properties", 100, 0, 0.0, 0.42, 0, 2, 0.0, 1.0, 1.0, 1.9899999999999949, 10.270103728047653, 4.914405104241553, 1.5445273184759165], "isController": false}, {"data": ["Login", 100, 0, 0.0, 1.9000000000000004, 0, 58, 1.0, 1.0, 1.9499999999999886, 57.74999999999987, 10.17915309446254, 4.453379478827362, 2.524907115228013], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
@@ -217,7 +217,7 @@ $(document).ready(function() {
     }, [[0, 0]], 0, summaryTableHeader);
 
     // Create error table
-    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": [{"data": ["Non HTTP response code: java.net.URISyntaxException/Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose", 100, 100.0, 33.333333333333336], "isController": false}]}, function(index, item){
+    createTable($("#errorsTable"), {"supportsControllersDiscrimination": false, "titles": ["Type of error", "Number of errors", "% in errors", "% in all samples"], "items": []}, function(index, item){
         switch(index){
             case 2:
             case 3:
@@ -228,7 +228,7 @@ $(document).ready(function() {
     }, [[1, 1]]);
 
         // Create top5 errors by sampler
-    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 300, 100, "Non HTTP response code: java.net.URISyntaxException/Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose", 100, "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": ["Search Properties", 100, 100, "Non HTTP response code: java.net.URISyntaxException/Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose", 100, "", "", "", "", "", "", "", ""], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
+    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 300, 0, "", "", "", "", "", "", "", "", "", ""], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
         return item;
     }, [[0, 0]], 0);
 

@@ -1,0 +1,158 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "Go to homepage" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e9]
+        - generic [ref=e12]: Stays
+      - navigation [ref=e13]:
+        - link "Search" [ref=e14] [cursor=pointer]:
+          - /url: /search
+      - generic [ref=e15]:
+        - button "Become a Host" [ref=e16] [cursor=pointer]
+        - button "Sign In" [ref=e17] [cursor=pointer]
+        - button "Sign Up" [ref=e18] [cursor=pointer]
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e23]:
+          - img [ref=e24]
+          - img "Luxury accommodation" [ref=e25]
+        - generic [ref=e27]:
+          - heading "From Inspiration to Arrival" [level=1] [ref=e28]:
+            - text: From Inspiration
+            - text: to Arrival
+          - paragraph [ref=e29]: Discover curated stays that transform your journey into an experience
+          - generic [ref=e31]:
+            - generic [ref=e32]:
+              - img [ref=e33]
+              - textbox "Where to?" [ref=e36]
+            - generic [ref=e37]:
+              - img [ref=e38]
+              - textbox [ref=e40]
+            - generic [ref=e41]:
+              - img [ref=e42]
+              - textbox [ref=e44]
+            - generic [ref=e45]:
+              - generic [ref=e46]:
+                - img [ref=e47]
+                - combobox [ref=e52] [cursor=pointer]:
+                  - option "1 Guest" [selected]
+                  - option "2 Guests"
+                  - option "3 Guests"
+                  - option "4 Guests"
+                  - option "5 Guests"
+                  - option "6 Guests"
+                  - option "7 Guests"
+                  - option "8 Guests"
+              - button [ref=e53] [cursor=pointer]:
+                - img [ref=e54]
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - heading "Curated Collections" [level=2] [ref=e63]
+          - paragraph [ref=e64]: Hand-picked stays for the discerning traveler
+        - generic [ref=e65]:
+          - generic [ref=e69] [cursor=pointer]:
+            - generic [ref=e70]: CURATED
+            - heading "Unique Stays" [level=3] [ref=e71]
+            - paragraph [ref=e72]: One-of-a-kind places
+            - generic [ref=e73]:
+              - generic [ref=e74]: Explore
+              - img [ref=e75]
+          - generic [ref=e80] [cursor=pointer]:
+            - generic [ref=e81]: COASTAL
+            - heading "Beachfront" [level=3] [ref=e82]
+            - paragraph [ref=e83]: Wake up to ocean views
+            - generic [ref=e84]:
+              - generic [ref=e85]: Explore
+              - img [ref=e86]
+          - generic [ref=e91] [cursor=pointer]:
+            - generic [ref=e92]: EDITORIAL
+            - heading "Design Icons" [level=3] [ref=e93]
+            - paragraph [ref=e94]: Architectural masterpieces
+            - generic [ref=e95]:
+              - generic [ref=e96]: Explore
+              - img [ref=e97]
+          - generic [ref=e102] [cursor=pointer]:
+            - generic [ref=e103]: RUSTIC
+            - heading "In the Forest" [level=3] [ref=e104]
+            - paragraph [ref=e105]: Surrounded by nature
+            - generic [ref=e106]:
+              - generic [ref=e107]: Explore
+              - img [ref=e108]
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - generic [ref=e113]:
+            - heading "Featured Stays" [level=2] [ref=e114]
+            - paragraph [ref=e115]: Exceptional properties chosen by our curators
+          - button "View All" [ref=e116] [cursor=pointer]:
+            - text: View All
+            - img [ref=e117]
+        - generic [ref=e119]:
+          - generic [ref=e120] [cursor=pointer]:
+            - button [ref=e123]:
+              - img [ref=e124]
+            - generic [ref=e126]:
+              - generic [ref=e127]:
+                - generic [ref=e128]: Santorini, Greece
+                - generic [ref=e129]: Demo
+              - heading "Cliffside Villa with Infinity Pool" [level=3] [ref=e130]
+              - generic [ref=e131]:
+                - generic [ref=e132]: $450
+                - generic [ref=e133]: / night
+          - generic [ref=e134] [cursor=pointer]:
+            - button [ref=e137]:
+              - img [ref=e138]
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]: Kyoto, Japan
+                - generic [ref=e143]: Demo
+              - heading "Traditional Machiya House" [level=3] [ref=e144]
+              - generic [ref=e145]:
+                - generic [ref=e146]: $280
+                - generic [ref=e147]: / night
+          - generic [ref=e148] [cursor=pointer]:
+            - button [ref=e151]:
+              - img [ref=e152]
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - generic [ref=e156]: Tulum, Mexico
+                - generic [ref=e157]: Demo
+              - heading "Beachfront Eco-Lodge" [level=3] [ref=e158]
+              - generic [ref=e159]:
+                - generic [ref=e160]: $320
+                - generic [ref=e161]: / night
+          - generic [ref=e162] [cursor=pointer]:
+            - button [ref=e165]:
+              - img [ref=e166]
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: Iceland
+                - generic [ref=e171]: Demo
+              - heading "Glass Igloo Northern Lights" [level=3] [ref=e172]
+              - generic [ref=e173]:
+                - generic [ref=e174]: $520
+                - generic [ref=e175]: / night
+      - generic [ref=e178]:
+        - generic [ref=e179]:
+          - generic [ref=e180]: 10M+
+          - heading "Trusted Guests" [level=3] [ref=e181]
+          - paragraph [ref=e182]: Worldwide community of travelers
+        - generic [ref=e183]:
+          - generic [ref=e184]: 50K+
+          - heading "Unique Stays" [level=3] [ref=e185]
+          - paragraph [ref=e186]: Hand-curated properties
+        - generic [ref=e187]:
+          - generic [ref=e188]: "4.9"
+          - heading "Average Rating" [level=3] [ref=e189]
+          - paragraph [ref=e190]: Excellence in every stay
+      - generic [ref=e192]:
+        - heading "Share Your Space" [level=2] [ref=e193]
+        - paragraph [ref=e194]: Join our community of hosts and welcome travelers from around the world
+        - button "Become a Host" [ref=e195] [cursor=pointer]:
+          - text: Become a Host
+          - img [ref=e196]
+```

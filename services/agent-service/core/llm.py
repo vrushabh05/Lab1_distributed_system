@@ -5,9 +5,10 @@ from core import config, create_logger
 if config.OLLAMA_API:
     os.environ['OLLAMA_HOST'] = config.OLLAMA_API
 
+import json
+import re
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
 
 llm_logger = create_logger('agent-llm')
 
@@ -17,7 +18,7 @@ if config.OLLAMA_API:
 llm = ChatOllama(
     base_url=config.OLLAMA_API,
     model=config.OLLAMA_MODEL,
-    temperature=0.7
+    temperature=0.2,  # lower temp for more deterministic JSON
 )
 
 # Define the prompt template for itinerary generation
@@ -34,22 +35,38 @@ Return the response strictly as a JSON array of objects, where each object repre
 Do not include any markdown formatting (like ```json) or extra text. Just the raw JSON array.
 """)
 
-# Create the chain
-itinerary_chain = itinerary_prompt | llm | JsonOutputParser()
-
 def generate_itinerary(location: str, start_date: str, duration: int, preferences: str):
     """
     Generates a travel itinerary using LangChain and Ollama.
     """
     try:
         llm_logger.info(f"Generating itinerary for {location} ({duration} days) starting {start_date}")
-        response = itinerary_chain.invoke({
-            "location": location,
-            "duration": duration,
-            "preferences": preferences,
-            "start_date": start_date
-        })
-        return response
+        messages = itinerary_prompt.format_messages(
+            location=location,
+            duration=duration,
+            preferences=preferences,
+            start_date=start_date
+        )
+
+        result = llm.invoke(messages)
+        raw_text = getattr(result, 'content', None) or str(result)
+
+        # Try direct JSON parse
+        try:
+          return json.loads(raw_text)
+        except Exception:
+          pass
+
+        # Try to extract the first JSON array substring
+        match = re.search(r"\[.*\]", raw_text, re.DOTALL)
+        if match:
+            try:
+                return json.loads(match.group(0))
+            except Exception:
+                llm_logger.warning("Failed to parse extracted JSON substring")
+
+        llm_logger.error(f"LangChain generation failed to parse JSON", extra={"sample": raw_text[:2000]})
+        return []
     except Exception as e:
         llm_logger.error(f"LangChain generation failed: {e}")
         return []

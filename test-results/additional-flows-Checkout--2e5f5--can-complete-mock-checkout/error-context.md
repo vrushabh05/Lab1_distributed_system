@@ -1,0 +1,54 @@
+# Page snapshot
+
+```yaml
+- main [ref=e4]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - heading "Join Stays" [level=1] [ref=e8]
+      - paragraph [ref=e9]: Create your account to get started
+    - generic [ref=e10]:
+      - generic [ref=e11]:
+        - generic [ref=e12]: I want to
+        - combobox [ref=e13]:
+          - option "🧳 Book places to stay (Traveler)" [selected]
+          - option "🏠 List my property (Host)"
+      - generic [ref=e14]:
+        - generic [ref=e15]: Full Name
+        - textbox "John Smith" [ref=e16]: Checkout Traveler
+      - generic [ref=e17]:
+        - generic [ref=e18]: Email Address
+        - textbox "you@example.com" [ref=e19]: checkout+1763943720493@example.com
+      - generic [ref=e20]:
+        - generic [ref=e21]: Password
+        - textbox "••••••••" [active] [ref=e22]: Password123
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - img [ref=e25]
+            - generic [ref=e27]: At least 8 characters
+          - generic [ref=e28]:
+            - img [ref=e29]
+            - generic [ref=e31]: One uppercase letter
+          - generic [ref=e32]:
+            - img [ref=e33]
+            - generic [ref=e35]: One lowercase letter
+          - generic [ref=e36]:
+            - img [ref=e37]
+            - generic [ref=e39]: One number
+          - generic [ref=e40]:
+            - img [ref=e41]
+            - generic [ref=e44]: One special character (@$!%*?&)
+      - button "Create Account" [disabled] [ref=e45]
+    - generic [ref=e46]:
+      - paragraph [ref=e47]: "📝 Quick Test Accounts:"
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - strong [ref=e50]: "Owner:"
+          - text: owner@example.com / password123
+        - generic [ref=e51]:
+          - strong [ref=e52]: "Traveler:"
+          - text: traveler@example.com / password123
+    - paragraph [ref=e54]:
+      - text: Already have an account?
+      - link "Sign in" [ref=e55] [cursor=pointer]:
+        - /url: /login
+```

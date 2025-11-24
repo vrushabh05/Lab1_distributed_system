@@ -14,6 +14,56 @@ const TRANSACTIONS_DISABLED = process.env.MONGO_TRANSACTIONS_DISABLED === 'true'
 
 const requireTraveler = createAuthMiddleware({ roles: ['TRAVELER'] });
 
+// Helper: attach property metadata (including photos) to each booking so the
+// frontend can render real images instead of the placeholder. We fetch each
+// unique property once per request to avoid N+1 overhead.
+const attachPropertyDetails = async (bookings = [], logger) => {
+  const uniquePropertyIds = Array.from(
+    new Set(
+      bookings
+        .map((b) => b.propertyId?.toString())
+        .filter(Boolean)
+    )
+  );
+
+  if (!uniquePropertyIds.length) return bookings;
+
+  const propertyMap = {};
+
+  await Promise.all(
+    uniquePropertyIds.map(async (id) => {
+      try {
+        const resp = await axios.get(`${PROPERTY_SERVICE_URL}/api/properties/${id}`);
+        const property = resp.data?.property;
+        if (property) {
+          propertyMap[id] = {
+            _id: property._id || property.id || id,
+            title: property.title,
+            city: property.city,
+            state: property.state,
+            country: property.country,
+            photos: property.photos || []
+          };
+        }
+      } catch (err) {
+        logger?.warn('Property lookup failed for booking hydration', {
+          propertyId: id,
+          message: err?.message
+        });
+      }
+    })
+  );
+
+  return bookings.map((b) => {
+    const propertyId = b.propertyId?.toString();
+    const property = propertyMap[propertyId];
+    if (property) {
+      b.property = property;
+    }
+    return b;
+  });
+};
+
 // Get bookings for traveler with pagination
 router.get('/', requireTraveler, sanitizeRequest, async (req, res) => {
   try {
@@ -32,6 +82,8 @@ router.get('/', requireTraveler, sanitizeRequest, async (req, res) => {
       .skip(skip)
       .limit(limit)
       .lean();
+
+    await attachPropertyDetails(bookings, req.logger);
 
     const totalPages = Math.ceil(totalCount / limit);
 
@@ -70,6 +122,8 @@ router.get('/mine', requireTraveler, sanitizeRequest, async (req, res) => {
       .skip(skip)
       .limit(limit)
       .lean();
+
+    await attachPropertyDetails(bookings, req.logger);
 
     const totalPages = Math.ceil(totalCount / limit);
 

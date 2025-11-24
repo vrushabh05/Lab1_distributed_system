@@ -321,9 +321,12 @@ export default function AgentButton() {
                     <section>
                       <h3 className="font-semibold text-sm mb-2">Packing Checklist</h3>
                       <ul className="list-disc ml-5 text-xs space-y-1">
-                        {(response.packingChecklist || response.checklist).map((c, i) => (
-                          <li key={i}>{c}</li>
-                        ))}
+                        {(response.packingChecklist || response.checklist).map((c, i) => {
+                          const text = typeof c === 'string'
+                            ? c
+                            : [c.item, c.reason].filter(Boolean).join(' — ')
+                          return <li key={i}>{text}</li>
+                        })}
                       </ul>
                     </section>
                   )}

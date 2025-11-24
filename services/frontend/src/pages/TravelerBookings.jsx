@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchBookings } from '../store/slices/bookingsSlice'
 import { submitPropertyReview } from '../store/slices/propertiesSlice'
 import { Calendar, MapPin, Users, Clock, CheckCircle, XCircle, AlertCircle, Luggage, RefreshCw, Star } from 'lucide-react'
-import { DEFAULT_PROPERTY_PLACEHOLDER } from '../utils/propertyImages'
+import { DEFAULT_PROPERTY_PLACEHOLDER, getPrimaryPhoto } from '../utils/propertyImages'
 
 const isPast = (b) => new Date(b.end_date || b.endDate) < new Date()
 
@@ -140,6 +140,7 @@ export default function TravelerBookings() {
   const BookingCard = ({ booking, onReview, reviewDisabled }) => {
     const statusConfig = getStatusConfig(booking.status)
     const StatusIcon = statusConfig.icon
+    const primaryPhoto = getPrimaryPhoto(booking.property || booking)
 
     return (
       <div className="card hover:shadow-xl transition-all">
@@ -147,8 +148,12 @@ export default function TravelerBookings() {
           {/* Image */}
           <div className="md:w-48 h-48 bg-gradient-to-br from-[var(--color-accent-light)] to-[var(--color-accent)] rounded-xl overflow-hidden flex-shrink-0">
             <img 
-              src={DEFAULT_PROPERTY_PLACEHOLDER}
-              alt="Property"
+              src={primaryPhoto}
+              alt={booking.title || booking.name || 'Property'}
+              onError={(e) => {
+                e.currentTarget.onerror = null
+                e.currentTarget.src = DEFAULT_PROPERTY_PLACEHOLDER
+              }}
               className="w-full h-full object-cover"
             />
           </div>

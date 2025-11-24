@@ -10,6 +10,7 @@ import jwt
 from datetime import datetime, timedelta
 from bson import ObjectId
 import re
+from concurrent.futures import ThreadPoolExecutor, TimeoutError
 
 from core import config, create_logger, create_database_manager
 from core.llm import generate_itinerary  # Import LangChain logic
@@ -21,6 +22,7 @@ from core.llm import generate_itinerary  # Import LangChain logic
 logger = create_logger(config.SERVICE_NAME, config.LOG_LEVEL)
 db_manager = create_database_manager(config, logger)
 db = None  # Will be initialized in startup event
+executor = ThreadPoolExecutor(max_workers=2)
 
 # HTTP Bearer security scheme
 security = HTTPBearer(auto_error=False)
@@ -408,7 +410,7 @@ def tavily_search(query: str) -> List[Dict[str, Any]]:
         resp = requests.post(
             'https://api.tavily.com/search',
             json={'api_key': config.TAVILY_API_KEY, 'query': query, 'max_results': 5},
-            timeout=config.API_TIMEOUT
+            timeout=min(config.API_TIMEOUT, 6)
         )
         resp.raise_for_status()
         data = resp.json().get('results', [])
@@ -426,7 +428,24 @@ def tavily_search(query: str) -> List[Dict[str, Any]]:
 def plan(req: AgentRequest, user: Dict[str, Any] = Depends(verify_jwt_token), database = Depends(get_db)):
     """Generate travel plan - requires traveler authentication"""
     derived_from_free_text = False
-    if req.bookingId:
+    if req.free_text:
+        derived = infer_context_from_free_text(req.free_text, req.preferences or {})
+        if not derived.get('location'):
+            raise HTTPException(status_code=400, detail="Unable to infer location from request. Please include city or booking details.")
+        location = derived['location']
+        start = derived['dates']['start']
+        end = derived['dates']['end']
+        guests = derived['guests']
+        party_type = derived.get('party_type', 'couple')
+        kids = derived.get('kids', 0)
+        derived_from_free_text = True
+        req.preferences = req.preferences or {}
+        req.preferences.setdefault('interests', derived.get('interests'))
+        req.preferences.setdefault('budget', derived.get('budget'))
+        req.preferences.setdefault('dietary', derived.get('dietary'))
+        if derived.get('easy_mobility'):
+            req.preferences['mobility'] = 'wheelchair'
+    elif req.bookingId:
         ctx = fetch_booking_context(req.bookingId, database)
         if not ctx:
             raise HTTPException(status_code=404, detail="Booking not found")
@@ -447,25 +466,8 @@ def plan(req: AgentRequest, user: Dict[str, Any] = Depends(verify_jwt_token), da
         party = req.booking.get('party') or {}
         party_type = party.get('type', 'couple')
         kids = int(party.get('kids', 0) or req.booking.get('kids', 0) or 0)
-    elif req.free_text:
-        derived = infer_context_from_free_text(req.free_text, req.preferences or {})
-        if not derived.get('location'):
-            raise HTTPException(status_code=400, detail="Unable to infer location from request. Please include city or booking details.")
-        location = derived['location']
-        start = derived['dates']['start']
-        end = derived['dates']['end']
-        guests = derived['guests']
-        party_type = derived.get('party_type', 'couple')
-        kids = derived.get('kids', 0)
-        derived_from_free_text = True
-        req.preferences = req.preferences or {}
-        req.preferences.setdefault('interests', derived.get('interests'))
-        req.preferences.setdefault('budget', derived.get('budget'))
-        req.preferences.setdefault('dietary', derived.get('dietary'))
-        if derived.get('easy_mobility'):
-            req.preferences['mobility'] = 'wheelchair'
     else:
-        raise HTTPException(status_code=400, detail="Either bookingId or booking object is required")
+        raise HTTPException(status_code=400, detail="Please provide free_text with location/dates or select a booking")
 
     prefs_str = req.free_text or ''
     requested_dietary = normalize_dietary_filters(req.preferences.get('dietary'))
@@ -510,57 +512,37 @@ def plan(req: AgentRequest, user: Dict[str, Any] = Depends(verify_jwt_token), da
     # Use LangChain for itinerary generation
     duration_days = len(date_range(start, end))
     
-    # CRITICAL FIX: Validate itinerary generation success
+    # Itinerary generation with graceful fallback
     itinerary = None
-    model_used = 'unknown'
-    
+    model_used = 'rule-based'
+    warnings = []
+
     if config.USE_OLLAMA:
         try:
-            itinerary = generate_itinerary(location, start, duration_days, prefs_str)
+            future = executor.submit(generate_itinerary, location, start, duration_days, prefs_str)
+            itinerary = future.result(timeout=8)
             model_used = config.OLLAMA_MODEL
-            
-            # FIX BUG #11: Check if Ollama returned empty result (silent failure)
-            if not itinerary or len(itinerary) == 0:
-                logger.error('Ollama returned empty itinerary', extra={
-                    'location': location,
-                    'duration': duration_days
-                })
-                # Raise error instead of returning empty response
-                raise HTTPException(
-                    status_code=500,
-                    detail={
-                        'error': 'AI generation failed',
-                        'message': 'The AI service could not generate an itinerary. Please try again later.',
-                        'code': 'OLLAMA_EMPTY_RESPONSE'
-                    }
-                )
-        except HTTPException:
-            # Re-raise HTTP exceptions
-            raise
+            if not itinerary:
+                warnings.append('AI itinerary generation fell back to defaults')
+        except TimeoutError:
+            warnings.append('AI itinerary timed out and fell back to defaults')
+            logger.warn('Ollama generation timed out', extra={'location': location})
+            itinerary = None
         except Exception as e:
             logger.error(f'Ollama generation failed: {e}', extra={'location': location})
-            # Raise error instead of falling back silently
-            raise HTTPException(
-                status_code=500,
-                detail={
-                    'error': 'AI generation failed',
-                    'message': 'The AI service encountered an error. Please try again later.',
-                    'code': 'OLLAMA_GENERATION_ERROR',
-                    'details': str(e)
-                }
-            )
-    else:
-        # Fallback if Ollama is disabled via config
+            warnings.append('AI itinerary generation fell back to defaults')
+
+    if not itinerary:
         days = date_range(start, end)
         itinerary = [
             {
-                'day': d, 
+                'day': d,
                 'morning': [f'Scenic walk in {location.split(",")[0]}'],
                 'afternoon': [f'Visit {interests[0] if interests else "local attractions"}'],
                 'evening': [f'Dinner at a recommended spot']
             } for d in days
         ]
-        model_used = 'rule-based'
+        model_used = model_used if model_used != config.OLLAMA_MODEL else f'{config.OLLAMA_MODEL}-fallback'
 
     days = date_range(start, end)
     day_plans = build_day_plans(days, location, interests, budget, easy_mobility, kid_friendly)
@@ -624,7 +606,6 @@ def plan(req: AgentRequest, user: Dict[str, Any] = Depends(verify_jwt_token), da
     # endregion
     
     # Track which services had issues (for user feedback)
-    warnings = []
     if not restaurants:
         warnings.append('Restaurant recommendations unavailable')
         logger.warn('Tavily restaurant search returned empty', extra={'location': location})

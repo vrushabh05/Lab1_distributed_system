@@ -1,601 +1,601 @@
 timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
-1763238447113,6,Login,200,OK,Users 1-5,text,true,,448,254,5,5,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238447065,53,Login,200,OK,Users 1-2,text,true,,448,254,5,5,http://host.docker.internal:3001/api/auth/login,48,0,37
-1763238447065,53,Login,200,OK,Users 1-1,text,true,,448,254,5,5,http://host.docker.internal:3001/api/auth/login,48,0,37
-1763238447066,53,Login,200,OK,Users 1-3,text,true,,448,254,5,5,http://host.docker.internal:3001/api/auth/login,48,0,37
-1763238447165,2,Login,200,OK,Users 1-6,text,true,,448,254,6,6,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447171,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-6,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447170,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-1,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447172,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-2,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447170,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-3,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447173,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-5,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447066,53,Login,200,OK,Users 1-4,text,true,,448,254,5,5,http://host.docker.internal:3001/api/auth/login,48,0,37
-1763238447174,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-4,text,false,,1122,0,6,6,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447173,1,Create Booking,200,OK,Users 1-5,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447172,3,Create Booking,200,OK,Users 1-2,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,3,0,0
-1763238447172,3,Create Booking,200,OK,Users 1-1,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,3,0,0
-1763238447173,2,Create Booking,200,OK,Users 1-3,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,2,0,0
-1763238447174,2,Create Booking,200,OK,Users 1-4,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,2,0,0
-1763238447172,5,Create Booking,200,OK,Users 1-6,text,true,,385,317,6,6,http://host.docker.internal:3001/api/bookings,5,0,0
-1763238447213,2,Login,200,OK,Users 1-7,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447216,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-7,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447216,1,Create Booking,200,OK,Users 1-7,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447263,2,Login,200,OK,Users 1-8,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447266,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-8,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447267,1,Create Booking,200,OK,Users 1-8,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447313,2,Login,200,OK,Users 1-9,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447316,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-9,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447317,1,Create Booking,200,OK,Users 1-9,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447363,1,Login,200,OK,Users 1-10,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238447365,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-10,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447366,1,Create Booking,200,OK,Users 1-10,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447413,3,Login,200,OK,Users 1-11,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447416,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-11,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447417,1,Create Booking,200,OK,Users 1-11,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447462,2,Login,200,OK,Users 1-12,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447465,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-12,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447466,0,Create Booking,200,OK,Users 1-12,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238447513,2,Login,200,OK,Users 1-13,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447515,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-13,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447516,1,Create Booking,200,OK,Users 1-13,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447564,2,Login,200,OK,Users 1-14,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447567,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-14,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447567,1,Create Booking,200,OK,Users 1-14,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447613,2,Login,200,OK,Users 1-15,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447616,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-15,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447616,1,Create Booking,200,OK,Users 1-15,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447664,1,Login,200,OK,Users 1-16,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238447666,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-16,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447666,1,Create Booking,200,OK,Users 1-16,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447713,2,Login,200,OK,Users 1-17,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447716,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-17,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447716,1,Create Booking,200,OK,Users 1-17,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447762,2,Login,200,OK,Users 1-18,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-18,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447765,1,Create Booking,200,OK,Users 1-18,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238447813,2,Login,200,OK,Users 1-19,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447815,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-19,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447815,1,Create Booking,200,OK,Users 1-19,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447864,1,Login,200,OK,Users 1-20,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238447866,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-20,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447866,1,Create Booking,200,OK,Users 1-20,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447913,2,Login,200,OK,Users 1-21,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447916,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-21,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447916,1,Create Booking,200,OK,Users 1-21,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238447962,2,Login,200,OK,Users 1-22,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238447964,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-22,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238447965,1,Create Booking,200,OK,Users 1-22,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448012,2,Login,200,OK,Users 1-23,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448015,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-23,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448015,1,Create Booking,200,OK,Users 1-23,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448062,1,Login,200,OK,Users 1-24,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448063,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-24,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448064,0,Create Booking,200,OK,Users 1-24,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238448112,2,Login,200,OK,Users 1-25,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448114,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-25,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448115,0,Create Booking,200,OK,Users 1-25,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238448163,1,Login,200,OK,Users 1-26,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448165,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-26,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448165,1,Create Booking,200,OK,Users 1-26,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448212,1,Login,200,OK,Users 1-27,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448213,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-27,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448214,0,Create Booking,200,OK,Users 1-27,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238448265,2,Login,200,OK,Users 1-28,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448267,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-28,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448268,1,Create Booking,200,OK,Users 1-28,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448312,1,Login,200,OK,Users 1-29,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448314,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-29,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448314,1,Create Booking,200,OK,Users 1-29,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448362,2,Login,200,OK,Users 1-30,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448364,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-30,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448365,1,Create Booking,200,OK,Users 1-30,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448412,2,Login,200,OK,Users 1-31,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448414,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-31,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448415,1,Create Booking,200,OK,Users 1-31,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238448463,1,Login,200,OK,Users 1-32,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448465,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-32,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448465,1,Create Booking,200,OK,Users 1-32,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448513,1,Login,200,OK,Users 1-33,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448515,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-33,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448515,1,Create Booking,200,OK,Users 1-33,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448562,1,Login,200,OK,Users 1-34,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238448564,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-34,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448564,1,Create Booking,200,OK,Users 1-34,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448613,1,Login,200,OK,Users 1-35,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448615,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-35,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448615,1,Create Booking,200,OK,Users 1-35,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448662,1,Login,200,OK,Users 1-36,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238448664,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-36,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448664,1,Create Booking,200,OK,Users 1-36,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448713,1,Login,200,OK,Users 1-37,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448714,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-37,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448715,0,Create Booking,200,OK,Users 1-37,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238448761,2,Login,200,OK,Users 1-38,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448763,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-38,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448763,1,Create Booking,200,OK,Users 1-38,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448813,1,Login,200,OK,Users 1-39,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448815,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-39,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448815,1,Create Booking,200,OK,Users 1-39,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448862,1,Login,200,OK,Users 1-40,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-40,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448864,1,Create Booking,200,OK,Users 1-40,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448914,2,Login,200,OK,Users 1-41,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238448916,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-41,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448916,1,Create Booking,200,OK,Users 1-41,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238448963,1,Login,200,OK,Users 1-42,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238448964,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-42,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238448965,0,Create Booking,200,OK,Users 1-42,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449012,1,Login,200,OK,Users 1-43,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449014,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-43,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449015,0,Create Booking,200,OK,Users 1-43,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449063,1,Login,200,OK,Users 1-44,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449064,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-44,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449065,0,Create Booking,200,OK,Users 1-44,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449112,2,Login,200,OK,Users 1-45,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449114,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-45,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449115,0,Create Booking,200,OK,Users 1-45,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449165,1,Login,200,OK,Users 1-46,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449167,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-46,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449167,0,Create Booking,200,OK,Users 1-46,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449212,2,Login,200,OK,Users 1-47,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-47,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449214,1,Create Booking,200,OK,Users 1-47,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449263,1,Login,200,OK,Users 1-48,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449265,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-48,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449265,1,Create Booking,200,OK,Users 1-48,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449311,1,Login,200,OK,Users 1-49,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449313,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-49,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449313,1,Create Booking,200,OK,Users 1-49,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449362,2,Login,200,OK,Users 1-50,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449365,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-50,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449365,1,Create Booking,200,OK,Users 1-50,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449413,1,Login,200,OK,Users 1-51,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449415,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-51,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449415,1,Create Booking,200,OK,Users 1-51,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449463,1,Login,200,OK,Users 1-52,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449465,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-52,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449465,1,Create Booking,200,OK,Users 1-52,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449516,1,Login,200,OK,Users 1-53,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449518,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-53,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449518,1,Create Booking,200,OK,Users 1-53,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449563,2,Login,200,OK,Users 1-54,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449565,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-54,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449566,0,Create Booking,200,OK,Users 1-54,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449611,2,Login,200,OK,Users 1-55,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449613,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-55,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449614,0,Create Booking,200,OK,Users 1-55,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449663,1,Login,200,OK,Users 1-56,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449665,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-56,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449665,0,Create Booking,200,OK,Users 1-56,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449712,2,Login,200,OK,Users 1-57,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238449714,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-57,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449715,0,Create Booking,200,OK,Users 1-57,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449763,1,Login,200,OK,Users 1-58,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238449764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-58,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449765,0,Create Booking,200,OK,Users 1-58,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238449813,2,Login,200,OK,Users 1-59,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449815,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-59,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449815,1,Create Booking,200,OK,Users 1-59,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449862,2,Login,200,OK,Users 1-60,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449865,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-60,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449865,1,Create Booking,200,OK,Users 1-60,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449913,2,Login,200,OK,Users 1-61,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449915,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-61,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449916,1,Create Booking,200,OK,Users 1-61,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238449961,2,Login,200,OK,Users 1-62,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238449963,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-62,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238449963,1,Create Booking,200,OK,Users 1-62,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450011,1,Login,200,OK,Users 1-63,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450015,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-63,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450015,1,Create Booking,200,OK,Users 1-63,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450063,1,Login,200,OK,Users 1-64,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450064,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-64,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450065,1,Create Booking,200,OK,Users 1-64,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450112,2,Login,200,OK,Users 1-65,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238450114,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-65,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450115,0,Create Booking,200,OK,Users 1-65,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238450161,1,Login,200,OK,Users 1-66,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450163,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-66,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450163,1,Create Booking,200,OK,Users 1-66,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450213,1,Login,200,OK,Users 1-67,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-67,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450214,1,Create Booking,200,OK,Users 1-67,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450263,1,Login,200,OK,Users 1-68,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450265,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-68,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450265,0,Create Booking,200,OK,Users 1-68,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238450312,1,Login,200,OK,Users 1-69,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450313,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-69,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450314,0,Create Booking,200,OK,Users 1-69,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238450363,2,Login,200,OK,Users 1-70,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,0
-1763238450365,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-70,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450365,1,Create Booking,200,OK,Users 1-70,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450412,1,Login,200,OK,Users 1-71,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450414,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-71,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450414,1,Create Booking,200,OK,Users 1-71,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450462,1,Login,200,OK,Users 1-72,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450464,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-72,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450464,1,Create Booking,200,OK,Users 1-72,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450513,1,Login,200,OK,Users 1-73,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450514,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-73,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450515,1,Create Booking,200,OK,Users 1-73,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450562,1,Login,200,OK,Users 1-74,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450564,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-74,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450564,1,Create Booking,200,OK,Users 1-74,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450613,2,Login,200,OK,Users 1-75,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450615,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-75,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450615,1,Create Booking,200,OK,Users 1-75,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450663,1,Login,200,OK,Users 1-76,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450665,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-76,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450665,1,Create Booking,200,OK,Users 1-76,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450712,2,Login,200,OK,Users 1-77,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238450714,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-77,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450714,1,Create Booking,200,OK,Users 1-77,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450763,1,Login,200,OK,Users 1-78,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450765,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-78,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450765,1,Create Booking,200,OK,Users 1-78,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450812,1,Login,200,OK,Users 1-79,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450814,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-79,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450814,1,Create Booking,200,OK,Users 1-79,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450863,1,Login,200,OK,Users 1-80,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450865,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-80,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450865,1,Create Booking,200,OK,Users 1-80,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238450912,1,Login,200,OK,Users 1-81,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238450914,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-81,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450915,0,Create Booking,200,OK,Users 1-81,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238450961,1,Login,200,OK,Users 1-82,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238450963,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-82,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238450963,1,Create Booking,200,OK,Users 1-82,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451012,1,Login,200,OK,Users 1-83,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238451014,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-83,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451014,0,Create Booking,200,OK,Users 1-83,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451063,1,Login,200,OK,Users 1-84,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238451065,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-84,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451065,1,Create Booking,200,OK,Users 1-84,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451115,1,Login,200,OK,Users 1-85,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451116,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-85,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451116,1,Create Booking,200,OK,Users 1-85,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451163,1,Login,200,OK,Users 1-86,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451164,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-86,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451165,0,Create Booking,200,OK,Users 1-86,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451213,1,Login,200,OK,Users 1-87,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-87,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451215,0,Create Booking,200,OK,Users 1-87,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451262,1,Login,200,OK,Users 1-88,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238451264,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-88,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451264,1,Create Booking,200,OK,Users 1-88,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451312,1,Login,200,OK,Users 1-89,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238451314,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-89,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451315,0,Create Booking,200,OK,Users 1-89,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451364,1,Login,200,OK,Users 1-90,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451365,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-90,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451366,0,Create Booking,200,OK,Users 1-90,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451413,1,Login,200,OK,Users 1-91,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451414,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-91,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451414,1,Create Booking,200,OK,Users 1-91,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451462,1,Login,200,OK,Users 1-92,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451464,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-92,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451464,1,Create Booking,200,OK,Users 1-92,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451511,1,Login,200,OK,Users 1-93,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451513,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-93,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451513,0,Create Booking,200,OK,Users 1-93,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451563,1,Login,200,OK,Users 1-94,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451564,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-94,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451564,1,Create Booking,200,OK,Users 1-94,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451613,1,Login,200,OK,Users 1-95,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451614,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-95,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451614,1,Create Booking,200,OK,Users 1-95,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451662,1,Login,200,OK,Users 1-96,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451664,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-96,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451664,0,Create Booking,200,OK,Users 1-96,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451711,2,Login,200,OK,Users 1-97,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238451713,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-97,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451713,1,Create Booking,200,OK,Users 1-97,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451763,1,Login,200,OK,Users 1-98,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-98,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451765,0,Create Booking,200,OK,Users 1-98,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238451812,1,Login,200,OK,Users 1-99,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451813,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-99,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451813,1,Create Booking,200,OK,Users 1-99,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451862,1,Login,200,OK,Users 1-100,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238451864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-100,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451864,1,Create Booking,200,OK,Users 1-100,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451911,2,Login,200,OK,Users 1-101,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238451913,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-101,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451913,1,Create Booking,200,OK,Users 1-101,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238451963,1,Login,200,OK,Users 1-102,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238451964,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-102,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238451965,1,Create Booking,200,OK,Users 1-102,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452012,1,Login,200,OK,Users 1-103,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452014,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-103,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452014,0,Create Booking,200,OK,Users 1-103,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452061,1,Login,200,OK,Users 1-104,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238452063,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-104,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452063,1,Create Booking,200,OK,Users 1-104,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452113,1,Login,200,OK,Users 1-105,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452114,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-105,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452114,1,Create Booking,200,OK,Users 1-105,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452163,1,Login,200,OK,Users 1-106,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452165,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-106,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452165,1,Create Booking,200,OK,Users 1-106,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452211,2,Login,200,OK,Users 1-107,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238452213,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-107,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452213,1,Create Booking,200,OK,Users 1-107,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452261,2,Login,200,OK,Users 1-108,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238452263,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-108,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452263,1,Create Booking,200,OK,Users 1-108,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452313,1,Login,200,OK,Users 1-109,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452314,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-109,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452314,1,Create Booking,200,OK,Users 1-109,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452362,1,Login,200,OK,Users 1-110,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452364,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-110,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452364,1,Create Booking,200,OK,Users 1-110,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452411,1,Login,200,OK,Users 1-111,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238452413,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-111,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452413,1,Create Booking,200,OK,Users 1-111,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452463,1,Login,200,OK,Users 1-112,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452464,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-112,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452464,1,Create Booking,200,OK,Users 1-112,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452513,1,Login,200,OK,Users 1-113,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452514,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-113,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452514,1,Create Booking,200,OK,Users 1-113,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452562,1,Login,200,OK,Users 1-114,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452563,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-114,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452564,0,Create Booking,200,OK,Users 1-114,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452611,1,Login,200,OK,Users 1-115,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238452613,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-115,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452613,0,Create Booking,200,OK,Users 1-115,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452663,1,Login,200,OK,Users 1-116,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452664,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-116,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452665,0,Create Booking,200,OK,Users 1-116,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452714,1,Login,200,OK,Users 1-117,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238452716,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-117,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452716,0,Create Booking,200,OK,Users 1-117,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452763,1,Login,200,OK,Users 1-118,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-118,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452765,1,Create Booking,200,OK,Users 1-118,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452813,2,Login,200,OK,Users 1-119,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238452815,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-119,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452816,0,Create Booking,200,OK,Users 1-119,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452863,1,Login,200,OK,Users 1-120,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-120,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452865,0,Create Booking,200,OK,Users 1-120,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238452913,1,Login,200,OK,Users 1-121,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238452915,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-121,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452915,1,Create Booking,200,OK,Users 1-121,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238452962,2,Login,200,OK,Users 1-122,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238452964,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-122,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238452964,1,Create Booking,200,OK,Users 1-122,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453013,1,Login,200,OK,Users 1-123,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453015,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-123,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453015,0,Create Booking,200,OK,Users 1-123,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238453061,1,Login,200,OK,Users 1-124,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453063,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-124,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453063,1,Create Booking,200,OK,Users 1-124,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453111,1,Login,200,OK,Users 1-125,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453113,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-125,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453113,1,Create Booking,200,OK,Users 1-125,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453163,1,Login,200,OK,Users 1-126,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453165,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-126,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453165,1,Create Booking,200,OK,Users 1-126,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453212,1,Login,200,OK,Users 1-127,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-127,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453214,1,Create Booking,200,OK,Users 1-127,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453263,1,Login,200,OK,Users 1-128,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453265,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-128,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453265,1,Create Booking,200,OK,Users 1-128,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453313,1,Login,200,OK,Users 1-129,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453315,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-129,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453315,1,Create Booking,200,OK,Users 1-129,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453363,1,Login,200,OK,Users 1-130,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453365,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-130,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453365,1,Create Booking,200,OK,Users 1-130,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453411,1,Login,200,OK,Users 1-131,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453413,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-131,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453413,1,Create Booking,200,OK,Users 1-131,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453463,1,Login,200,OK,Users 1-132,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453464,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-132,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453464,1,Create Booking,200,OK,Users 1-132,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453513,1,Login,200,OK,Users 1-133,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453514,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-133,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453514,1,Create Booking,200,OK,Users 1-133,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453561,1,Login,200,OK,Users 1-134,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453563,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-134,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453563,1,Create Booking,200,OK,Users 1-134,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453611,2,Login,200,OK,Users 1-135,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453613,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-135,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453613,1,Create Booking,200,OK,Users 1-135,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453663,1,Login,200,OK,Users 1-136,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453664,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-136,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453664,1,Create Booking,200,OK,Users 1-136,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453712,1,Login,200,OK,Users 1-137,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453714,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-137,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453714,1,Create Booking,200,OK,Users 1-137,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453762,2,Login,200,OK,Users 1-138,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238453764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-138,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453764,1,Create Booking,200,OK,Users 1-138,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453812,1,Login,200,OK,Users 1-139,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238453814,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-139,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453814,1,Create Booking,200,OK,Users 1-139,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453863,1,Login,200,OK,Users 1-140,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-140,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453865,0,Create Booking,200,OK,Users 1-140,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238453912,2,Login,200,OK,Users 1-141,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238453914,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-141,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453914,1,Create Booking,200,OK,Users 1-141,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238453963,1,Login,200,OK,Users 1-142,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238453964,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-142,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238453965,1,Create Booking,200,OK,Users 1-142,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454011,1,Login,200,OK,Users 1-143,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454013,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-143,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454013,1,Create Booking,200,OK,Users 1-143,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454062,1,Login,200,OK,Users 1-144,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454064,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-144,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454064,1,Create Booking,200,OK,Users 1-144,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454113,1,Login,200,OK,Users 1-145,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454115,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-145,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454115,0,Create Booking,200,OK,Users 1-145,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454162,1,Login,200,OK,Users 1-146,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454164,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-146,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454164,1,Create Booking,200,OK,Users 1-146,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454211,2,Login,200,OK,Users 1-147,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238454213,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-147,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454213,1,Create Booking,200,OK,Users 1-147,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454262,2,Login,200,OK,Users 1-148,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238454264,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-148,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454265,0,Create Booking,200,OK,Users 1-148,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454313,1,Login,200,OK,Users 1-149,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454314,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-149,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454315,0,Create Booking,200,OK,Users 1-149,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454361,1,Login,200,OK,Users 1-150,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238454363,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-150,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454363,1,Create Booking,200,OK,Users 1-150,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454413,1,Login,200,OK,Users 1-151,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454415,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-151,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454415,1,Create Booking,200,OK,Users 1-151,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454463,1,Login,200,OK,Users 1-152,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454465,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-152,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454465,1,Create Booking,200,OK,Users 1-152,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454512,2,Login,200,OK,Users 1-153,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238454514,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-153,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454515,0,Create Booking,200,OK,Users 1-153,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454561,1,Login,200,OK,Users 1-154,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238454563,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-154,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454563,1,Create Booking,200,OK,Users 1-154,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454612,2,Login,200,OK,Users 1-155,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238454614,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-155,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454615,0,Create Booking,200,OK,Users 1-155,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454663,1,Login,200,OK,Users 1-156,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454664,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-156,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454665,0,Create Booking,200,OK,Users 1-156,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454712,1,Login,200,OK,Users 1-157,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454713,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-157,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454714,1,Create Booking,200,OK,Users 1-157,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454762,1,Login,200,OK,Users 1-158,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238454764,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-158,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454764,1,Create Booking,200,OK,Users 1-158,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454813,1,Login,200,OK,Users 1-159,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238454815,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-159,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454815,0,Create Booking,200,OK,Users 1-159,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454862,1,Login,200,OK,Users 1-160,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-160,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454864,1,Create Booking,200,OK,Users 1-160,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238454912,1,Login,200,OK,Users 1-161,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238454913,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-161,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454914,0,Create Booking,200,OK,Users 1-161,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238454963,1,Login,200,OK,Users 1-162,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238454965,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-162,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238454965,1,Create Booking,200,OK,Users 1-162,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455016,1,Login,200,OK,Users 1-163,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455017,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-163,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455018,0,Create Booking,200,OK,Users 1-163,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455063,1,Login,200,OK,Users 1-164,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455064,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-164,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455065,0,Create Booking,200,OK,Users 1-164,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455113,1,Login,200,OK,Users 1-165,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455115,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-165,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455115,0,Create Booking,200,OK,Users 1-165,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455162,1,Login,200,OK,Users 1-166,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455163,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-166,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455164,0,Create Booking,200,OK,Users 1-166,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455212,1,Login,200,OK,Users 1-167,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-167,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455214,1,Create Booking,200,OK,Users 1-167,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455263,1,Login,200,OK,Users 1-168,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455265,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-168,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455265,0,Create Booking,200,OK,Users 1-168,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455312,2,Login,200,OK,Users 1-169,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238455314,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-169,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455315,0,Create Booking,200,OK,Users 1-169,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455362,1,Login,200,OK,Users 1-170,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455364,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-170,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455364,1,Create Booking,200,OK,Users 1-170,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455413,1,Login,200,OK,Users 1-171,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238455415,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-171,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455416,1,Create Booking,200,OK,Users 1-171,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455463,1,Login,200,OK,Users 1-172,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455465,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-172,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455465,1,Create Booking,200,OK,Users 1-172,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455512,1,Login,200,OK,Users 1-173,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455514,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-173,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455514,1,Create Booking,200,OK,Users 1-173,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455563,1,Login,200,OK,Users 1-174,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238455565,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-174,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455565,1,Create Booking,200,OK,Users 1-174,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455612,1,Login,200,OK,Users 1-175,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238455614,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-175,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455614,1,Create Booking,200,OK,Users 1-175,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455663,2,Login,200,OK,Users 1-176,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238455665,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-176,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455666,0,Create Booking,200,OK,Users 1-176,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455711,2,Login,200,OK,Users 1-177,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238455714,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-177,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455714,1,Create Booking,200,OK,Users 1-177,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455764,1,Login,200,OK,Users 1-178,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455765,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-178,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455765,1,Create Booking,200,OK,Users 1-178,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455813,1,Login,200,OK,Users 1-179,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455814,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-179,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455815,0,Create Booking,200,OK,Users 1-179,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455861,2,Login,200,OK,Users 1-180,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238455863,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-180,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455863,1,Create Booking,200,OK,Users 1-180,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238455913,1,Login,200,OK,Users 1-181,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455915,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-181,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455915,0,Create Booking,200,OK,Users 1-181,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238455963,1,Login,200,OK,Users 1-182,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238455965,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-182,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238455965,0,Create Booking,200,OK,Users 1-182,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456013,1,Login,200,OK,Users 1-183,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456014,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-183,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456015,0,Create Booking,200,OK,Users 1-183,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456064,1,Login,200,OK,Users 1-184,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456066,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-184,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456066,1,Create Booking,200,OK,Users 1-184,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456112,1,Login,200,OK,Users 1-185,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238456113,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-185,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456114,0,Create Booking,200,OK,Users 1-185,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456164,1,Login,200,OK,Users 1-186,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456165,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-186,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456166,0,Create Booking,200,OK,Users 1-186,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456212,2,Login,200,OK,Users 1-187,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238456214,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-187,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456214,1,Create Booking,200,OK,Users 1-187,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456262,1,Login,200,OK,Users 1-188,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456263,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-188,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456263,1,Create Booking,200,OK,Users 1-188,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456313,1,Login,200,OK,Users 1-189,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456315,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-189,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456315,0,Create Booking,200,OK,Users 1-189,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456361,2,Login,200,OK,Users 1-190,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238456363,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-190,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456363,1,Create Booking,200,OK,Users 1-190,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456413,1,Login,200,OK,Users 1-191,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456415,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-191,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456415,0,Create Booking,200,OK,Users 1-191,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456463,1,Login,200,OK,Users 1-192,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456464,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-192,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456465,1,Create Booking,200,OK,Users 1-192,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456513,2,Login,200,OK,Users 1-193,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238456516,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-193,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456516,1,Create Booking,200,OK,Users 1-193,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456563,2,Login,200,OK,Users 1-194,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
-1763238456565,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-194,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456566,0,Create Booking,200,OK,Users 1-194,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456612,3,Login,200,OK,Users 1-195,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,3,0,2
-1763238456616,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-195,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456616,2,Create Booking,200,OK,Users 1-195,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,2,0,0
-1763238456724,1,Login,200,OK,Users 1-196,text,true,,448,254,2,2,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456724,1,Login,200,OK,Users 1-197,text,true,,448,254,2,2,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456725,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-196,text,false,,1122,0,2,2,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456725,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-197,text,false,,1122,0,2,2,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456726,0,Create Booking,200,OK,Users 1-197,text,true,,385,317,2,2,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456726,0,Create Booking,200,OK,Users 1-196,text,true,,385,317,2,2,http://host.docker.internal:3001/api/bookings,0,0,0
-1763238456761,2,Login,200,OK,Users 1-198,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238456763,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-198,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456763,1,Create Booking,200,OK,Users 1-198,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456811,1,Login,200,OK,Users 1-199,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
-1763238456813,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-199,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456813,1,Create Booking,200,OK,Users 1-199,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
-1763238456863,1,Login,200,OK,Users 1-200,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
-1763238456864,0,Search Properties,Non HTTP response code: java.net.URISyntaxException,Non HTTP response message: Illegal character in query at index 52: http://host.docker.internal:3001/api/search?city=San Jose,Users 1-200,text,false,,1122,0,1,1,http://host.docker.internal:3001/api/search?city=San Jose,0,0,0
-1763238456865,0,Create Booking,200,OK,Users 1-200,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973723749,36,Login,200,OK,Users 1-1,text,true,,448,254,3,3,http://host.docker.internal:3001/api/auth/login,32,0,26
+1763973723749,36,Login,200,OK,Users 1-2,text,true,,448,254,3,3,http://host.docker.internal:3001/api/auth/login,32,0,26
+1763973723749,35,Login,200,OK,Users 1-3,text,true,,448,254,3,3,http://host.docker.internal:3001/api/auth/login,31,0,25
+1763973723798,2,Login,200,OK,Users 1-4,text,true,,448,254,4,4,http://host.docker.internal:3001/api/auth/login,2,0,1
+1763973723818,1,Search Properties,200,OK,Users 1-4,text,true,,490,154,4,4,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973723817,2,Search Properties,200,OK,Users 1-3,text,true,,490,154,4,4,http://host.docker.internal:3001/api/search?city=San+Jose,2,0,0
+1763973723818,1,Search Properties,200,OK,Users 1-1,text,true,,490,154,4,4,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973723817,3,Search Properties,200,OK,Users 1-2,text,true,,490,154,4,4,http://host.docker.internal:3001/api/search?city=San+Jose,3,0,0
+1763973723819,1,Create Booking,200,OK,Users 1-3,text,true,,385,317,4,4,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973723819,1,Create Booking,200,OK,Users 1-4,text,true,,385,317,4,4,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973723819,2,Create Booking,200,OK,Users 1-1,text,true,,385,317,4,4,http://host.docker.internal:3001/api/bookings,2,0,0
+1763973723820,1,Create Booking,200,OK,Users 1-2,text,true,,385,317,4,4,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973723848,1,Login,200,OK,Users 1-5,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973723849,1,Search Properties,200,OK,Users 1-5,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973723851,0,Create Booking,200,OK,Users 1-5,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973723898,2,Login,200,OK,Users 1-6,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
+1763973723900,1,Search Properties,200,OK,Users 1-6,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973723901,1,Create Booking,200,OK,Users 1-6,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973723949,1,Login,200,OK,Users 1-7,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973723951,0,Search Properties,200,OK,Users 1-7,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973723952,0,Create Booking,200,OK,Users 1-7,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973723998,1,Login,200,OK,Users 1-8,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724000,0,Search Properties,200,OK,Users 1-8,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724001,0,Create Booking,200,OK,Users 1-8,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724048,2,Login,200,OK,Users 1-9,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
+1763973724050,1,Search Properties,200,OK,Users 1-9,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724051,1,Create Booking,200,OK,Users 1-9,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724099,1,Login,200,OK,Users 1-10,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724101,0,Search Properties,200,OK,Users 1-10,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724101,1,Create Booking,200,OK,Users 1-10,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724148,1,Login,200,OK,Users 1-11,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724150,0,Search Properties,200,OK,Users 1-11,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724151,0,Create Booking,200,OK,Users 1-11,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724198,2,Login,200,OK,Users 1-12,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
+1763973724200,1,Search Properties,200,OK,Users 1-12,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724201,1,Create Booking,200,OK,Users 1-12,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724248,1,Login,200,OK,Users 1-13,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724249,1,Search Properties,200,OK,Users 1-13,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724250,0,Create Booking,200,OK,Users 1-13,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724299,1,Login,200,OK,Users 1-14,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724300,1,Search Properties,200,OK,Users 1-14,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724301,0,Create Booking,200,OK,Users 1-14,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724348,1,Login,200,OK,Users 1-15,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724350,0,Search Properties,200,OK,Users 1-15,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724350,0,Create Booking,200,OK,Users 1-15,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724398,2,Login,200,OK,Users 1-16,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,2,0,1
+1763973724400,0,Search Properties,200,OK,Users 1-16,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724400,1,Create Booking,200,OK,Users 1-16,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724448,1,Login,200,OK,Users 1-17,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973724449,0,Search Properties,200,OK,Users 1-17,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724450,0,Create Booking,200,OK,Users 1-17,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724498,1,Login,200,OK,Users 1-18,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724499,1,Search Properties,200,OK,Users 1-18,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724500,0,Create Booking,200,OK,Users 1-18,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724548,1,Login,200,OK,Users 1-19,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724549,1,Search Properties,200,OK,Users 1-19,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724550,0,Create Booking,200,OK,Users 1-19,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724597,1,Login,200,OK,Users 1-20,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724599,0,Search Properties,200,OK,Users 1-20,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724599,1,Create Booking,200,OK,Users 1-20,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724648,0,Login,200,OK,Users 1-21,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973724649,0,Search Properties,200,OK,Users 1-21,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724649,1,Create Booking,200,OK,Users 1-21,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724698,1,Login,200,OK,Users 1-22,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724699,1,Search Properties,200,OK,Users 1-22,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724700,0,Create Booking,200,OK,Users 1-22,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724748,1,Login,200,OK,Users 1-23,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724750,0,Search Properties,200,OK,Users 1-23,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724750,1,Create Booking,200,OK,Users 1-23,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724799,1,Login,200,OK,Users 1-24,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724800,1,Search Properties,200,OK,Users 1-24,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724801,0,Create Booking,200,OK,Users 1-24,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724848,1,Login,200,OK,Users 1-25,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724849,1,Search Properties,200,OK,Users 1-25,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724850,0,Create Booking,200,OK,Users 1-25,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724898,1,Login,200,OK,Users 1-26,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973724900,0,Search Properties,200,OK,Users 1-26,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724900,1,Create Booking,200,OK,Users 1-26,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973724948,1,Login,200,OK,Users 1-27,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724949,1,Search Properties,200,OK,Users 1-27,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973724950,0,Create Booking,200,OK,Users 1-27,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973724997,1,Login,200,OK,Users 1-28,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973724999,0,Search Properties,200,OK,Users 1-28,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973724999,1,Create Booking,200,OK,Users 1-28,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725048,1,Login,200,OK,Users 1-29,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725049,0,Search Properties,200,OK,Users 1-29,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725050,0,Create Booking,200,OK,Users 1-29,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725098,1,Login,200,OK,Users 1-30,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725099,1,Search Properties,200,OK,Users 1-30,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725100,0,Create Booking,200,OK,Users 1-30,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725148,1,Login,200,OK,Users 1-31,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725150,0,Search Properties,200,OK,Users 1-31,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725150,1,Create Booking,200,OK,Users 1-31,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725198,0,Login,200,OK,Users 1-32,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973725199,0,Search Properties,200,OK,Users 1-32,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725199,1,Create Booking,200,OK,Users 1-32,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725248,1,Login,200,OK,Users 1-33,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725249,1,Search Properties,200,OK,Users 1-33,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725250,0,Create Booking,200,OK,Users 1-33,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725297,1,Login,200,OK,Users 1-34,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725298,0,Search Properties,200,OK,Users 1-34,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725299,0,Create Booking,200,OK,Users 1-34,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725348,1,Login,200,OK,Users 1-35,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725350,0,Search Properties,200,OK,Users 1-35,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725350,0,Create Booking,200,OK,Users 1-35,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725398,1,Login,200,OK,Users 1-36,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973725399,0,Search Properties,200,OK,Users 1-36,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725399,1,Create Booking,200,OK,Users 1-36,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725448,1,Login,200,OK,Users 1-37,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973725449,0,Search Properties,200,OK,Users 1-37,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725449,1,Create Booking,200,OK,Users 1-37,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725497,1,Login,200,OK,Users 1-38,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725498,1,Search Properties,200,OK,Users 1-38,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725499,1,Create Booking,200,OK,Users 1-38,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725548,1,Login,200,OK,Users 1-39,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725550,0,Search Properties,200,OK,Users 1-39,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725550,0,Create Booking,200,OK,Users 1-39,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725597,2,Login,200,OK,Users 1-40,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725599,0,Search Properties,200,OK,Users 1-40,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725600,0,Create Booking,200,OK,Users 1-40,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725648,1,Login,200,OK,Users 1-41,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725649,0,Search Properties,200,OK,Users 1-41,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725650,0,Create Booking,200,OK,Users 1-41,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725697,1,Login,200,OK,Users 1-42,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725698,1,Search Properties,200,OK,Users 1-42,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725699,0,Create Booking,200,OK,Users 1-42,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725748,1,Login,200,OK,Users 1-43,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725750,0,Search Properties,200,OK,Users 1-43,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725751,0,Create Booking,200,OK,Users 1-43,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725797,1,Login,200,OK,Users 1-44,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973725799,0,Search Properties,200,OK,Users 1-44,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725799,1,Create Booking,200,OK,Users 1-44,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973725848,1,Login,200,OK,Users 1-45,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725849,1,Search Properties,200,OK,Users 1-45,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725850,0,Create Booking,200,OK,Users 1-45,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725897,1,Login,200,OK,Users 1-46,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725898,0,Search Properties,200,OK,Users 1-46,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973725899,0,Create Booking,200,OK,Users 1-46,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725948,1,Login,200,OK,Users 1-47,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973725949,1,Search Properties,200,OK,Users 1-47,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973725950,0,Create Booking,200,OK,Users 1-47,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973725998,1,Login,200,OK,Users 1-48,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726000,0,Search Properties,200,OK,Users 1-48,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726000,1,Create Booking,200,OK,Users 1-48,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973726048,1,Login,200,OK,Users 1-49,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726049,0,Search Properties,200,OK,Users 1-49,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726049,1,Create Booking,200,OK,Users 1-49,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973726098,1,Login,200,OK,Users 1-50,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726099,1,Search Properties,200,OK,Users 1-50,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726100,0,Create Booking,200,OK,Users 1-50,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726147,1,Login,200,OK,Users 1-51,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726148,0,Search Properties,200,OK,Users 1-51,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726148,1,Create Booking,200,OK,Users 1-51,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973726198,1,Login,200,OK,Users 1-52,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726199,1,Search Properties,200,OK,Users 1-52,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726200,0,Create Booking,200,OK,Users 1-52,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726247,1,Login,200,OK,Users 1-53,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726249,0,Search Properties,200,OK,Users 1-53,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726249,0,Create Booking,200,OK,Users 1-53,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726297,1,Login,200,OK,Users 1-54,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726299,0,Search Properties,200,OK,Users 1-54,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726299,1,Create Booking,200,OK,Users 1-54,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973726348,1,Login,200,OK,Users 1-55,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726349,0,Search Properties,200,OK,Users 1-55,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726350,0,Create Booking,200,OK,Users 1-55,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726397,1,Login,200,OK,Users 1-56,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726398,0,Search Properties,200,OK,Users 1-56,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726399,0,Create Booking,200,OK,Users 1-56,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726448,1,Login,200,OK,Users 1-57,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726449,1,Search Properties,200,OK,Users 1-57,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726450,0,Create Booking,200,OK,Users 1-57,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726497,1,Login,200,OK,Users 1-58,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726499,0,Search Properties,200,OK,Users 1-58,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726499,1,Create Booking,200,OK,Users 1-58,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726548,0,Login,200,OK,Users 1-59,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973726549,0,Search Properties,200,OK,Users 1-59,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726549,0,Create Booking,200,OK,Users 1-59,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726598,1,Login,200,OK,Users 1-60,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726599,0,Search Properties,200,OK,Users 1-60,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726600,0,Create Booking,200,OK,Users 1-60,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726647,1,Login,200,OK,Users 1-61,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726648,1,Search Properties,200,OK,Users 1-61,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726649,0,Create Booking,200,OK,Users 1-61,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726698,1,Login,200,OK,Users 1-62,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726699,1,Search Properties,200,OK,Users 1-62,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726700,0,Create Booking,200,OK,Users 1-62,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726747,1,Login,200,OK,Users 1-63,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726749,0,Search Properties,200,OK,Users 1-63,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726749,0,Create Booking,200,OK,Users 1-63,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726798,1,Login,200,OK,Users 1-64,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726799,0,Search Properties,200,OK,Users 1-64,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726800,0,Create Booking,200,OK,Users 1-64,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726848,1,Login,200,OK,Users 1-65,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726849,1,Search Properties,200,OK,Users 1-65,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726850,0,Create Booking,200,OK,Users 1-65,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726898,1,Login,200,OK,Users 1-66,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973726899,0,Search Properties,200,OK,Users 1-66,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726900,0,Create Booking,200,OK,Users 1-66,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726948,1,Login,200,OK,Users 1-67,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726949,1,Search Properties,200,OK,Users 1-67,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973726950,0,Create Booking,200,OK,Users 1-67,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973726997,1,Login,200,OK,Users 1-68,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973726999,0,Search Properties,200,OK,Users 1-68,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973726999,0,Create Booking,200,OK,Users 1-68,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727047,1,Login,200,OK,Users 1-69,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727049,0,Search Properties,200,OK,Users 1-69,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727049,0,Create Booking,200,OK,Users 1-69,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727097,1,Login,200,OK,Users 1-70,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727098,0,Search Properties,200,OK,Users 1-70,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727099,0,Create Booking,200,OK,Users 1-70,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727147,1,Login,200,OK,Users 1-71,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727149,0,Search Properties,200,OK,Users 1-71,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727149,1,Create Booking,200,OK,Users 1-71,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973727198,1,Login,200,OK,Users 1-72,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727200,0,Search Properties,200,OK,Users 1-72,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727200,0,Create Booking,200,OK,Users 1-72,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727247,1,Login,200,OK,Users 1-73,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727249,0,Search Properties,200,OK,Users 1-73,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727249,0,Create Booking,200,OK,Users 1-73,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727298,1,Login,200,OK,Users 1-74,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727299,0,Search Properties,200,OK,Users 1-74,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727300,0,Create Booking,200,OK,Users 1-74,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727348,1,Login,200,OK,Users 1-75,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727349,1,Search Properties,200,OK,Users 1-75,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727350,0,Create Booking,200,OK,Users 1-75,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727397,1,Login,200,OK,Users 1-76,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727398,1,Search Properties,200,OK,Users 1-76,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973727399,0,Create Booking,200,OK,Users 1-76,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727448,1,Login,200,OK,Users 1-77,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727450,0,Search Properties,200,OK,Users 1-77,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727450,0,Create Booking,200,OK,Users 1-77,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727497,1,Login,200,OK,Users 1-78,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727499,0,Search Properties,200,OK,Users 1-78,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727499,0,Create Booking,200,OK,Users 1-78,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727548,1,Login,200,OK,Users 1-79,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727549,0,Search Properties,200,OK,Users 1-79,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727550,0,Create Booking,200,OK,Users 1-79,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727598,0,Login,200,OK,Users 1-80,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973727599,0,Search Properties,200,OK,Users 1-80,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727599,0,Create Booking,200,OK,Users 1-80,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727647,1,Login,200,OK,Users 1-81,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727648,0,Search Properties,200,OK,Users 1-81,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727649,0,Create Booking,200,OK,Users 1-81,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727698,1,Login,200,OK,Users 1-82,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727699,1,Search Properties,200,OK,Users 1-82,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973727700,0,Create Booking,200,OK,Users 1-82,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727748,1,Login,200,OK,Users 1-83,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727749,1,Search Properties,200,OK,Users 1-83,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973727750,0,Create Booking,200,OK,Users 1-83,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727797,1,Login,200,OK,Users 1-84,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727799,0,Search Properties,200,OK,Users 1-84,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727799,0,Create Booking,200,OK,Users 1-84,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727848,1,Login,200,OK,Users 1-85,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727849,0,Search Properties,200,OK,Users 1-85,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973727849,1,Create Booking,200,OK,Users 1-85,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973727897,1,Login,200,OK,Users 1-86,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973727898,1,Search Properties,200,OK,Users 1-86,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973727899,0,Create Booking,200,OK,Users 1-86,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727948,1,Login,200,OK,Users 1-87,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973727949,1,Search Properties,200,OK,Users 1-87,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973727950,0,Create Booking,200,OK,Users 1-87,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973727998,1,Login,200,OK,Users 1-88,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728000,0,Search Properties,200,OK,Users 1-88,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728000,0,Create Booking,200,OK,Users 1-88,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728047,1,Login,200,OK,Users 1-89,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728049,0,Search Properties,200,OK,Users 1-89,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728049,0,Create Booking,200,OK,Users 1-89,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728098,1,Login,200,OK,Users 1-90,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728099,0,Search Properties,200,OK,Users 1-90,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728100,0,Create Booking,200,OK,Users 1-90,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728147,1,Login,200,OK,Users 1-91,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728148,0,Search Properties,200,OK,Users 1-91,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728149,0,Create Booking,200,OK,Users 1-91,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728198,1,Login,200,OK,Users 1-92,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728200,0,Search Properties,200,OK,Users 1-92,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728200,0,Create Booking,200,OK,Users 1-92,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728248,1,Login,200,OK,Users 1-93,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728249,1,Search Properties,200,OK,Users 1-93,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728250,0,Create Booking,200,OK,Users 1-93,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728297,1,Login,200,OK,Users 1-94,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728299,0,Search Properties,200,OK,Users 1-94,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728299,1,Create Booking,200,OK,Users 1-94,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973728348,1,Login,200,OK,Users 1-95,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728349,1,Search Properties,200,OK,Users 1-95,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728350,0,Create Booking,200,OK,Users 1-95,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728397,1,Login,200,OK,Users 1-96,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728398,1,Search Properties,200,OK,Users 1-96,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728399,0,Create Booking,200,OK,Users 1-96,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728448,1,Login,200,OK,Users 1-97,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728449,1,Search Properties,200,OK,Users 1-97,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728450,0,Create Booking,200,OK,Users 1-97,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728498,1,Login,200,OK,Users 1-98,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728499,1,Search Properties,200,OK,Users 1-98,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728500,0,Create Booking,200,OK,Users 1-98,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728547,1,Login,200,OK,Users 1-99,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728548,1,Search Properties,200,OK,Users 1-99,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728549,0,Create Booking,200,OK,Users 1-99,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728598,1,Login,200,OK,Users 1-100,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728599,0,Search Properties,200,OK,Users 1-100,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728599,1,Create Booking,200,OK,Users 1-100,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973728647,1,Login,200,OK,Users 1-101,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728648,1,Search Properties,200,OK,Users 1-101,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728649,0,Create Booking,200,OK,Users 1-101,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728698,1,Login,200,OK,Users 1-102,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728699,1,Search Properties,200,OK,Users 1-102,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728700,0,Create Booking,200,OK,Users 1-102,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728749,1,Login,200,OK,Users 1-103,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728751,0,Search Properties,200,OK,Users 1-103,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728751,0,Create Booking,200,OK,Users 1-103,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728798,1,Login,200,OK,Users 1-104,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973728800,0,Search Properties,200,OK,Users 1-104,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728800,0,Create Booking,200,OK,Users 1-104,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728849,1,Login,200,OK,Users 1-105,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728850,0,Search Properties,200,OK,Users 1-105,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728851,0,Create Booking,200,OK,Users 1-105,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728898,1,Login,200,OK,Users 1-106,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728899,0,Search Properties,200,OK,Users 1-106,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973728899,1,Create Booking,200,OK,Users 1-106,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973728949,1,Login,200,OK,Users 1-107,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973728950,1,Search Properties,200,OK,Users 1-107,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973728951,0,Create Booking,200,OK,Users 1-107,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973728999,1,Login,200,OK,Users 1-108,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729000,1,Search Properties,200,OK,Users 1-108,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729001,0,Create Booking,200,OK,Users 1-108,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729048,1,Login,200,OK,Users 1-109,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729049,1,Search Properties,200,OK,Users 1-109,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729050,0,Create Booking,200,OK,Users 1-109,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729099,1,Login,200,OK,Users 1-110,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729100,0,Search Properties,200,OK,Users 1-110,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729100,1,Create Booking,200,OK,Users 1-110,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973729148,1,Login,200,OK,Users 1-111,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729149,0,Search Properties,200,OK,Users 1-111,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729149,1,Create Booking,200,OK,Users 1-111,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973729198,1,Login,200,OK,Users 1-112,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729199,0,Search Properties,200,OK,Users 1-112,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729200,0,Create Booking,200,OK,Users 1-112,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729249,1,Login,200,OK,Users 1-113,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729250,1,Search Properties,200,OK,Users 1-113,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729251,0,Create Booking,200,OK,Users 1-113,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729298,1,Login,200,OK,Users 1-114,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729299,1,Search Properties,200,OK,Users 1-114,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729300,0,Create Booking,200,OK,Users 1-114,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729349,0,Login,200,OK,Users 1-115,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973729350,0,Search Properties,200,OK,Users 1-115,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729350,0,Create Booking,200,OK,Users 1-115,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729398,1,Login,200,OK,Users 1-116,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729399,1,Search Properties,200,OK,Users 1-116,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729400,0,Create Booking,200,OK,Users 1-116,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729449,1,Login,200,OK,Users 1-117,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729451,0,Search Properties,200,OK,Users 1-117,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729451,0,Create Booking,200,OK,Users 1-117,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729499,1,Login,200,OK,Users 1-118,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729501,0,Search Properties,200,OK,Users 1-118,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729501,0,Create Booking,200,OK,Users 1-118,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729548,1,Login,200,OK,Users 1-119,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729550,0,Search Properties,200,OK,Users 1-119,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729550,0,Create Booking,200,OK,Users 1-119,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729598,1,Login,200,OK,Users 1-120,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729599,1,Search Properties,200,OK,Users 1-120,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729600,0,Create Booking,200,OK,Users 1-120,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729649,0,Login,200,OK,Users 1-121,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973729650,0,Search Properties,200,OK,Users 1-121,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729650,1,Create Booking,200,OK,Users 1-121,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973729698,1,Login,200,OK,Users 1-122,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729699,0,Search Properties,200,OK,Users 1-122,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729699,1,Create Booking,200,OK,Users 1-122,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973729748,1,Login,200,OK,Users 1-123,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729750,0,Search Properties,200,OK,Users 1-123,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729750,0,Create Booking,200,OK,Users 1-123,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729799,1,Login,200,OK,Users 1-124,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729800,1,Search Properties,200,OK,Users 1-124,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729801,0,Create Booking,200,OK,Users 1-124,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729848,1,Login,200,OK,Users 1-125,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973729850,0,Search Properties,200,OK,Users 1-125,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729850,0,Create Booking,200,OK,Users 1-125,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729899,1,Login,200,OK,Users 1-126,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729900,0,Search Properties,200,OK,Users 1-126,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973729900,1,Create Booking,200,OK,Users 1-126,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973729948,1,Login,200,OK,Users 1-127,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973729949,1,Search Properties,200,OK,Users 1-127,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973729950,0,Create Booking,200,OK,Users 1-127,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973729999,1,Login,200,OK,Users 1-128,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730001,0,Search Properties,200,OK,Users 1-128,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730001,0,Create Booking,200,OK,Users 1-128,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730049,1,Login,200,OK,Users 1-129,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730051,0,Search Properties,200,OK,Users 1-129,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730051,0,Create Booking,200,OK,Users 1-129,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730099,1,Login,200,OK,Users 1-130,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973730100,0,Search Properties,200,OK,Users 1-130,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730100,0,Create Booking,200,OK,Users 1-130,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730148,1,Login,200,OK,Users 1-131,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730149,0,Search Properties,200,OK,Users 1-131,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730149,0,Create Booking,200,OK,Users 1-131,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730198,1,Login,200,OK,Users 1-132,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730199,0,Search Properties,200,OK,Users 1-132,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730199,1,Create Booking,200,OK,Users 1-132,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973730249,1,Login,200,OK,Users 1-133,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730250,0,Search Properties,200,OK,Users 1-133,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730251,0,Create Booking,200,OK,Users 1-133,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730299,1,Login,200,OK,Users 1-134,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730300,1,Search Properties,200,OK,Users 1-134,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730301,0,Create Booking,200,OK,Users 1-134,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730348,1,Login,200,OK,Users 1-135,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730349,1,Search Properties,200,OK,Users 1-135,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730350,0,Create Booking,200,OK,Users 1-135,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730398,1,Login,200,OK,Users 1-136,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730399,0,Search Properties,200,OK,Users 1-136,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730399,1,Create Booking,200,OK,Users 1-136,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973730448,1,Login,200,OK,Users 1-137,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730449,1,Search Properties,200,OK,Users 1-137,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730450,0,Create Booking,200,OK,Users 1-137,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730499,1,Login,200,OK,Users 1-138,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730500,0,Search Properties,200,OK,Users 1-138,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730500,1,Create Booking,200,OK,Users 1-138,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973730548,1,Login,200,OK,Users 1-139,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730549,1,Search Properties,200,OK,Users 1-139,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730550,0,Create Booking,200,OK,Users 1-139,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730599,1,Login,200,OK,Users 1-140,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730600,1,Search Properties,200,OK,Users 1-140,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730601,0,Create Booking,200,OK,Users 1-140,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730648,1,Login,200,OK,Users 1-141,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730649,0,Search Properties,200,OK,Users 1-141,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730650,0,Create Booking,200,OK,Users 1-141,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730698,1,Login,200,OK,Users 1-142,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730699,1,Search Properties,200,OK,Users 1-142,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730700,0,Create Booking,200,OK,Users 1-142,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730749,1,Login,200,OK,Users 1-143,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973730750,1,Search Properties,200,OK,Users 1-143,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973730751,0,Create Booking,200,OK,Users 1-143,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730799,0,Login,200,OK,Users 1-144,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973730800,0,Search Properties,200,OK,Users 1-144,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730800,0,Create Booking,200,OK,Users 1-144,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730849,0,Login,200,OK,Users 1-145,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973730850,0,Search Properties,200,OK,Users 1-145,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730850,0,Create Booking,200,OK,Users 1-145,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730898,1,Login,200,OK,Users 1-146,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730899,0,Search Properties,200,OK,Users 1-146,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730900,0,Create Booking,200,OK,Users 1-146,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730948,1,Login,200,OK,Users 1-147,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973730949,0,Search Properties,200,OK,Users 1-147,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973730950,0,Create Booking,200,OK,Users 1-147,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973730999,1,Login,200,OK,Users 1-148,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731001,0,Search Properties,200,OK,Users 1-148,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731001,0,Create Booking,200,OK,Users 1-148,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731049,1,Login,200,OK,Users 1-149,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731050,1,Search Properties,200,OK,Users 1-149,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731051,0,Create Booking,200,OK,Users 1-149,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731099,1,Login,200,OK,Users 1-150,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731100,0,Search Properties,200,OK,Users 1-150,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731101,0,Create Booking,200,OK,Users 1-150,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731148,0,Login,200,OK,Users 1-151,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973731149,0,Search Properties,200,OK,Users 1-151,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731149,0,Create Booking,200,OK,Users 1-151,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731198,1,Login,200,OK,Users 1-152,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731199,1,Search Properties,200,OK,Users 1-152,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731200,0,Create Booking,200,OK,Users 1-152,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731249,1,Login,200,OK,Users 1-153,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731250,1,Search Properties,200,OK,Users 1-153,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731251,0,Create Booking,200,OK,Users 1-153,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731299,1,Login,200,OK,Users 1-154,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731301,0,Search Properties,200,OK,Users 1-154,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731301,0,Create Booking,200,OK,Users 1-154,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731349,0,Login,200,OK,Users 1-155,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973731350,0,Search Properties,200,OK,Users 1-155,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731350,1,Create Booking,200,OK,Users 1-155,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973731398,1,Login,200,OK,Users 1-156,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973731399,0,Search Properties,200,OK,Users 1-156,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731399,0,Create Booking,200,OK,Users 1-156,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731448,1,Login,200,OK,Users 1-157,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731449,1,Search Properties,200,OK,Users 1-157,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731450,0,Create Booking,200,OK,Users 1-157,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731500,0,Login,200,OK,Users 1-158,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973731501,0,Search Properties,200,OK,Users 1-158,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731501,0,Create Booking,200,OK,Users 1-158,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731549,1,Login,200,OK,Users 1-159,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731550,0,Search Properties,200,OK,Users 1-159,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731550,0,Create Booking,200,OK,Users 1-159,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731598,1,Login,200,OK,Users 1-160,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731599,0,Search Properties,200,OK,Users 1-160,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731599,1,Create Booking,200,OK,Users 1-160,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973731648,1,Login,200,OK,Users 1-161,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731649,1,Search Properties,200,OK,Users 1-161,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731650,0,Create Booking,200,OK,Users 1-161,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731699,1,Login,200,OK,Users 1-162,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731700,1,Search Properties,200,OK,Users 1-162,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731701,0,Create Booking,200,OK,Users 1-162,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731749,1,Login,200,OK,Users 1-163,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731750,1,Search Properties,200,OK,Users 1-163,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731751,0,Create Booking,200,OK,Users 1-163,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731799,0,Login,200,OK,Users 1-164,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973731800,0,Search Properties,200,OK,Users 1-164,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731800,0,Create Booking,200,OK,Users 1-164,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731848,1,Login,200,OK,Users 1-165,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731849,0,Search Properties,200,OK,Users 1-165,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731849,1,Create Booking,200,OK,Users 1-165,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973731898,1,Login,200,OK,Users 1-166,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973731899,0,Search Properties,200,OK,Users 1-166,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973731900,0,Create Booking,200,OK,Users 1-166,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731949,1,Login,200,OK,Users 1-167,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973731950,1,Search Properties,200,OK,Users 1-167,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973731951,0,Create Booking,200,OK,Users 1-167,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973731999,1,Login,200,OK,Users 1-168,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732000,1,Search Properties,200,OK,Users 1-168,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732001,0,Create Booking,200,OK,Users 1-168,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732049,1,Login,200,OK,Users 1-169,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732050,0,Search Properties,200,OK,Users 1-169,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732050,1,Create Booking,200,OK,Users 1-169,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973732098,1,Login,200,OK,Users 1-170,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732099,1,Search Properties,200,OK,Users 1-170,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732100,0,Create Booking,200,OK,Users 1-170,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732149,1,Login,200,OK,Users 1-171,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732151,1,Search Properties,200,OK,Users 1-171,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732153,0,Create Booking,200,OK,Users 1-171,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732201,1,Login,200,OK,Users 1-172,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732203,0,Search Properties,200,OK,Users 1-172,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732203,0,Create Booking,200,OK,Users 1-172,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732249,1,Login,200,OK,Users 1-173,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732250,0,Search Properties,200,OK,Users 1-173,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732250,1,Create Booking,200,OK,Users 1-173,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973732299,1,Login,200,OK,Users 1-174,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732300,1,Search Properties,200,OK,Users 1-174,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732301,0,Create Booking,200,OK,Users 1-174,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732349,1,Login,200,OK,Users 1-175,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732351,0,Search Properties,200,OK,Users 1-175,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732351,0,Create Booking,200,OK,Users 1-175,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732399,1,Login,200,OK,Users 1-176,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732400,1,Search Properties,200,OK,Users 1-176,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732401,0,Create Booking,200,OK,Users 1-176,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732449,1,Login,200,OK,Users 1-177,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732450,0,Search Properties,200,OK,Users 1-177,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732450,0,Create Booking,200,OK,Users 1-177,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732498,1,Login,200,OK,Users 1-178,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732499,0,Search Properties,200,OK,Users 1-178,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732499,1,Create Booking,200,OK,Users 1-178,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973732548,1,Login,200,OK,Users 1-179,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732549,1,Search Properties,200,OK,Users 1-179,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732550,0,Create Booking,200,OK,Users 1-179,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732599,1,Login,200,OK,Users 1-180,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732600,1,Search Properties,200,OK,Users 1-180,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732601,0,Create Booking,200,OK,Users 1-180,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732649,1,Login,200,OK,Users 1-181,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732650,1,Search Properties,200,OK,Users 1-181,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732651,0,Create Booking,200,OK,Users 1-181,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732698,1,Login,200,OK,Users 1-182,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732699,1,Search Properties,200,OK,Users 1-182,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732700,0,Create Booking,200,OK,Users 1-182,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732748,1,Login,200,OK,Users 1-183,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732749,0,Search Properties,200,OK,Users 1-183,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732749,1,Create Booking,200,OK,Users 1-183,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973732798,1,Login,200,OK,Users 1-184,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732799,1,Search Properties,200,OK,Users 1-184,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732800,0,Create Booking,200,OK,Users 1-184,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732849,1,Login,200,OK,Users 1-185,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973732850,1,Search Properties,200,OK,Users 1-185,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973732851,0,Create Booking,200,OK,Users 1-185,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732899,0,Login,200,OK,Users 1-186,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973732900,0,Search Properties,200,OK,Users 1-186,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732900,0,Create Booking,200,OK,Users 1-186,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973732948,1,Login,200,OK,Users 1-187,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973732949,0,Search Properties,200,OK,Users 1-187,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973732949,1,Create Booking,200,OK,Users 1-187,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,1,0,0
+1763973732999,1,Login,200,OK,Users 1-188,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733001,0,Search Properties,200,OK,Users 1-188,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733001,0,Create Booking,200,OK,Users 1-188,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733049,1,Login,200,OK,Users 1-189,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733050,1,Search Properties,200,OK,Users 1-189,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973733051,0,Create Booking,200,OK,Users 1-189,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733098,1,Login,200,OK,Users 1-190,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973733099,0,Search Properties,200,OK,Users 1-190,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733100,0,Create Booking,200,OK,Users 1-190,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733148,1,Login,200,OK,Users 1-191,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973733149,0,Search Properties,200,OK,Users 1-191,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733149,0,Create Booking,200,OK,Users 1-191,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733198,1,Login,200,OK,Users 1-192,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733200,0,Search Properties,200,OK,Users 1-192,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733200,0,Create Booking,200,OK,Users 1-192,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733250,1,Login,200,OK,Users 1-193,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973733251,0,Search Properties,200,OK,Users 1-193,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733252,0,Create Booking,200,OK,Users 1-193,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733299,1,Login,200,OK,Users 1-194,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973733300,0,Search Properties,200,OK,Users 1-194,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733300,0,Create Booking,200,OK,Users 1-194,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733348,1,Login,200,OK,Users 1-195,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733350,0,Search Properties,200,OK,Users 1-195,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733350,0,Create Booking,200,OK,Users 1-195,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733399,1,Login,200,OK,Users 1-196,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733400,1,Search Properties,200,OK,Users 1-196,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973733401,0,Create Booking,200,OK,Users 1-196,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733450,1,Login,200,OK,Users 1-197,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,1
+1763973733451,1,Search Properties,200,OK,Users 1-197,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,1,0,0
+1763973733452,0,Create Booking,200,OK,Users 1-197,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733500,0,Login,200,OK,Users 1-198,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973733501,0,Search Properties,200,OK,Users 1-198,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733501,0,Create Booking,200,OK,Users 1-198,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733549,0,Login,200,OK,Users 1-199,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,0,0,0
+1763973733550,0,Search Properties,200,OK,Users 1-199,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733550,0,Create Booking,200,OK,Users 1-199,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
+1763973733599,1,Login,200,OK,Users 1-200,text,true,,448,254,1,1,http://host.docker.internal:3001/api/auth/login,1,0,0
+1763973733601,0,Search Properties,200,OK,Users 1-200,text,true,,490,154,1,1,http://host.docker.internal:3001/api/search?city=San+Jose,0,0,0
+1763973733602,0,Create Booking,200,OK,Users 1-200,text,true,,385,317,1,1,http://host.docker.internal:3001/api/bookings,0,0,0
