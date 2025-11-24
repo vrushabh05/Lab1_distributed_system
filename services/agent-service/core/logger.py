@@ -6,11 +6,12 @@ from uuid import uuid4
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
+        service_name = getattr(record, 'service_name', getattr(self, 'service_name', record.name))
         log_record = {
             "timestamp": self.formatTime(record, self.datefmt),
             "level": record.levelname,
             "message": record.getMessage(),
-            "service": record.service_name,
+            "service": service_name,
         }
         if hasattr(record, 'correlation_id'):
             log_record['correlation_id'] = record.correlation_id

@@ -82,7 +82,7 @@ test.describe('Full E2E: owner posts property, traveler books and favorites', ()
     await page.locator('input[type="date"]').first().fill(toISO(start));
     await page.locator('input[type="date"]').nth(1).fill(toISO(end));
     await page.getByRole('button', { name: /^book$/i }).click();
-    await expect(page.getByText(/Booking created\./i)).toBeVisible();
+    await expect(page.getByText(/Booking confirmed!/i)).toBeVisible();
 
     // Verify favourites list
     await page.getByRole('link', { name: /favourites/i }).click();

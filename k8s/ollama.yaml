@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:latest
+        ports:
+        - containerPort: 11434
+        readinessProbe:
+          httpGet:
+            path: /api/tags
+            port: 11434
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /api/version
+            port: 11434
+          initialDelaySeconds: 30
+          periodSeconds: 20
+        volumeMounts:
+        - name: ollama-storage
+          mountPath: /root/.ollama
+      volumes:
+      - name: ollama-storage
+        persistentVolumeClaim:
+          claimName: ollama-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+  namespace: default
+spec:
+  selector:
+    app: ollama
+  ports:
+  - port: 11434
+    targetPort: 11434
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ollama-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Disable history expansion so passwords with "!" work
+set +H
+
 # Kafka Flow Test Script
 # This script demonstrates the complete Kafka message flow for bookings
 
@@ -43,7 +46,7 @@ echo ""
 
 # Create traveler
 TRAVELER_EMAIL="kafka-test-traveler@example.com"
-TRAVELER_PASSWORD="TestPass123"
+TRAVELER_PASSWORD="TestPass123!"
 
 echo "Creating traveler: $TRAVELER_EMAIL"
 TRAVELER_RESPONSE=$(curl -s -X POST http://localhost:3001/api/auth/signup \
@@ -69,7 +72,7 @@ echo ""
 
 # Create owner
 OWNER_EMAIL="kafka-test-owner@example.com"
-OWNER_PASSWORD="TestPass123"
+OWNER_PASSWORD="TestPass123!"
 
 echo "Creating owner: $OWNER_EMAIL"
 OWNER_RESPONSE=$(curl -s -X POST http://localhost:3002/api/auth/signup \
@@ -98,19 +101,19 @@ echo -e "${BLUE}Step 3: Creating test property...${NC}"
 echo ""
 
 PROPERTY_DATA='{
-  "name": "Kafka Test Property",
+  "title": "Kafka Test Property",
+  "type": "House",
   "description": "A test property for Kafka flow demonstration",
-  "location": {
-    "address": "123 Test St",
-    "city": "San Jose",
-    "state": "CA",
-    "country": "USA"
-  },
-  "price": 150,
+  "address": "123 Test St",
+  "city": "San Jose",
+  "state": "CA",
+  "country": "USA",
+  "pricePerNight": 150,
   "bedrooms": 2,
   "bathrooms": 1,
   "maxGuests": 4,
-  "amenities": ["WiFi", "Kitchen"]
+  "amenities": ["WiFi", "Kitchen"],
+  "photos": []
 }'
 
 PROPERTY_RESPONSE=$(curl -s -X POST http://localhost:3003/api/properties \
@@ -136,7 +139,8 @@ BOOKING_DATA="{
   \"ownerId\": \"$OWNER_ID\",
   \"startDate\": \"$START_DATE\",
   \"endDate\": \"$END_DATE\",
-  \"totalPrice\": 450
+  \"totalPrice\": 450,
+  \"guests\": 2
 }"
 
 echo "Booking dates: $START_DATE to $END_DATE"

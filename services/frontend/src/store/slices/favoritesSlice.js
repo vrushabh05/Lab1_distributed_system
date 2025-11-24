@@ -1,6 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
 
+const getFavoritePropertyId = (favorite) => {
+  if (!favorite) return '';
+  const property = favorite.property || {};
+  return String(
+    favorite.propertyId ||
+    property._id ||
+    favorite._id ||
+    favorite.id ||
+    ''
+  );
+};
+
 // Async thunks
 export const fetchFavorites = createAsyncThunk(
   'favorites/fetchFavorites',
@@ -69,13 +81,19 @@ const favoritesSlice = createSlice({
     // Add favorite
     builder
       .addCase(addFavorite.fulfilled, (state, action) => {
-        state.items.push(action.payload);
+          const newId = getFavoritePropertyId(action.payload);
+          const exists = state.items.some(f => getFavoritePropertyId(f) === newId);
+          if (!exists) {
+            state.items.push(action.payload);
+          }
       });
 
     // Remove favorite
     builder
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        state.items = state.items.filter(f => f.propertyId !== action.payload);
+        state.items = state.items.filter(
+          (favorite) => getFavoritePropertyId(favorite) !== String(action.payload)
+        );
       });
   },
 });

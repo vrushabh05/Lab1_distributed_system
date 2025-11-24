@@ -1,5 +1,7 @@
 node_modules/
 uploads/
+.cursor/
+.vscode/
 *.env
 *.env.*
 *.log
@@ -10,3 +12,4 @@ __pycache__/
 *.pyc
 *.cookie
 .aider*
+node_modules

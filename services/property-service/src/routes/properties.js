@@ -1,14 +1,48 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import axios from 'axios';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
 import Property from '../models/Property.js';
-import { propertySchemas, validateBody, sanitizeRequest } from '../../shared/validation/schemas.js';
+import Review from '../models/Review.js';
+import { propertySchemas, reviewSchemas, validateBody, sanitizeRequest } from '../../../shared/validation/schemas.js';
 import { cache } from '../server.js';
+import { createAuthMiddleware } from '../../../shared/core/index.js';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is required for property-service routes');
-}
+const BOOKING_SERVICE_URL = process.env.BOOKING_SERVICE_URL || 'http://booking-service:3004';
+const BOOKING_SERVICE_API_KEY = process.env.BOOKING_SERVICE_API_KEY || '';
+
+const uploadsRoot = path.join(process.cwd(), 'uploads', 'properties');
+fs.mkdirSync(uploadsRoot, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const propertyId = req.body.propertyId || req.params.id;
+    if (!propertyId) {
+      return cb(new Error('Property ID is required for uploads'));
+    }
+    const dir = path.join(uploadsRoot, propertyId);
+    fs.mkdirSync(dir, { recursive: true });
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname) || '.jpg';
+    const safeName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+    cb(null, safeName);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(new Error('Only image uploads are allowed'));
+    }
+    cb(null, true);
+  }
+});
 
 const clampArray = (value, limit) => {
   if (!value) return [];
@@ -23,20 +57,7 @@ const parseNumber = (value, fallback = null) => {
   return Number.isFinite(num) ? num : fallback;
 };
 
-// Middleware to verify JWT
-const authMiddleware = (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
+const authMiddleware = createAuthMiddleware();
 
 // Get all properties (public)
 router.get('/', sanitizeRequest, async (req, res) => {
@@ -65,6 +86,32 @@ router.get('/owner/:ownerId', authMiddleware, sanitizeRequest, async (req, res) 
   }
 });
 
+// Get property reviews (needs to be defined before /:id route)
+router.get('/:id/reviews', sanitizeRequest, async (req, res) => {
+  try {
+    const property = await Property.findById(req.params.id).select('ratingAverage ratingCount');
+    if (!property) {
+      return res.status(404).json({ error: 'Property not found' });
+    }
+
+    const reviews = await Review.find({ propertyId: req.params.id })
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .lean();
+
+    res.json({
+      reviews,
+      stats: {
+        ratingAverage: property.ratingAverage,
+        ratingCount: property.ratingCount
+      }
+    });
+  } catch (error) {
+    console.error('Get reviews error:', error);
+    res.status(500).json({ error: 'Failed to fetch reviews' });
+  }
+});
+
 // Get single property (public)
 router.get('/:id', sanitizeRequest, async (req, res) => {
   try {
@@ -79,6 +126,29 @@ router.get('/:id', sanitizeRequest, async (req, res) => {
   }
 });
 
+const ensureCompletedBooking = async (travelerId, propertyId, bookingId) => {
+  if (!BOOKING_SERVICE_API_KEY) {
+    throw new Error('Booking service API key not configured');
+  }
+
+  const response = await axios.get(`${BOOKING_SERVICE_URL}/api/bookings`, {
+    params: { travelerId, status: 'COMPLETED', propertyId },
+    headers: { 'x-api-key': BOOKING_SERVICE_API_KEY },
+    timeout: 5000
+  });
+
+  const bookings = response.data?.bookings || [];
+  if (!bookings.length) {
+    return null;
+  }
+
+  if (bookingId) {
+    return bookings.find((booking) => String(booking._id) === String(bookingId));
+  }
+
+  return bookings[0];
+};
+
 // Create property
 router.post('/', authMiddleware, validateBody(propertySchemas.create), async (req, res) => {
   try {
@@ -86,8 +156,9 @@ router.post('/', authMiddleware, validateBody(propertySchemas.create), async (re
       return res.status(403).json({ error: 'Only owners can create properties' });
     }
 
+    const body = req.validatedBody || req.body;
     const { title, type, description, address, city, state, country, 
-            pricePerNight, bedrooms, bathrooms, maxGuests, amenities, photos } = req.body;
+            pricePerNight, bedrooms, bathrooms, maxGuests, amenities, photos } = body;
 
     if (!title || !type || !description || !city || !country) {
       return res.status(400).json({ error: 'Title, type, description, city, and country are required' });
@@ -133,6 +204,146 @@ router.post('/', authMiddleware, validateBody(propertySchemas.create), async (re
   } catch (error) {
     console.error('Create property error:', error);
     res.status(500).json({ error: 'Failed to create property' });
+  }
+});
+
+// Upload property photos
+router.post('/upload-image', authMiddleware, upload.single('file'), async (req, res) => {
+  try {
+    if (req.user.role !== 'OWNER') {
+      return res.status(403).json({ error: 'Only owners can upload photos' });
+    }
+
+    const { propertyId } = req.body;
+    if (!propertyId) {
+      return res.status(400).json({ error: 'Property ID is required' });
+    }
+
+    const property = await Property.findOne({ _id: propertyId, ownerId: req.user.id });
+    if (!property) {
+      return res.status(404).json({ error: 'Property not found or unauthorized' });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: 'Image file is required' });
+    }
+
+    if (property.photos.length >= 20) {
+      return res.status(400).json({ error: 'Maximum of 20 photos allowed per listing' });
+    }
+
+    const relativePath = `/uploads/properties/${propertyId}/${req.file.filename}`;
+    property.photos.push(relativePath);
+    property.updatedAt = new Date();
+    await property.save();
+
+    res.status(201).json({ message: 'Photo uploaded', photo: relativePath });
+  } catch (error) {
+    console.error('Upload image error:', error);
+    res.status(500).json({ error: error.message || 'Failed to upload image' });
+  }
+});
+
+// Delete property photo
+router.delete('/:id/photos', authMiddleware, async (req, res) => {
+  try {
+    if (req.user.role !== 'OWNER') {
+      return res.status(403).json({ error: 'Only owners can delete photos' });
+    }
+
+    const property = await Property.findOne({
+      _id: req.params.id,
+      ownerId: req.user.id
+    });
+
+    if (!property) {
+      return res.status(404).json({ error: 'Property not found or unauthorized' });
+    }
+
+    const { photo } = req.body || {};
+    if (!photo || typeof photo !== 'string') {
+      return res.status(400).json({ error: 'Photo path is required' });
+    }
+
+    const photoIndex = property.photos.findIndex((p) => p === photo);
+    if (photoIndex === -1) {
+      return res.status(404).json({ error: 'Photo not found on this property' });
+    }
+
+    property.photos.splice(photoIndex, 1);
+    property.updatedAt = new Date();
+    await property.save();
+
+    const normalizedPath = photo.startsWith('/') ? photo.slice(1) : photo;
+    const absolutePath = path.join(process.cwd(), normalizedPath);
+    fs.promises.unlink(absolutePath).catch(() => {});
+
+    await cache.delPattern('search:*');
+
+    res.json({ message: 'Photo removed', photo });
+  } catch (error) {
+    console.error('Delete image error:', error);
+    res.status(500).json({ error: error.message || 'Failed to delete image' });
+  }
+});
+
+
+// Create property review
+router.post('/:id/reviews', authMiddleware, sanitizeRequest, validateBody(reviewSchemas.create), async (req, res) => {
+  try {
+    if (req.user.role !== 'TRAVELER') {
+      return res.status(403).json({ error: 'Only travelers can leave reviews' });
+    }
+
+    const property = await Property.findById(req.params.id);
+    if (!property) {
+      return res.status(404).json({ error: 'Property not found' });
+    }
+
+    const { rating, comment, bookingId } = req.validatedBody || req.body;
+
+    let booking;
+    try {
+      booking = await ensureCompletedBooking(req.user.id, property._id.toString(), bookingId);
+    } catch (apiError) {
+      console.error('Booking verification failed', apiError.message);
+      return res.status(503).json({ error: 'Unable to verify booking status. Please try again later.' });
+    }
+
+    if (!booking) {
+      return res.status(400).json({ error: 'You can only review stays you have completed' });
+    }
+
+    const existing = await Review.findOne({ bookingId });
+    if (existing) {
+      return res.status(409).json({ error: 'You already reviewed this stay' });
+    }
+
+    const review = new Review({
+      propertyId: property._id.toString(),
+      travelerId: req.user.id,
+      bookingId,
+      travelerName: req.user.email || 'Traveler',
+      rating,
+      comment,
+      stayStart: booking.startDate,
+      stayEnd: booking.endDate
+    });
+
+    await review.save();
+
+    property.ratingCount = (property.ratingCount || 0) + 1;
+    property.ratingTotal = (property.ratingTotal || 0) + rating;
+    property.ratingAverage = Number((property.ratingTotal / property.ratingCount).toFixed(2));
+    property.updatedAt = new Date();
+    await property.save();
+
+    await cache.delPattern('search:*');
+
+    res.status(201).json({ message: 'Review submitted', review });
+  } catch (error) {
+    console.error('Create review error:', error);
+    res.status(500).json({ error: 'Failed to submit review' });
   }
 });
 

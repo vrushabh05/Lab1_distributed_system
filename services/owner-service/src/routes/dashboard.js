@@ -1,30 +1,12 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import Booking from '../models/Booking.js';
+import { createAuthMiddleware } from '../../../shared/core/index.js';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is required for owner-service dashboard routes');
-}
-
-// Middleware to verify JWT
-const authMiddleware = (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
+const requireOwner = createAuthMiddleware({ roles: ['OWNER'] });
 
 // Get owner dashboard statistics
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/', requireOwner, async (req, res) => {
   try {
     if (req.user.role !== 'OWNER') {
       return res.status(403).json({ error: 'Only owners can view dashboard' });

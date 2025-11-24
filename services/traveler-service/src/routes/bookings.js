@@ -1,37 +1,21 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import { kafka } from '../server.js';
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 import Booking from '../models/Booking.js';
-import { validateBody, bookingSchemas, sanitizeRequest } from '../../shared/validation/schemas.js';
+import { validateBody, bookingSchemas, sanitizeRequest } from '../../../shared/validation/schemas.js';
+import { createAuthMiddleware } from '../../../shared/core/index.js';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is required for traveler-service bookings routes');
-}
 const PROPERTY_SERVICE_URL = process.env.PROPERTY_SERVICE_URL || 'http://property-service:3003';
 const BOOKING_SERVICE_URL = process.env.BOOKING_SERVICE_URL || 'http://booking-service:3004';
 const BOOKING_API_KEY = process.env.BOOKING_SERVICE_API_KEY || '';
+const TRANSACTIONS_DISABLED = process.env.MONGO_TRANSACTIONS_DISABLED === 'true';
 
-// Middleware to verify JWT
-const authMiddleware = (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
+const requireTraveler = createAuthMiddleware({ roles: ['TRAVELER'] });
 
 // Get bookings for traveler with pagination
-router.get('/', authMiddleware, sanitizeRequest, async (req, res) => {
+router.get('/', requireTraveler, sanitizeRequest, async (req, res) => {
   try {
     // Pagination parameters with defaults
     const page = Math.max(1, parseInt(req.query.page) || 1);
@@ -69,7 +53,7 @@ router.get('/', authMiddleware, sanitizeRequest, async (req, res) => {
 });
 
 // Alias for /mine - same as / with pagination
-router.get('/mine', authMiddleware, sanitizeRequest, async (req, res) => {
+router.get('/mine', requireTraveler, sanitizeRequest, async (req, res) => {
   try {
     // Pagination parameters with defaults
     const page = Math.max(1, parseInt(req.query.page) || 1);
@@ -107,16 +91,41 @@ router.get('/mine', authMiddleware, sanitizeRequest, async (req, res) => {
 });
 
 // Create booking - Publish to Kafka with transaction to prevent race conditions
-router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.create), async (req, res) => {
-  // Start MongoDB session for transaction
-  const session = await mongoose.startSession();
-  session.startTransaction();
+router.post('/', requireTraveler, sanitizeRequest, validateBody(bookingSchemas.create), async (req, res) => {
+  const useTransactions = !TRANSACTIONS_DISABLED;
+  const session = useTransactions ? await mongoose.startSession() : null;
+  if (session) {
+    session.startTransaction();
+  }
+
+  let transactionFinalized = false;
+  const finalizeTransaction = async (shouldCommit) => {
+    if (!session || transactionFinalized) return;
+    transactionFinalized = true;
+    try {
+      if (shouldCommit) {
+        await session.commitTransaction();
+      } else {
+        await session.abortTransaction();
+      }
+    } catch (txError) {
+      console.error('Mongo transaction finalize error:', txError);
+    } finally {
+      session.endSession();
+    }
+  };
+
+  const respondWithError = async (status, payload) => {
+    await finalizeTransaction(false);
+    res.status(status).json(payload);
+    return null;
+  };
+
+  const applySession = (query) => (session ? query.session(session) : query);
 
   try {
     if (req.user.role !== 'TRAVELER') {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(403).json({ error: 'Only travelers can create bookings' });
+      return respondWithError(403, { error: 'Only travelers can create bookings' });
     }
 
     const { propertyId, startDate, endDate, guests } = req.validatedBody;
@@ -128,21 +137,15 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
     today.setHours(0, 0, 0, 0);
 
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'Invalid date format' });
+      return respondWithError(400, { error: 'Invalid date format' });
     }
 
     if (start < today) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'Cannot book dates in the past' });
+      return respondWithError(400, { error: 'Cannot book dates in the past' });
     }
 
     if (start >= end) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'End date must be after start date' });
+      return respondWithError(400, { error: 'End date must be after start date' });
     }
 
     // Fetch property details to validate owner & pricing
@@ -152,22 +155,16 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       property = propertyResp.data?.property;
     } catch (err) {
       console.error('Property lookup failed', err?.message || err);
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'Unable to verify property details' });
+      return respondWithError(400, { error: 'Unable to verify property details' });
     }
 
     if (!property) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(404).json({ error: 'Property not found' });
+      return respondWithError(404, { error: 'Property not found' });
     }
 
     const nightlyRate = Number(property.pricePerNight ?? property.price_per_night);
     if (!Number.isFinite(nightlyRate) || nightlyRate <= 0) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'Property is missing a nightly rate' });
+      return respondWithError(400, { error: 'Property is missing a nightly rate' });
     }
 
     const nights = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
@@ -175,17 +172,13 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
     const guestsCount = Math.max(1, Number(guests) || 1);
 
     if (!property.ownerId) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({ error: 'Property owner is not configured' });
+      return respondWithError(400, { error: 'Property owner is not configured' });
     }
 
     // Validate guest count against property max
     const maxGuests = property.maxGuests || property.max_guests || 1;
     if (guestsCount > maxGuests) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(400).json({
+      return respondWithError(400, {
         error: `Property maximum is ${maxGuests} guest${maxGuests > 1 ? 's' : ''}`
       });
     }
@@ -203,23 +196,20 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       );
     } catch (err) {
       console.error('Availability check failed', err?.message);
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(503).json({ error: 'Unable to verify availability. Please try again.' });
+      return respondWithError(503, { error: 'Unable to verify availability. Please try again.' });
     }
 
     if (!availabilityCheck.data.available) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(409).json({
+      return respondWithError(409, {
         error: 'Property is not available for the selected dates.',
         details: availabilityCheck.data.message,
         conflicts: availabilityCheck.data.conflicts
       });
     }
 
-    // BACKUP: Also check local database within transaction
-    const overlappingBookings = await Booking.find({
+    // RACE CONDITION PREVENTION: Check availability with pessimistic read in transaction
+    // Use countDocuments for better performance than find() when we only need count
+    const conflictCount = await applySession(Booking.countDocuments({
       propertyId,
       status: { $in: ['PENDING', 'ACCEPTED'] },
       $or: [
@@ -227,12 +217,22 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
         { endDate: { $gt: start, $lte: end } },
         { startDate: { $lte: start }, endDate: { $gte: end } }
       ]
-    }).session(session);
+    }));
 
-    if (overlappingBookings.length > 0) {
-      await session.abortTransaction();
-      session.endSession();
-      return res.status(409).json({
+    if (conflictCount > 0) {
+      // Fetch details for error response
+      const overlappingQuery = Booking.find({
+        propertyId,
+        status: { $in: ['PENDING', 'ACCEPTED'] },
+        $or: [
+          { startDate: { $gte: start, $lt: end } },
+          { endDate: { $gt: start, $lte: end } },
+          { startDate: { $lte: start }, endDate: { $gte: end } }
+        ]
+      }).limit(5).select('_id startDate endDate');
+      const overlappingBookings = session ? overlappingQuery.session(session) : overlappingQuery;
+
+      return respondWithError(409, {
         error: 'Property is not available for the selected dates.',
         details: 'Another booking exists for this time period.',
         conflicts: overlappingBookings.map(b => ({
@@ -261,51 +261,71 @@ router.post('/', authMiddleware, sanitizeRequest, validateBody(bookingSchemas.cr
       status: 'PENDING',
     });
 
-    await booking.save();
+    await booking.save(session ? { session } : {});
 
-    // Commit transaction before publishing to Kafka
-    await session.commitTransaction();
-    session.endSession();
+    await finalizeTransaction(true);
 
-    // Publish booking request to Kafka using shared KafkaManager
-    await kafka.sendMessage(
-      'booking-requests',
-      {
-        bookingId: booking._id,
-        travelerId: req.user.id,
-        propertyId,
-        ownerId: property.ownerId,
-        startDate: booking.startDate,
-        endDate: booking.endDate,
-        totalPrice: computedTotal,
-        pricePerNight: nightlyRate,
-        guests: guestsCount,
-        title: property.title,
-        city: property.city,
-        state: property.state,
-        country: property.country,
-        comments: req.body.comments,
-        status: 'PENDING',
-        timestamp: new Date().toISOString(),
-      },
-      booking._id.toString()
-    );
-    console.log(`📤 Booking request published to Kafka: ${booking._id}`);
+    // COMPENSATING TRANSACTION: Publish to Kafka with rollback on failure
+    let kafkaPublished = false;
+    try {
+      await kafka.sendMessage(
+        'booking-requests',
+        {
+          bookingId: booking._id,
+          travelerId: req.user.id,
+          propertyId,
+          ownerId: property.ownerId,
+          startDate: booking.startDate,
+          endDate: booking.endDate,
+          totalPrice: computedTotal,
+          pricePerNight: nightlyRate,
+          guests: guestsCount,
+          title: property.title,
+          city: property.city,
+          state: property.state,
+          country: property.country,
+          comments: req.body.comments,
+          status: 'PENDING',
+          timestamp: new Date().toISOString(),
+        },
+        booking._id.toString()
+      );
+      kafkaPublished = true;
+      console.log(`📤 Booking request published to Kafka: ${booking._id}`);
+    } catch (kafkaError) {
+      console.error(`❌ CRITICAL: Kafka publish failed for booking ${booking._id}`, kafkaError);
+      
+      // COMPENSATING TRANSACTION: Rollback by deleting the orphaned booking
+      try {
+        await Booking.findByIdAndDelete(booking._id);
+        console.log(`🔄 Compensating transaction: Deleted orphaned booking ${booking._id}`);
+      } catch (deleteError) {
+        console.error(`❌ FATAL: Failed to delete orphaned booking ${booking._id}`, deleteError);
+        // Log to monitoring system - this is a critical data consistency issue
+      }
+      
+      // Return error to client - booking was NOT created
+      return res.status(503).json({ 
+        error: 'Booking service temporarily unavailable. Please try again.',
+        details: 'Unable to process booking request at this time.',
+        code: 'KAFKA_UNAVAILABLE'
+      });
+    }
 
+    // Only respond with success if both DB and Kafka succeeded
     res.json({
       message: 'Booking created successfully',
       booking,
     });
   } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
+    await finalizeTransaction(false);
     console.error('Create booking error:', error);
     res.status(500).json({ error: 'Failed to create booking' });
   }
 });
 
-// Cancel booking
-router.put('/:id/cancel', authMiddleware, sanitizeRequest, async (req, res) => {
+// Cancel booking with compensating transaction
+router.put('/:id/cancel', requireTraveler, sanitizeRequest, async (req, res) => {
   try {
     const booking = await Booking.findOne({
       _id: req.params.id,
@@ -320,21 +340,39 @@ router.put('/:id/cancel', authMiddleware, sanitizeRequest, async (req, res) => {
       return res.status(400).json({ error: 'Cannot cancel this booking' });
     }
 
+    // Store original status for rollback
+    const originalStatus = booking.status;
+    
     booking.status = 'CANCELLED';
     booking.updatedAt = new Date();
     await booking.save();
 
-    // Publish cancellation to Kafka
-    await kafka.sendMessage(
-      'booking-updates',
-      {
-        bookingId: booking._id,
-        status: 'CANCELLED',
-        updatedBy: 'TRAVELER',
-        timestamp: new Date().toISOString(),
-      },
-      booking._id.toString()
-    );
+    // COMPENSATING TRANSACTION: Publish to Kafka with rollback on failure
+    try {
+      await kafka.sendMessage(
+        'booking-updates',
+        {
+          bookingId: booking._id,
+          status: 'CANCELLED',
+          updatedBy: 'TRAVELER',
+          timestamp: new Date().toISOString(),
+        },
+        booking._id.toString()
+      );
+      console.log(`📤 Booking cancellation published to Kafka: ${booking._id}`);
+    } catch (kafkaError) {
+      console.error(`❌ CRITICAL: Kafka publish failed for cancellation ${booking._id}`, kafkaError);
+      
+      // ROLLBACK: Restore original status
+      booking.status = originalStatus;
+      await booking.save();
+      console.log(`🔄 Compensating transaction: Rolled back cancellation for ${booking._id}`);
+      
+      return res.status(503).json({ 
+        error: 'Cancellation service temporarily unavailable. Please try again.',
+        code: 'KAFKA_UNAVAILABLE'
+      });
+    }
 
     res.json({ message: 'Booking cancelled', booking });
   } catch (error) {

@@ -1,3 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: property-uploads-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/airbnb/uploads/properties
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: property-uploads-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: property-uploads-pv
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,11 +51,41 @@ spec:
             configMapKeyRef:
               name: airbnb-config
               key: MONGODB_URI
+        - name: MONGODB_SESSION_URI
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: MONGODB_SESSION_URI
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: airbnb-secrets
               key: JWT_SECRET
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: SESSION_SECRET
+        - name: SESSION_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_NAME
+        - name: SESSION_MAX_AGE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_MAX_AGE
+        - name: SESSION_COOKIE_SAME_SITE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_COOKIE_SAME_SITE
+        - name: SESSION_COOKIE_SECURE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_COOKIE_SECURE
         - name: CORS_ORIGIN
           valueFrom:
             configMapKeyRef:
@@ -54,6 +108,13 @@ spec:
             port: 3003
           initialDelaySeconds: 10
           periodSeconds: 5
+        volumeMounts:
+        - name: property-uploads
+          mountPath: /app/uploads
+      volumes:
+      - name: property-uploads
+        persistentVolumeClaim:
+          claimName: property-uploads-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -102,11 +163,16 @@ spec:
             secretKeyRef:
               name: airbnb-secrets
               key: JWT_SECRET
-        - name: KAFKA_BROKER
+        - name: KAFKA_BROKERS
           valueFrom:
             configMapKeyRef:
               name: airbnb-config
-              key: KAFKA_BROKER
+              key: KAFKA_BROKERS
+        - name: BOOKING_SERVICE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: BOOKING_SERVICE_API_KEY
         - name: NODE_ENV
           valueFrom:
             configMapKeyRef:

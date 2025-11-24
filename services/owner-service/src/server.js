@@ -2,13 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
+import mongoose from 'mongoose';
 import {
   config,
   createLogger,
   createDatabaseManager,
   createKafkaManager,
-  createHealthChecker
-} from '../shared/core/index.js';
+  createHealthChecker,
+  createSessionMiddleware
+} from '../../shared/core/index.js';
 import authRoutes from './routes/auth.js';
 import bookingRoutes from './routes/bookings.js';
 import dashboardRoutes from './routes/dashboard.js';
@@ -30,6 +32,7 @@ const health = createHealthChecker(SERVICE_NAME, logger);
 export { kafka };
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = config.PORT || 3002;
 
 // Security middleware
@@ -56,6 +59,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(createSessionMiddleware(config, logger));
+app.use((req, _res, next) => {
+  if (req.session?.user && !req.user) {
+    req.user = req.session.user;
+  }
+  next();
+});
 app.use(express.json({ limit: '10mb' }));
 
 // Health check
@@ -82,13 +92,36 @@ async function setupKafkaConsumer() {
       bookingId: bookingData.bookingId
     });
 
-    // Store booking in owner's database (synchronized from traveler service)
+    // IDEMPOTENCY CHECK: Prevent duplicate processing of same booking
     try {
+      // Check if booking already exists (handles Kafka redelivery)
+      const bookingObjectId = new mongoose.Types.ObjectId(bookingData.bookingId);
+      const ownerObjectId = mongoose.Types.ObjectId.isValid(bookingData.ownerId)
+        ? new mongoose.Types.ObjectId(bookingData.ownerId)
+        : bookingData.ownerId;
+      const travelerObjectId = mongoose.Types.ObjectId.isValid(bookingData.travelerId)
+        ? new mongoose.Types.ObjectId(bookingData.travelerId)
+        : bookingData.travelerId;
+      const propertyObjectId = mongoose.Types.ObjectId.isValid(bookingData.propertyId)
+        ? new mongoose.Types.ObjectId(bookingData.propertyId)
+        : bookingData.propertyId;
+
+      const existingBooking = await Booking.findById(bookingObjectId);
+      
+      if (existingBooking) {
+        logger.info('Booking already exists (duplicate message), skipping', { 
+          bookingId: bookingData.bookingId,
+          existingStatus: existingBooking.status
+        });
+        return; // Idempotent: Skip processing duplicate message
+      }
+
+      // Store booking in owner's database (synchronized from traveler service)
       const booking = new Booking({
-        _id: bookingData.bookingId,
-        travelerId: bookingData.travelerId,
-        propertyId: bookingData.propertyId,
-        ownerId: bookingData.ownerId,
+        _id: bookingObjectId,
+        travelerId: travelerObjectId,
+        propertyId: propertyObjectId,
+        ownerId: ownerObjectId,
         startDate: new Date(bookingData.startDate),
         endDate: new Date(bookingData.endDate),
         totalPrice: bookingData.totalPrice,
@@ -105,9 +138,17 @@ async function setupKafkaConsumer() {
       await booking.save();
       logger.info('Booking stored in owner service', { bookingId: booking._id });
     } catch (error) {
-      if (error.code !== 11000) { // Ignore duplicate key errors
-        logger.error('Error storing booking', error, { bookingId: bookingData.bookingId });
+      // Handle race condition: Two consumers might check simultaneously
+      if (error.code === 11000) {
+        logger.info('Duplicate key error (race condition), booking already created', { 
+          bookingId: bookingData.bookingId 
+        });
+        return; // Idempotent: Ignore duplicate key error
       }
+      
+      // Log other errors for monitoring
+      logger.error('Error storing booking', error, { bookingId: bookingData.bookingId });
+      throw error; // Rethrow to trigger Kafka retry if needed
     }
   });
 
@@ -123,31 +164,41 @@ let server;
 
 async function startup() {
   try {
-    // Initialize Kafka
-    kafka.initialize();
+    // CRITICAL FIX: Database MUST be ready before Kafka consumer starts
+    logger.info('Starting owner-service...');
 
-    // Create producer
-    await kafka.createProducer();
-
-    // Connect to database
+    // Step 1: Connect to MongoDB FIRST (consumer will need this)
+    logger.info('Step 1/4: Connecting to MongoDB...');
     await db.connect();
+    logger.info('✅ MongoDB connected - ready for database operations');
 
-    // Setup Kafka consumer
+    // Step 2: Initialize Kafka infrastructure
+    logger.info('Step 2/4: Initializing Kafka...');
+    kafka.initialize();
+    await kafka.createProducer();
+    logger.info('✅ Kafka producer initialized - ready to send messages');
+
+    // Step 3: Setup Kafka consumer (MongoDB MUST be ready before this)
+    logger.info('Step 3/4: Setting up Kafka consumer...');
     await setupKafkaConsumer();
+    logger.info('✅ Kafka consumer ready - MongoDB connection verified before message processing');
 
-    // Register health checks
+    // Step 4: Register health checks
     health.registerCheck('database', () => db.healthCheck());
     health.registerCheck('kafka', () => kafka.healthCheck());
 
-    // Start HTTP server
+    // Step 5: Start HTTP server (only after all dependencies ready)
+    logger.info('Step 4/4: Starting HTTP server...');
     server = app.listen(PORT, () => {
       logger.info(`owner-service listening on port ${PORT}`, {
         environment: config.NODE_ENV,
         kafkaEnabled: config.KAFKA_ENABLED
       });
+      logger.info('✅ All systems operational - service ready to process requests');
     });
   } catch (error) {
     logger.error('Startup failed', error);
+    console.error('❌ FATAL: owner-service startup failed:', error.message);
     process.exit(1);
   }
 }

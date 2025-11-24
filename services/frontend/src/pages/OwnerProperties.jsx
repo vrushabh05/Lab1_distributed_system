@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { propertyApi } from '../api'
 import { deleteProperty } from '../store/slices/propertiesSlice'
 import EditPropertyModal from '../components/EditPropertyModal'
+import { getPrimaryPhoto } from '../utils/propertyImages'
 
 export default function OwnerProperties() {
   const dispatch = useDispatch()
@@ -14,7 +15,7 @@ export default function OwnerProperties() {
   const [error, setError] = useState(null)
   const [editingProperty, setEditingProperty] = useState(null)
 
-  const fetchProperties = async () => {
+  const fetchProperties = useCallback(async () => {
     if (!user) return
     try {
       setLoading(true)
@@ -26,26 +27,34 @@ export default function OwnerProperties() {
         return
       }
       const response = await propertyApi.get(`/api/properties/owner/${userId}`)
-      setProperties(response.data.properties)
+      setProperties(response.data?.properties || [])
       setError(null)
     } catch (err) {
       console.error('Failed to fetch properties:', err)
       // Don't show error for 404 (no properties) - that's expected for new users
       if (err?.response?.status !== 404) {
         setError(err?.response?.data?.error || 'Failed to load your properties')
+      } else {
+        setError(null)
+        setProperties([])
       }
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
 
   useEffect(() => {
-    if (user && user.role !== 'OWNER') {
+    if (!user) {
+      return
+    }
+
+    if (user.role !== 'OWNER') {
       navigate('/')
       return
     }
+
     fetchProperties()
-  }, [user, navigate])
+  }, [user, navigate, fetchProperties])
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
@@ -122,7 +131,7 @@ export default function OwnerProperties() {
                 {/* Image */}
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={property.photos?.[0] || 'https://via.placeholder.com/400x300?text=No+Image'}
+                    src={getPrimaryPhoto(property)}
                     alt={property.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                   />
@@ -149,7 +158,7 @@ export default function OwnerProperties() {
 
                   <div className="flex gap-2 pt-4 border-t border-gray-100">
                     <Link
-                      to={`/properties/${property._id || property.id}`}
+                      to={`/property/${property._id || property.id}`}
                       className="flex-1 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition text-center"
                     >
                       View

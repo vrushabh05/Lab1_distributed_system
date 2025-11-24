@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createBooking } from '../store/slices/bookingsSlice'
 import { useToast } from '../context/ToastContext'
 import {
-  Calendar, Users, Home, Shield, CreditCard, Check,
-  ChevronRight, AlertCircle, Lock, Star, MapPin, X
+  Calendar, Users, Home, Check,
+  AlertCircle, Star, MapPin, X
 } from 'lucide-react'
+import { getPrimaryPhoto, DEFAULT_PROPERTY_PLACEHOLDER } from '../utils/propertyImages'
 
 export default function Checkout() {
   const location = useLocation()
@@ -20,15 +21,8 @@ export default function Checkout() {
   const bookingData = location.state?.bookingData
   const property = location.state?.property
 
-  const [currentStep, setCurrentStep] = useState(1)
   const [agreed, setAgreed] = useState(false)
-  const [paymentInfo, setPaymentInfo] = useState({
-    cardNumber: '',
-    cardName: '',
-    expiryDate: '',
-    cvv: '',
-    billingZip: ''
-  })
+  const [specialRequests, setSpecialRequests] = useState('')
   const [bookingConfirmation, setBookingConfirmation] = useState(null)
   const [error, setError] = useState(null)
 
@@ -57,7 +51,7 @@ export default function Checkout() {
     })
   }
 
-  const handlePayment = async () => {
+  const handleConfirmBooking = async () => {
     setError(null)
 
     const propertyId = property._id || property.id
@@ -65,12 +59,6 @@ export default function Checkout() {
 
     if (!propertyId || !ownerId) {
       setError('Unable to identify property owner. Please refresh and try again.')
-      return
-    }
-
-    // Validate payment info
-    if (!paymentInfo.cardName || paymentInfo.cardName.trim().length < 3) {
-      setError('Please enter a valid name on card')
       return
     }
 
@@ -89,12 +77,11 @@ export default function Checkout() {
         endDate,
         totalPrice,
         guests,
-        comments: paymentInfo.comments
+        comments: specialRequests
       }))
 
       if (createBooking.fulfilled.match(result)) {
         setBookingConfirmation(result.payload)
-        setCurrentStep(3)
         toast.success('Booking confirmed successfully!')
       } else {
         const errorMsg = result.payload?.error || result.error?.message || 'Booking failed. Please try again.'
@@ -108,15 +95,14 @@ export default function Checkout() {
     }
   }
 
-  // Step 1: Review & Confirm
-  const renderStep1 = () => (
+  const renderReview = () => (
     <div className="space-y-8">
       <div>
         <h1 className="text-heading text-4xl font-bold text-[var(--color-ink)] mb-3">
-          Confirm and pay
+          Confirm your stay
         </h1>
         <p className="text-[var(--color-slate)]">
-          Review your trip details and complete your reservation
+          Review the trip details and lock in your reservation.
         </p>
       </div>
 
@@ -124,15 +110,11 @@ export default function Checkout() {
       <div className="card">
         <div className="flex items-start gap-6">
           <img
-            src={
-              (property.photos && property.photos[0]) ||
-              (property.images && property.images[0]) ||
-              `https://images.unsplash.com/photo-${property.type === 'Condo' ? '1545324418-cc1a3fa10c00' : property.type === 'House' ? '1580587771525-78b9dba3b914' : '1522708323590-d24dbb6b0267'}?w=400&q=80`
-            }
+            src={getPrimaryPhoto(property)}
             alt={property.title || property.name}
             className="w-32 h-32 rounded-xl object-cover"
             onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80'
+              e.target.src = DEFAULT_PROPERTY_PLACEHOLDER
             }}
           />
           <div className="flex-1">
@@ -235,8 +217,8 @@ export default function Checkout() {
           <textarea
             className="input w-full h-24 resize-none"
             placeholder="Any special requests or comments for the host?"
-            value={paymentInfo.comments || ''}
-            onChange={(e) => setPaymentInfo({ ...paymentInfo, comments: e.target.value })}
+            value={specialRequests}
+            onChange={(e) => setSpecialRequests(e.target.value)}
           />
         </div>
 
@@ -271,33 +253,6 @@ export default function Checkout() {
         </div>
       )}
 
-      <button
-        onClick={() => setCurrentStep(2)}
-        disabled={!agreed}
-        className={`btn w-full btn-lg transition-all duration-200 ${agreed
-          ? 'btn-primary hover:shadow-lg'
-          : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
-          }`}
-      >
-        Continue to payment
-        <ChevronRight className="w-5 h-5 ml-2" />
-      </button>
-    </div>
-  )
-
-  // Step 2: Payment
-  const renderStep2 = () => (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-heading text-4xl font-bold text-[var(--color-ink)] mb-3">
-          Payment details
-        </h1>
-        <p className="text-[var(--color-slate)] flex items-center gap-2">
-          <Lock className="w-4 h-4" />
-          Your payment information is secure and encrypted
-        </p>
-      </div>
-
       {error && (
         <div className="bg-red-50 border-2 border-red-200 text-red-800 px-6 py-4 rounded-2xl flex items-center gap-3">
           <AlertCircle className="w-5 h-5" />
@@ -305,152 +260,17 @@ export default function Checkout() {
         </div>
       )}
 
-      {/* Payment Form */}
-      <div className="card">
-        {/* MOCK PAYMENT NOTICE */}
-        <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-yellow-700 mt-0.5 flex-shrink-0" />
-            <div>
-              <h4 className="font-bold text-yellow-900 mb-1">Demo Mode - Mock Payment</h4>
-              <p className="text-sm text-yellow-800">
-                This is a demonstration environment. <strong>No real payment will be processed.</strong>
-                Enter any name to proceed with booking. In production, this would integrate with Stripe, PayPal, or similar payment processor.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3 mb-6">
-          <CreditCard className="w-6 h-6 text-[var(--color-primary)]" />
-          <h3 className="text-xl font-bold text-[var(--color-ink)]">Payment Information (Demo Only)</h3>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label className="label">Name on card *</label>
-            <input
-              type="text"
-              placeholder="John Doe"
-              value={paymentInfo.cardName}
-              onChange={(e) => setPaymentInfo({ ...paymentInfo, cardName: e.target.value })}
-              className="input"
-              required
-            />
-            <p className="text-xs text-[var(--color-mist)] mt-1">Required field for demo</p>
-          </div>
-
-          <div>
-            <label className="label">Card number (Optional - Demo)</label>
-            <input
-              type="text"
-              placeholder="Not required for demo"
-              value={paymentInfo.cardNumber}
-              onChange={(e) => {
-                const value = e.target.value.replace(/\s/g, '').replace(/\D/g, '')
-                const formatted = value.match(/.{1,4}/g)?.join(' ') || value
-                setPaymentInfo({ ...paymentInfo, cardNumber: formatted })
-              }}
-              maxLength={19}
-              className="input bg-gray-50"
-              readOnly
-              tabIndex={0}
-            />
-          </div>
-
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2">
-              <label className="label">Expiry date (Optional - Demo)</label>
-              <input
-                type="text"
-                placeholder="MM/YY"
-                value={paymentInfo.expiryDate}
-                onChange={(e) => {
-                  let value = e.target.value.replace(/\D/g, '')
-                  if (value.length >= 2) {
-                    value = value.slice(0, 2) + '/' + value.slice(2, 4)
-                  }
-                  setPaymentInfo({ ...paymentInfo, expiryDate: value })
-                }}
-                maxLength={5}
-                className="input bg-gray-50"
-                readOnly
-                tabIndex={0}
-              />
-            </div>
-            <div>
-              <label className="label">CVV (Optional - Demo)</label>
-              <input
-                type="text"
-                placeholder="123"
-                value={paymentInfo.cvv}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, '').slice(0, 3)
-                  setPaymentInfo({ ...paymentInfo, cvv: value })
-                }}
-                maxLength={3}
-                className="input bg-gray-50"
-                readOnly
-                tabIndex={0}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="label">Billing ZIP code (Optional - Demo)</label>
-            <input
-              type="text"
-              placeholder="12345"
-              value={paymentInfo.billingZip}
-              onChange={(e) => {
-                const value = e.target.value.replace(/\D/g, '').slice(0, 5)
-                setPaymentInfo({ ...paymentInfo, billingZip: value })
-              }}
-              maxLength={5}
-              className="input bg-gray-50"
-              readOnly
-              tabIndex={0}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Security Notice */}
-      <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
-        <div className="flex items-start gap-3 mb-4">
-          <Shield className="w-6 h-6 text-blue-600 mt-0.5" />
-          <div>
-            <h4 className="font-bold text-blue-900 mb-1">Production Payment Security</h4>
-            <p className="text-sm text-blue-800">
-              In a production environment, payments would be processed securely through PCI-compliant providers like Stripe or PayPal.
-              Your card details would be encrypted and tokenized. You would only be charged after the host accepts your booking.
-            </p>
-          </div>
-        </div>
-        <div className="pt-4 border-t border-blue-200">
-          <p className="text-xs text-blue-700 font-semibold mb-2">Accepted in Production:</p>
-          <div className="flex items-center gap-3 text-blue-800">
-            <CreditCard className="w-5 h-5" />
-            <span className="text-xs">Visa • Mastercard • Amex • Discover • PayPal • Apple Pay • Google Pay</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex gap-4">
         <button
-          onClick={() => setCurrentStep(1)}
-          className="btn btn-secondary flex-1"
+        onClick={handleConfirmBooking}
+        disabled={!agreed || bookingLoading}
+        className={`btn w-full btn-lg transition-all duration-200 ${
+          agreed && !bookingLoading
+            ? 'btn-primary hover:shadow-lg'
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed opacity-60'
+        }`}
         >
-          Back
+        {bookingLoading ? 'Processing...' : 'Confirm booking'}
         </button>
-        <button
-          onClick={handlePayment}
-          disabled={bookingLoading}
-          className="btn btn-primary flex-1 btn-lg"
-        >
-          {bookingLoading ? 'Processing...' : `Create Booking (Mock - No Charge)`}
-        </button>
-      </div>
     </div>
   )
 
@@ -475,7 +295,7 @@ export default function Checkout() {
           <div className="text-center mb-6">
             <div className="text-sm text-[var(--color-slate)] mb-1">Booking ID</div>
             <div className="text-2xl font-bold text-[var(--color-primary)]">
-              #{bookingConfirmation.id || 'CONFIRMED'}
+              #{bookingConfirmation._id || bookingConfirmation.id || 'CONFIRMED'}
             </div>
           </div>
 
@@ -553,46 +373,18 @@ export default function Checkout() {
     </div>
   )
 
+  const taxes = Math.round(subtotal * 0.10)
+  const grandTotal = totalPrice + taxes
+
   return (
     <div className="min-h-screen bg-[var(--color-pearl)] py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left: Main Content */}
           <div className="lg:col-span-2">
-            {/* Progress Steps */}
-            {currentStep < 3 && (
-              <div className="mb-8 flex items-center justify-center gap-4">
-                {[1, 2].map((step) => (
-                  <React.Fragment key={step}>
-                    <div className={`flex items-center gap-2 ${currentStep >= step ? 'text-[var(--color-primary)]' : 'text-[var(--color-mist)]'}`}>
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${currentStep > step
-                        ? 'bg-[var(--color-primary)] text-white'
-                        : currentStep === step
-                          ? 'bg-[var(--color-primary)] text-white'
-                          : 'bg-[var(--color-cloud)] text-[var(--color-mist)]'
-                        }`}>
-                        {currentStep > step ? <Check className="w-5 h-5" /> : step}
-                      </div>
-                      <span className="hidden md:block font-semibold">
-                        {step === 1 ? 'Review' : 'Payment'}
-                      </span>
-                    </div>
-                    {step < 2 && (
-                      <div className={`h-0.5 w-16 ${currentStep > step ? 'bg-[var(--color-primary)]' : 'bg-[var(--color-cloud)]'}`} />
-                    )}
-                  </React.Fragment>
-                ))}
-              </div>
-            )}
-
-            {/* Step Content */}
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
+            {bookingConfirmation ? renderStep3() : renderReview()}
           </div>
 
-          {/* Right: Price Summary (hidden on confirmation) */}
-          {currentStep < 3 && (
+          {!bookingConfirmation && (
             <div className="lg:col-span-1">
               <div className="booking-card">
                 <h3 className="text-xl font-bold text-[var(--color-ink)] mb-6">
@@ -628,11 +420,11 @@ export default function Checkout() {
                         <AlertCircle className="w-3.5 h-3.5" />
                       </button>
                     </span>
-                    <span>${Math.round(subtotal * 0.10)}</span>
+                    <span>${taxes}</span>
                   </div>
                   <div className="flex justify-between text-lg font-bold text-[var(--color-ink)] pt-3 border-t border-[var(--color-cloud)]">
                     <span>Total (USD)</span>
-                    <span>${totalPrice + Math.round(subtotal * 0.10)}</span>
+                    <span>${grandTotal}</span>
                   </div>
                 </div>
 

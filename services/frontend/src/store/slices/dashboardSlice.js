@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-const OWNER_API_URL = import.meta.env.VITE_OWNER_API_URL || import.meta.env.VITE_OWNER_API || 'http://localhost:7002';
+import { ownerApi } from '../../api';
 
 // Async thunk to fetch owner dashboard stats
 export const fetchOwnerDashboard = createAsyncThunk(
@@ -9,12 +7,12 @@ export const fetchOwnerDashboard = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.get(`${OWNER_API_URL}/api/dashboard`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      return response.data;
+      if (!auth?.token) {
+        return rejectWithValue('You must be signed in to view the dashboard');
+      }
+
+      const { data } = await ownerApi.get('/api/dashboard');
+      return data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch dashboard');
     }

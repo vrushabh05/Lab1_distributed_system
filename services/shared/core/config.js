@@ -19,6 +19,14 @@ export class Config {
     
     // Security
     this.JWT_SECRET = process.env.JWT_SECRET;
+    this.JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
+    this.SESSION_SECRET = process.env.SESSION_SECRET || this.JWT_SECRET;
+    this.SESSION_NAME = process.env.SESSION_NAME || 'voyage.sid';
+    this.SESSION_MAX_AGE = parseInt(process.env.SESSION_MAX_AGE || `${7 * 24 * 60 * 60 * 1000}`);
+    this.SESSION_COOKIE_SECURE = process.env.SESSION_COOKIE_SECURE === 'true';
+    this.SESSION_COOKIE_SAME_SITE = (process.env.SESSION_COOKIE_SAME_SITE || 'lax').toLowerCase();
+    this.SESSION_COOKIE_DOMAIN = process.env.SESSION_COOKIE_DOMAIN || '';
+    this.MONGODB_SESSION_URI = process.env.MONGODB_SESSION_URI || process.env.MONGODB_URI || 'mongodb://mongodb:27017/airbnb';
     
     // MongoDB
     this.MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongodb:27017/airbnb';
@@ -30,7 +38,12 @@ export class Config {
     
     // Kafka
     this.KAFKA_ENABLED = process.env.KAFKA_ENABLED !== 'false';
-    this.KAFKA_BROKER = process.env.KAFKA_BROKER || 'kafka:9092';
+    const kafkaBroker =
+      process.env.KAFKA_BROKER ||
+      process.env.KAFKA_BROKERS ||
+      'kafka:9092';
+    this.KAFKA_BROKER = kafkaBroker;
+    this.KAFKA_BROKERS = kafkaBroker; // legacy support for downstream consumers
     this.KAFKA_CLIENT_ID = process.env.KAFKA_CLIENT_ID || this.SERVICE_NAME;
     this.KAFKA_GROUP_ID = process.env.KAFKA_GROUP_ID || `${this.SERVICE_NAME}-group`;
     this.KAFKA_CONNECTION_TIMEOUT = parseInt(process.env.KAFKA_CONNECTION_TIMEOUT || '10000');
@@ -82,6 +95,17 @@ export class Config {
       errors.push('JWT_SECRET environment variable is required for authentication');
     } else if (process.env.JWT_SECRET.length < 32) {
       errors.push('JWT_SECRET must be at least 32 characters for security');
+    }
+
+    if (!this.SESSION_SECRET) {
+      errors.push('SESSION_SECRET is required for session management');
+    } else if (this.SESSION_SECRET.length < 32) {
+      errors.push('SESSION_SECRET must be at least 32 characters for security');
+    }
+
+    const allowedSameSite = ['lax', 'strict', 'none'];
+    if (!allowedSameSite.includes(this.SESSION_COOKIE_SAME_SITE)) {
+      errors.push(`SESSION_COOKIE_SAME_SITE must be one of ${allowedSameSite.join(', ')}`);
     }
     
     // Validate critical service URLs in production

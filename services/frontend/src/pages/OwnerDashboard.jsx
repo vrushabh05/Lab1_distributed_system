@@ -3,10 +3,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { fetchOwnerDashboard, updateStats } from '../store/slices/dashboardSlice'
 import { fetchOwnerBookings, acceptBooking, rejectBooking } from '../store/slices/bookingsSlice'
+import { useToast } from '../context/ToastContext'
+
+const TRAVELER_API_BASE = import.meta.env.VITE_TRAVELER_API_URL || 'http://localhost:3001'
+
+const resolveAvatarUrl = (path) => {
+  if (!path) return null
+  if (path.startsWith('http://') || path.startsWith('https://')) return path
+  return `${TRAVELER_API_BASE}${path}`
+}
 
 export default function OwnerDashboard() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const toast = useToast()
   const { user } = useSelector((state) => state.auth)
   const { stats, loading: statsLoading, error: statsError } = useSelector((state) => state.dashboard)
   const { ownerItems, loading: bookingsLoading, error: bookingsError } = useSelector((state) => state.bookings)
@@ -15,8 +25,11 @@ export default function OwnerDashboard() {
   const error = statsError || bookingsError
 
   useEffect(() => {
-    // Check if user is an owner
-    if (user && user.role !== 'OWNER') {
+    if (!user) {
+      return
+    }
+
+    if (user.role !== 'OWNER') {
       navigate('/')
       return
     }
@@ -29,6 +42,7 @@ export default function OwnerDashboard() {
     if (action === 'accept') {
       const result = await dispatch(acceptBooking(id))
       if (acceptBooking.fulfilled.match(result)) {
+        toast.success('Booking accepted successfully!')
         // Update stats after successful action
         dispatch(updateStats({
           pending: Math.max(0, (stats.pending || 0) - 1),
@@ -38,11 +52,14 @@ export default function OwnerDashboard() {
         dispatch(fetchOwnerBookings())
       } else {
         // Show error if action failed
+        const errorMsg = result.payload || 'Failed to accept booking'
+        toast.error(errorMsg)
         console.error('Failed to accept booking:', result.payload)
       }
     } else if (action === 'cancel') {
       const result = await dispatch(rejectBooking(id))
       if (rejectBooking.fulfilled.match(result)) {
+        toast.success('Booking declined successfully!')
         // Update stats after successful action
         dispatch(updateStats({
           pending: Math.max(0, (stats.pending || 0) - 1),
@@ -52,6 +69,8 @@ export default function OwnerDashboard() {
         dispatch(fetchOwnerBookings())
       } else {
         // Show error if action failed
+        const errorMsg = result.payload || 'Failed to decline booking'
+        toast.error(errorMsg)
         console.error('Failed to reject booking:', result.payload)
       }
     }
@@ -133,7 +152,7 @@ export default function OwnerDashboard() {
             <p className="text-gray-600">Review and manage incoming booking requests</p>
           </div>
 
-          {ownerItems.length === 0 ? (
+          {(ownerItems || []).length === 0 ? (
             <div className="bg-white rounded-lg shadow-md p-12 text-center">
               <div className="text-6xl mb-4">📭</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">No booking requests yet</h3>
@@ -144,12 +163,13 @@ export default function OwnerDashboard() {
             </div>
           ) : (
             <div className="space-y-4">
-              {ownerItems.map(b => {
+              {(ownerItems || []).map(b => {
                 const bookingId = b._id || b.id
                 const start = b.startDate || b.start_date
                 const end = b.endDate || b.end_date
                 const totalPrice = b.totalPrice || b.total_price || 0
                 const location = [b.city, b.country].filter(Boolean).join(', ')
+                const travelerAvatarUrl = resolveAvatarUrl(b.traveler?.avatar_url || b.traveler?.avatar)
                 return (
                   <div key={bookingId} className={`bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition border-l-4 ${b.status === 'PENDING' ? 'border-orange-500' :
                       b.status === 'ACCEPTED' ? 'border-green-500' :
@@ -191,8 +211,8 @@ export default function OwnerDashboard() {
                           <div>
                             <p className="text-sm font-semibold text-gray-700 mb-2">👤 Guest Details</p>
                             <div className="flex items-center gap-3">
-                              {b.traveler?.avatar_url ? (
-                                <img src={b.traveler.avatar_url} alt={b.traveler.name} className="w-10 h-10 rounded-full object-cover" />
+                              {travelerAvatarUrl ? (
+                                <img src={travelerAvatarUrl} alt={b.traveler?.name || 'Guest'} className="w-10 h-10 rounded-full object-cover" />
                               ) : (
                                 <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xl">👤</div>
                               )}

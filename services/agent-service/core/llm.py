@@ -1,9 +1,19 @@
+import os
+from core import config, create_logger
+
+# Ensure downstream Ollama client picks up the correct host before importing the SDK
+if config.OLLAMA_API:
+    os.environ['OLLAMA_HOST'] = config.OLLAMA_API
+
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from core import config, logger
 
-# Initialize the ChatOllama model
+llm_logger = create_logger('agent-llm')
+
+if config.OLLAMA_API:
+    llm_logger.info("Ollama host configured", extra={"host": config.OLLAMA_API})
+
 llm = ChatOllama(
     base_url=config.OLLAMA_API,
     model=config.OLLAMA_MODEL,
@@ -32,7 +42,7 @@ def generate_itinerary(location: str, start_date: str, duration: int, preference
     Generates a travel itinerary using LangChain and Ollama.
     """
     try:
-        logger.info(f"Generating itinerary for {location} ({duration} days) starting {start_date}")
+        llm_logger.info(f"Generating itinerary for {location} ({duration} days) starting {start_date}")
         response = itinerary_chain.invoke({
             "location": location,
             "duration": duration,
@@ -41,5 +51,5 @@ def generate_itinerary(location: str, start_date: str, duration: int, preference
         })
         return response
     except Exception as e:
-        logger.error(f"LangChain generation failed: {e}")
+        llm_logger.error(f"LangChain generation failed: {e}")
         return []

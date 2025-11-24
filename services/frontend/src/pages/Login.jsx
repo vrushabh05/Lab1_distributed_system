@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/slices/authSlice'
 
 export default function Login() {
   const nav = useNavigate()
+  const location = useLocation()
   const dispatch = useDispatch()
   const { loading, error } = useSelector((state) => state.auth)
+  const redirectTo = location.state?.from || '/'
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -15,7 +17,7 @@ export default function Login() {
     e.preventDefault()
     const result = await dispatch(login({ email, password }))
     if (login.fulfilled.match(result)) {
-      nav('/')
+      nav(redirectTo, { replace: true })
     }
   }
 

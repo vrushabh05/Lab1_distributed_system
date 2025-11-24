@@ -76,26 +76,16 @@ test.describe('Checkout Flow', () => {
     await page.getByRole('button', { name: /^book$/i }).click();
     
     // Should be on checkout page
-    await expect(page.getByText(/confirm and pay/i)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByText(/confirm your stay/i)).toBeVisible({ timeout: 5000 });
 
     // Agree to terms
     await page.getByRole('checkbox').check();
     
-    // Continue to payment
-    await page.getByRole('button', { name: /continue to payment/i }).click();
-
-    // Verify mock payment notice
-    await expect(page.getByText(/demo mode.*mock payment/i)).toBeVisible();
-    await expect(page.getByText(/no real payment will be processed/i)).toBeVisible();
-
-    // Fill only required field (name on card)
-    await page.getByPlaceholder('John Doe').fill('Test User');
-
-    // Complete mock booking
-    await page.getByRole('button', { name: /create booking.*mock/i }).click();
+    // Confirm booking
+    await page.getByRole('button', { name: /confirm booking/i }).click();
 
     // Verify success
-    await expect(page.getByText(/booking created/i)).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/booking confirmed!/i)).toBeVisible({ timeout: 10000 });
   });
 });
 
@@ -165,10 +155,8 @@ test.describe('Owner Approval Flow', () => {
     
     // Complete checkout
     await page.getByRole('checkbox').check();
-    await page.getByRole('button', { name: /continue to payment/i }).click();
-    await page.getByPlaceholder('John Doe').fill('Test Traveler');
-    await page.getByRole('button', { name: /create booking.*mock/i }).click();
-    await expect(page.getByText(/booking created/i)).toBeVisible({ timeout: 10000 });
+    await page.getByRole('button', { name: /confirm booking/i }).click();
+    await expect(page.getByText(/booking confirmed!/i)).toBeVisible({ timeout: 10000 });
 
     // Logout traveler
     await page.getByRole('button', { name: /logout/i }).click();

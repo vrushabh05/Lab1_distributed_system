@@ -86,7 +86,7 @@ export default function Home() {
       rating: 5.0,
       reviews: 203
     }
-  ]
+  ].map(stay => ({ ...stay, isSample: true }))
 
   return (
     <div className="min-h-screen bg-white">
@@ -251,7 +251,7 @@ export default function Home() {
               <div
                 key={stay.id}
                 className="listing-card"
-                onClick={() => navigate(`/property/${stay.id}`)}
+                onClick={() => navigate(`/search?location=${encodeURIComponent(stay.location)}`)}
               >
                 <div className="listing-card-image">
                   <OptimizedImage 
@@ -271,11 +271,11 @@ export default function Home() {
                     <span className="text-sm font-semibold text-[var(--color-slate)]">
                       {stay.location}
                     </span>
-                    <div className="rating">
-                      <span className="rating-star">★</span>
-                      <span>{stay.rating}</span>
-                      <span className="text-[var(--color-mist)]">({stay.reviews})</span>
-                    </div>
+                    {stay.isSample && (
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-[var(--color-cloud)] text-[var(--color-slate)]">
+                        Demo
+                      </span>
+                    )}
                   </div>
                   
                   <h3 className="text-lg font-bold text-[var(--color-ink)] mb-3 line-clamp-2">

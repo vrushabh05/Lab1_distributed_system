@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchBookings } from '../store/slices/bookingsSlice'
-import { Calendar, MapPin, Users, Clock, CheckCircle, XCircle, AlertCircle, Luggage } from 'lucide-react'
+import { submitPropertyReview } from '../store/slices/propertiesSlice'
+import { Calendar, MapPin, Users, Clock, CheckCircle, XCircle, AlertCircle, Luggage, RefreshCw, Star } from 'lucide-react'
+import { DEFAULT_PROPERTY_PLACEHOLDER } from '../utils/propertyImages'
 
 const isPast = (b) => new Date(b.end_date || b.endDate) < new Date()
 
@@ -10,6 +12,14 @@ export default function TravelerBookings() {
   const { travelerItems, loading, error } = useSelector((state) => state.bookings)
   const { isAuthenticated } = useSelector((state) => state.auth)
   const [activeTab, setActiveTab] = useState('upcoming')
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [reviewModalBooking, setReviewModalBooking] = useState(null)
+  const [reviewRating, setReviewRating] = useState(5)
+  const [reviewComment, setReviewComment] = useState('')
+  const [reviewError, setReviewError] = useState(null)
+  const [reviewSubmitting, setReviewSubmitting] = useState(false)
+  const [reviewBanner, setReviewBanner] = useState(null)
+  const [reviewedIds, setReviewedIds] = useState([])
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -17,10 +27,64 @@ export default function TravelerBookings() {
     }
   }, [dispatch, isAuthenticated])
 
-  const pending = useMemo(() => travelerItems.filter(b => b.status === 'PENDING' && !isPast(b)), [travelerItems])
-  const upcoming = useMemo(() => travelerItems.filter(b => b.status === 'ACCEPTED' && !isPast(b)), [travelerItems])
-  const cancelled = useMemo(() => travelerItems.filter(b => b.status === 'CANCELLED'), [travelerItems])
-  const past = useMemo(() => travelerItems.filter(b => b.status === 'ACCEPTED' && isPast(b)), [travelerItems])
+  // CRITICAL FIX: Manual refresh to fetch latest booking statuses
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      await dispatch(fetchBookings()).unwrap()
+    } catch (err) {
+      console.error('Failed to refresh bookings:', err)
+    } finally {
+      // Small delay for visual feedback
+      setTimeout(() => setIsRefreshing(false), 500)
+    }
+  }
+
+  const openReviewModal = (booking) => {
+    setReviewModalBooking(booking)
+    setReviewRating(5)
+    setReviewComment('')
+    setReviewError(null)
+  }
+
+  const closeReviewModal = () => {
+    if (reviewSubmitting) return
+    setReviewModalBooking(null)
+    setReviewError(null)
+  }
+
+  const handleSubmitReview = async () => {
+    if (!reviewModalBooking) return
+    setReviewSubmitting(true)
+    setReviewError(null)
+    try {
+      await dispatch(
+        submitPropertyReview({
+          propertyId: reviewModalBooking.propertyId,
+          bookingId: reviewModalBooking._id || reviewModalBooking.id,
+          rating: reviewRating,
+          comment: reviewComment
+        })
+      ).unwrap()
+
+      setReviewedIds((prev) => {
+        const next = new Set(prev)
+        next.add(reviewModalBooking._id || reviewModalBooking.id)
+        return Array.from(next)
+      })
+      setReviewBanner('Thanks! Your review has been submitted.')
+      closeReviewModal()
+    } catch (err) {
+      setReviewError(err || 'Failed to submit review')
+    } finally {
+      setReviewSubmitting(false)
+    }
+  }
+
+  const pending = useMemo(() => (travelerItems || []).filter(b => b.status === 'PENDING' && !isPast(b)), [travelerItems])
+  const upcoming = useMemo(() => (travelerItems || []).filter(b => b.status === 'ACCEPTED' && !isPast(b)), [travelerItems])
+  const cancelled = useMemo(() => (travelerItems || []).filter(b => b.status === 'CANCELLED'), [travelerItems])
+  const past = useMemo(() => (travelerItems || []).filter(b => b.status === 'ACCEPTED' && isPast(b)), [travelerItems])
 
   const tabs = [
     { id: 'upcoming', label: 'Upcoming', icon: Calendar, count: upcoming.length + pending.length },
@@ -73,7 +137,7 @@ export default function TravelerBookings() {
     }
   }
 
-  const BookingCard = ({ booking }) => {
+  const BookingCard = ({ booking, onReview, reviewDisabled }) => {
     const statusConfig = getStatusConfig(booking.status)
     const StatusIcon = statusConfig.icon
 
@@ -83,7 +147,7 @@ export default function TravelerBookings() {
           {/* Image */}
           <div className="md:w-48 h-48 bg-gradient-to-br from-[var(--color-accent-light)] to-[var(--color-accent)] rounded-xl overflow-hidden flex-shrink-0">
             <img 
-              src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&q=80"
+              src={DEFAULT_PROPERTY_PLACEHOLDER}
               alt="Property"
               className="w-full h-full object-cover"
             />
@@ -146,12 +210,17 @@ export default function TravelerBookings() {
                   ${booking.total_price || booking.totalPrice || 0}
                 </div>
               </div>
-              
-              {booking.status === 'ACCEPTED' && !isPast(booking) && (
-                <button className="btn btn-secondary">
-                  View details
-                </button>
-              )}
+              <div className="flex flex-col sm:flex-row gap-3">
+                {onReview && (
+                  <button
+                    className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                    onClick={() => onReview(booking)}
+                    disabled={reviewDisabled}
+                  >
+                    {reviewDisabled ? 'Review submitted' : 'Leave a review'}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -239,16 +308,30 @@ export default function TravelerBookings() {
   const currentList = getCurrentList()
 
   return (
+    <>
     <div className="min-h-screen bg-[var(--color-pearl)] py-12 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-heading text-5xl font-bold text-[var(--color-ink)] mb-3">
-            My trips
-          </h1>
-          <p className="text-lg text-[var(--color-slate)]">
-            Manage your bookings and travel plans
-          </p>
+        {/* Header with Refresh Button */}
+        <div className="mb-12 flex items-start justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-heading text-5xl font-bold text-[var(--color-ink)] mb-3">
+              My trips
+            </h1>
+            <p className="text-lg text-[var(--color-slate)]">
+              Manage your bookings and travel plans
+            </p>
+          </div>
+          
+          {/* CRITICAL FIX: Refresh button for stale data */}
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing || loading}
+            className="flex items-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-[var(--color-ink)] border-2 border-gray-200 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+            title="Refresh bookings to see latest status updates"
+          >
+            <RefreshCw className={`w-5 h-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+            <span className="font-medium hidden sm:inline">Refresh</span>
+          </button>
         </div>
 
         {/* Error Alert */}
@@ -256,6 +339,19 @@ export default function TravelerBookings() {
           <div className="mb-8 bg-red-50 border-2 border-red-200 text-red-800 px-6 py-4 rounded-2xl flex items-center gap-3">
             <AlertCircle className="w-5 h-5" />
             {error}
+          </div>
+        )}
+
+        {reviewBanner && (
+          <div className="mb-8 bg-green-50 border-2 border-green-200 text-green-800 px-6 py-4 rounded-2xl flex items-center gap-3">
+            <CheckCircle className="w-5 h-5" />
+            {reviewBanner}
+            <button
+              className="ml-auto text-sm underline"
+              onClick={() => setReviewBanner(null)}
+            >
+              Dismiss
+            </button>
           </div>
         )}
 
@@ -299,11 +395,89 @@ export default function TravelerBookings() {
         ) : (
           <div className="space-y-6">
             {currentList.map(booking => (
-              <BookingCard key={booking._id || booking.id} booking={booking} />
+              <BookingCard
+                key={booking._id || booking.id}
+                booking={booking}
+                onReview={activeTab === 'past' && booking.status === 'ACCEPTED' ? openReviewModal : null}
+                reviewDisabled={reviewedIds.includes(booking._id || booking.id)}
+              />
             ))}
           </div>
         )}
       </div>
     </div>
+
+    {reviewModalBooking && (
+      <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 space-y-6">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h3 className="text-2xl font-bold text-[var(--color-ink)]">Leave a review</h3>
+              <p className="text-[var(--color-slate)]">
+                Share what you loved about {reviewModalBooking.title || reviewModalBooking.name || 'this stay'}.
+              </p>
+            </div>
+            <button className="text-[var(--color-slate)] hover:text-[var(--color-ink)]" onClick={closeReviewModal}>
+              <XCircle className="w-6 h-6" />
+            </button>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[var(--color-slate)] mb-2">Rating</label>
+            <div className="flex gap-2">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setReviewRating(value)}
+                  className={`p-3 rounded-xl border transition ${
+                    reviewRating >= value
+                      ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]'
+                      : 'border-[var(--color-cloud)] text-[var(--color-slate)]'
+                  }`}
+                >
+                  <Star className="w-5 h-5" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-[var(--color-slate)] mb-2">Comments</label>
+            <textarea
+              className="w-full border border-[var(--color-cloud)] rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              rows={4}
+              placeholder="Let future guests know what to expect..."
+              value={reviewComment}
+              onChange={(e) => setReviewComment(e.target.value)}
+            />
+          </div>
+
+          {reviewError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+              {reviewError}
+            </div>
+          )}
+
+          <div className="flex justify-end gap-3">
+            <button
+              className="btn btn-secondary"
+              onClick={closeReviewModal}
+              disabled={reviewSubmitting}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleSubmitReview}
+              disabled={reviewSubmitting}
+            >
+              {reviewSubmitting ? 'Submitting...' : 'Submit review'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   )
 }

@@ -1,10 +1,10 @@
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 
 const bookingSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  travelerId: { type: String, required: true },
-  propertyId: { type: String, required: true },
-  ownerId: { type: String, required: true },
+  travelerId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  propertyId: { type: mongoose.Schema.Types.ObjectId, required: true },
+  ownerId: { type: mongoose.Schema.Types.ObjectId, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   totalPrice: { type: Number, required: true },

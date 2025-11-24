@@ -1,4 +1,4 @@
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 
 const favoriteSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

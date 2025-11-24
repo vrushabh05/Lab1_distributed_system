@@ -27,16 +27,56 @@ spec:
             configMapKeyRef:
               name: airbnb-config
               key: MONGODB_URI
+        - name: MONGODB_SESSION_URI
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: MONGODB_SESSION_URI
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: airbnb-secrets
               key: JWT_SECRET
-        - name: KAFKA_BROKER
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: SESSION_SECRET
+        - name: SESSION_NAME
           valueFrom:
             configMapKeyRef:
               name: airbnb-config
-              key: KAFKA_BROKER
+              key: SESSION_NAME
+        - name: SESSION_MAX_AGE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_MAX_AGE
+        - name: SESSION_COOKIE_SAME_SITE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_COOKIE_SAME_SITE
+        - name: SESSION_COOKIE_SECURE
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: SESSION_COOKIE_SECURE
+        - name: KAFKA_BROKERS
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: KAFKA_BROKERS
+        - name: BOOKING_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: airbnb-config
+              key: BOOKING_SERVICE_URL
+        - name: BOOKING_SERVICE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: airbnb-secrets
+              key: BOOKING_SERVICE_API_KEY
         - name: CORS_ORIGIN
           valueFrom:
             configMapKeyRef:

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { searchProperties } from '../store/slices/propertiesSlice'
 import { fetchFavorites, addFavorite, removeFavorite } from '../store/slices/favoritesSlice'
 import { MapPin, SlidersHorizontal, Search as SearchIcon, Heart, X, ChevronDown, Star } from 'lucide-react'
+import { getPrimaryPhoto, DEFAULT_PROPERTY_PLACEHOLDER } from '../utils/propertyImages'
 
 function normalizeDate(d) {
   if (!d) return ''
@@ -26,7 +27,6 @@ export default function Search() {
   const [guests, setGuests] = useState(Number(searchParams.get('guests')) || 2)
   const [validationError, setValidationError] = useState('')
   const [isSearching, setIsSearching] = useState(false)
-  
   // Filter states
   const [showFilters, setShowFilters] = useState(false)
   const [priceRange, setPriceRange] = useState([0, 1000])
@@ -39,6 +39,7 @@ export default function Search() {
     if (searchParams.get('location')) {
       onSearchHandler()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   useEffect(() => {
@@ -103,7 +104,7 @@ export default function Search() {
 
   // Filter properties based on selected filters
   const filteredResults = useMemo(() => {
-    let results = [...searchResults]
+    let results = [...(searchResults || [])]
     
     // Apply sorting
     switch (sortBy) {
@@ -125,25 +126,33 @@ export default function Search() {
     return results
   }, [searchResults, sortBy])
 
+  const buildPropertyLink = (property) => {
+    const params = new URLSearchParams()
+    const normalizedStart = normalizeDate(startDate)
+    const normalizedEnd = normalizeDate(endDate)
+    if (normalizedStart) params.set('checkIn', normalizedStart)
+    if (normalizedEnd) params.set('checkOut', normalizedEnd)
+    if (guests) params.set('guests', String(guests))
+    const query = params.toString()
+    return {
+      path: `/property/${property._id || property.id}`,
+      query: query ? `?${query}` : '',
+      state: {
+        checkIn: normalizedStart || undefined,
+        checkOut: normalizedEnd || undefined,
+        guests
+      }
+    }
+  }
+
   const PropertyCard = ({ property }) => {
     const amenities = Array.isArray(property.amenities) ? property.amenities.slice(0, 3) : []
     
-    // Get image - check photos array first, then fallback
-    const photos = property.photos || property.images || []
-    const primaryImage = photos.length > 0 ? photos[0] : null
-    
-    // Fallback images based on property type
-    const fallbackImages = {
-      'House': 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80',
-      'Apartment': 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80',
-      'Villa': 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80',
-      'Condo': 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
-      'default': 'https://images.unsplash.com/photo-1570129477492-45ac003ff2a0?w=800&q=80'
-    }
-    
-    const imageUrl = primaryImage || fallbackImages[property.type] || fallbackImages.default
+    const imageUrl = getPrimaryPhoto(property)
     const propertyId = property._id || property.id
     const pricePerNight = property.pricePerNight || property.price_per_night || 0
+    const ratingCount = property.ratingCount || property.rating_count || 0
+    const ratingAverage = property.ratingAverage || property.rating_average || 0
     const isFavorite = favoriteIds.has(String(propertyId))
 
     const toggleFavorite = async (e) => {
@@ -161,6 +170,8 @@ export default function Search() {
       }
     }
     
+    const linkMeta = buildPropertyLink(property)
+    
     return (
       <div className="listing-card group">
         <div className="listing-image">
@@ -169,20 +180,22 @@ export default function Search() {
             alt={property.title}
             loading="lazy"
             onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1570129477492-45ac003ff2a0?w=600&q=80'
+              e.target.src = DEFAULT_PROPERTY_PLACEHOLDER
             }}
           />
           <button
             onClick={toggleFavorite}
             className={`absolute top-4 right-4 wishlist-heart ${isFavorite ? 'active' : ''}`}
-            title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
+            title={isFavorite ? 'Remove from favourites' : 'Save to favourites'}
+            aria-label={isFavorite ? 'Remove from favourites' : 'Save to favourites'}
+            aria-pressed={isFavorite}
           >
             <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
         </div>
 
         <div className="p-6">
-          <Link to={`/property/${propertyId}`} className="group/link">
+          <Link to={`${linkMeta.path}${linkMeta.query}`} state={linkMeta.state} className="group/link">
             <h3 className="text-xl font-bold text-[var(--color-ink)] group-hover/link:text-[var(--color-primary)] transition-colors mb-2 line-clamp-2">
               {property.title}
             </h3>
@@ -196,10 +209,24 @@ export default function Search() {
           </div>
 
           <div className="rating mb-4">
-            <Star className="w-4 h-4 fill-current rating-star" />
-            <span>4.8</span>
-            <span className="text-[var(--color-mist)]">(128)</span>
+            {ratingCount > 0 ? (
+              <>
+                <Star className="w-4 h-4 fill-current rating-star" />
+                <span>{Number(ratingAverage).toFixed(1)}</span>
+                <span className="text-[var(--color-mist)]">({ratingCount})</span>
+              </>
+            ) : (
+              <span className="text-sm text-[var(--color-slate)]">No reviews yet</span>
+            )}
           </div>
+
+          {property.isSample && (
+            <div className="mb-3">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-[var(--color-cloud)] text-[var(--color-slate)]">
+                Demo listing
+              </span>
+            </div>
+          )}
 
           <div className="flex items-baseline gap-2 mb-4">
             <span className="text-2xl font-bold text-[var(--color-ink)]">
@@ -209,7 +236,8 @@ export default function Search() {
           </div>
 
           <Link 
-            to={`/property/${propertyId}`}
+            to={`${linkMeta.path}${linkMeta.query}`}
+            state={linkMeta.state}
             className="btn btn-secondary w-full"
           >
             View details

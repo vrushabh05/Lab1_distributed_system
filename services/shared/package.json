@@ -29,8 +29,11 @@
   "author": "Voyage Engineering",
   "license": "MIT",
   "dependencies": {
+    "connect-mongo": "^5.1.0",
     "dotenv": "^16.3.1",
+    "express-session": "^1.18.0",
     "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.0.0",
     "winston": "^3.11.0",

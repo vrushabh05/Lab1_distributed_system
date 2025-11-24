@@ -132,13 +132,46 @@ export default function AgentButton() {
       }
 
       const res = await agentApi.post('/agent/plan', payload)
+      
+      // CRITICAL FIX: Handle warnings from backend (partial failures)
+      if (res.data.warnings && res.data.warnings.length > 0) {
+        console.warn('⚠️ AI Agent warnings:', res.data.warnings);
+      }
+      
       setResponse(res.data)
     } catch (e) {
-      const errMsg = e?.code === 'ECONNABORTED' 
-        ? 'Agent took too long to respond. Please try again.'
-        : e?.response?.data?.error || 'Failed to get plan from agent'
+      // CRITICAL FIX: Enhanced error handling with specific messages
+      let errMsg = 'Failed to get plan from agent';
+      
+      if (e?.code === 'ECONNABORTED') {
+        // Timeout error (15 seconds exceeded)
+        errMsg = '⏱️ The AI service took too long to respond. The server might be processing a complex request. Please try again in a moment.';
+      } else if (e?.response?.status === 500) {
+        // Server error - check for detailed error from backend
+        const detail = e?.response?.data?.detail;
+        if (detail?.error === 'AI generation failed') {
+          errMsg = `🤖 ${detail.message || 'AI service is currently unavailable. Please try again later.'}`;
+        } else {
+          errMsg = '🔴 The AI service encountered an error. Please try again later.';
+        }
+      } else if (e?.response?.status === 503) {
+        // Service unavailable
+        errMsg = '⚠️ The AI service is temporarily unavailable. Please try again in a few minutes.';
+      } else if (e?.response?.status === 404) {
+        // Booking not found
+        errMsg = '❌ The booking you selected was not found. Please try with a different booking or create a new one.';
+      } else if (e?.response?.data?.error) {
+        // Generic backend error message
+        errMsg = e.response.data.error;
+      } else if (e?.message) {
+        // Network or other error
+        errMsg = `⚠️ Connection error: ${e.message}`;
+      }
+      
+      console.error('❌ AI Agent error:', e);
       setError(errMsg)
     } finally {
+      // CRITICAL FIX: Always stop loading spinner (prevents infinite spinner)
       setLoading(false)
     }
   }
@@ -211,6 +244,19 @@ export default function AgentButton() {
 
               {response && !error && (
                 <div className="space-y-4">
+                  {/* Show warnings if any service had partial failures */}
+                  {response.warnings && response.warnings.length > 0 && (
+                    <div className="bg-yellow-50 text-yellow-800 p-3 rounded border border-yellow-200 text-sm">
+                      <div className="font-semibold mb-1">⚠️ Partial Results</div>
+                      <ul className="list-disc ml-5 text-xs space-y-1">
+                        {response.warnings.map((warning, idx) => (
+                          <li key={idx}>{warning}</li>
+                        ))}
+                      </ul>
+                      <div className="text-xs mt-2 italic">The AI generated your itinerary, but some recommendations are unavailable.</div>
+                    </div>
+                  )}
+                  
                   {Array.isArray(response.itinerary) && (
                     <section>
                       <h3 className="font-semibold text-sm mb-2">Itinerary</h3>

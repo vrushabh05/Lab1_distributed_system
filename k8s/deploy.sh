@@ -14,11 +14,15 @@ kubectl apply -f k8s/mongodb.yaml
 echo "📨 Deploying Kafka & Zookeeper..."
 kubectl apply -f k8s/kafka.yaml
 
+echo "🧠 Deploying Ollama (LLM runtime)..."
+kubectl apply -f k8s/ollama.yaml
+
 # Wait for infrastructure
 echo "⏳ Waiting for infrastructure to be ready..."
 kubectl wait --for=condition=ready pod -l app=mongodb --timeout=120s
 kubectl wait --for=condition=ready pod -l app=zookeeper --timeout=120s
 kubectl wait --for=condition=ready pod -l app=kafka --timeout=120s
+kubectl wait --for=condition=ready pod -l app=ollama --timeout=180s
 
 # Deploy services
 echo "🔧 Deploying Microservices..."

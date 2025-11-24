@@ -1,8 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { api, ownerApi } from '../../api';
 
-const API_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_TRAVELER_API || 'http://localhost:7001';
-const OWNER_API_URL = import.meta.env.VITE_OWNER_API_URL || import.meta.env.VITE_OWNER_API || 'http://localhost:7002';
+const requireAuth = (auth, rejectWithValue) => {
+  if (!auth?.token) {
+    return rejectWithValue('You must be signed in to perform this action');
+  }
+  return null;
+};
 
 // Async thunks
 export const fetchBookings = createAsyncThunk(
@@ -10,12 +14,11 @@ export const fetchBookings = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.get(`${API_URL}/api/bookings`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      return response.data.bookings;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await api.get('/api/bookings');
+      return data.bookings;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch bookings');
     }
@@ -28,12 +31,11 @@ export const fetchOwnerBookings = createAsyncThunk(
   async (_, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.get(`${OWNER_API_URL}/api/bookings`, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      return response.data.bookings;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await ownerApi.get('/api/bookings');
+      return data.bookings;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to fetch owner bookings');
     }
@@ -46,16 +48,11 @@ export const acceptBooking = createAsyncThunk(
   async (bookingId, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.put(
-        `${OWNER_API_URL}/api/bookings/${bookingId}/accept`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      return response.data.booking;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await ownerApi.put(`/api/bookings/${bookingId}/accept`, {});
+      return data.booking;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to accept booking');
     }
@@ -68,16 +65,11 @@ export const rejectBooking = createAsyncThunk(
   async (bookingId, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.put(
-        `${OWNER_API_URL}/api/bookings/${bookingId}/cancel`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      return response.data.booking;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await ownerApi.put(`/api/bookings/${bookingId}/cancel`, {});
+      return data.booking;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to cancel booking');
     }
@@ -89,12 +81,11 @@ export const createBooking = createAsyncThunk(
   async (bookingData, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.post(`${API_URL}/api/bookings`, bookingData, {
-        headers: {
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      return response.data.booking;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await api.post('/api/bookings', bookingData);
+      return data.booking;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to create booking');
     }
@@ -106,16 +97,11 @@ export const cancelBooking = createAsyncThunk(
   async (bookingId, { rejectWithValue, getState }) => {
     try {
       const { auth } = getState();
-      const response = await axios.put(
-        `${API_URL}/api/bookings/${bookingId}/cancel`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      return response.data.booking;
+      const authError = requireAuth(auth, rejectWithValue);
+      if (authError) return authError;
+
+      const { data } = await api.put(`/api/bookings/${bookingId}/cancel`, {});
+      return data.booking;
     } catch (error) {
       return rejectWithValue(error.response?.data?.error || 'Failed to cancel booking');
     }

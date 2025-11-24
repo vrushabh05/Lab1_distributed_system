@@ -1,13 +1,30 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import { authSchemas, validateBody } from '../../shared/validation/schemas.js';
+import { authSchemas, validateBody } from '../../../shared/validation/schemas.js';
+import {
+  config,
+  issueAuthToken,
+  sanitizeUserProfile,
+  persistSessionUser,
+  destroySession,
+  buildSessionCookieOptions
+} from '../../../shared/core/index.js';
 
 const router = express.Router();
+
+// CRITICAL SECURITY: Validate JWT_SECRET at module load time (fail-fast)
 const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is required for owner-service auth routes');
+if (!JWT_SECRET || JWT_SECRET.trim() === '') {
+  console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.error('🔴 SECURITY ERROR: JWT_SECRET is required');
+  console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  throw new Error('JWT_SECRET is not set - cannot start owner-service');
+}
+
+if (JWT_SECRET.length < 32) {
+  console.error('🔴 SECURITY ERROR: JWT_SECRET must be at least 32 characters');
+  throw new Error(`JWT_SECRET too weak (length: ${JWT_SECRET.length}, minimum: 32)`);
 }
 
 // Signup
@@ -53,21 +70,14 @@ router.post('/signup', validateBody(authSchemas.signup), async (req, res) => {
 
     await user.save();
 
-    // Generate JWT
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = issueAuthToken(user);
+    await persistSessionUser(req, user);
 
+    const profile = sanitizeUserProfile(user);
     res.json({
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      userId: profile.id,
+      user: profile,
     });
   } catch (error) {
     console.error('Signup error:', error);
@@ -97,25 +107,32 @@ router.post('/login', validateBody(authSchemas.login), async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Generate JWT
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
+    const token = issueAuthToken(user);
+    await persistSessionUser(req, user);
 
+    const profile = sanitizeUserProfile(user);
     res.json({
       token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      userId: profile.id,
+      user: profile,
     });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.post('/logout', async (req, res) => {
+  try {
+    await destroySession(req);
+  } catch (error) {
+    console.error('Logout error:', error);
+  } finally {
+    res.clearCookie(
+      config.SESSION_NAME,
+      buildSessionCookieOptions(config, { maxAge: 0 })
+    );
+    res.json({ message: 'Logged out' });
   }
 });
 

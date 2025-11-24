@@ -5,8 +5,15 @@ metadata:
   namespace: default
 data:
   NODE_ENV: "production"
-  CORS_ORIGIN: "http://localhost:7173"
+  CORS_ORIGIN: "http://frontend-service"
   MONGODB_URI: "mongodb://admin:adminpassword@mongodb-service:27017/airbnb?authSource=admin"
-  KAFKA_BROKER: "kafka-service:9092"
+  MONGODB_SESSION_URI: "mongodb://admin:adminpassword@mongodb-service:27017/airbnb?authSource=admin"
+  KAFKA_BROKERS: "kafka-service:9092"
+  BOOKING_SERVICE_URL: "http://booking-service:3004"
+  MONGO_TRANSACTIONS_DISABLED: "true"
+  SESSION_NAME: "voyage.sid"
+  SESSION_MAX_AGE: "604800000"
+  SESSION_COOKIE_SAME_SITE: "lax"
+  SESSION_COOKIE_SECURE: "false"
   AGENT_MODEL: "qwen2.5-coder:1.5b-base"
-  OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+  OLLAMA_BASE_URL: "http://ollama-service:11434"

@@ -1,4 +1,4 @@
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
   city: String,
   state: String,
   country: String,
+  languages: String,
+  about: String,
   avatar: String,
   createdAt: { type: Date, default: Date.now },
 });

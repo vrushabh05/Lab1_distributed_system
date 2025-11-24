@@ -18,7 +18,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   # Zookeeper (required for Kafka)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -43,11 +42,12 @@ services:
         condition: service_healthy
     ports:
       - "7092:9092"
-      - "7093:9093"
+      - "7093:19092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:7093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -66,13 +66,23 @@ services:
     container_name: airbnb_traveler_service
     ports:
       - "7001:3001"
+      - "3001:3001"
     environment:
       PORT: 3001
       MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
-      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      MONGODB_SESSION_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-key-minimum-32-chars-required-for-security}
+      SESSION_SECRET: ${SESSION_SECRET:-dev-session-secret-key-minimum-32-chars-required-for-security}
+      SESSION_NAME: ${SESSION_NAME:-voyage.sid}
+      SESSION_MAX_AGE: ${SESSION_MAX_AGE:-604800000}
+      SESSION_COOKIE_SAME_SITE: ${SESSION_COOKIE_SAME_SITE:-lax}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      BOOKING_SERVICE_API_KEY: ${BOOKING_SERVICE_API_KEY:-secure-booking-api-key-change-in-production}
+      BOOKING_SERVICE_URL: http://booking-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:5173
       NODE_ENV: ${NODE_ENV:-development}
+      MONGO_TRANSACTIONS_DISABLED: "true"
     depends_on:
       mongodb:
         condition: service_healthy
@@ -83,6 +93,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./storage/uploads/avatars:/app/services/traveler-service/uploads/avatars
 
   # Owner Service
   owner-service:
@@ -92,10 +104,19 @@ services:
     container_name: airbnb_owner_service
     ports:
       - "7002:3002"
+      - "3002:3002"
     environment:
       PORT: 3002
       MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
-      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      MONGODB_SESSION_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-key-minimum-32-chars-required-for-security}
+      SESSION_SECRET: ${SESSION_SECRET:-dev-session-secret-key-minimum-32-chars-required-for-security}
+      SESSION_NAME: ${SESSION_NAME:-voyage.sid}
+      SESSION_MAX_AGE: ${SESSION_MAX_AGE:-604800000}
+      SESSION_COOKIE_SAME_SITE: ${SESSION_COOKIE_SAME_SITE:-lax}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      BOOKING_SERVICE_API_KEY: ${BOOKING_SERVICE_API_KEY:-secure-booking-api-key-change-in-production}
+      BOOKING_SERVICE_URL: http://booking-service:3004
       KAFKA_BROKERS: kafka:9092
       CORS_ORIGIN: http://localhost:5173
       NODE_ENV: ${NODE_ENV:-development}
@@ -118,10 +139,19 @@ services:
     container_name: airbnb_property_service
     ports:
       - "7003:3003"
+      - "3003:3003"
     environment:
       PORT: 3003
       MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
-      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      MONGODB_SESSION_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-key-minimum-32-chars-required-for-security}
+      SESSION_SECRET: ${SESSION_SECRET:-dev-session-secret-key-minimum-32-chars-required-for-security}
+      SESSION_NAME: ${SESSION_NAME:-voyage.sid}
+      SESSION_MAX_AGE: ${SESSION_MAX_AGE:-604800000}
+      SESSION_COOKIE_SAME_SITE: ${SESSION_COOKIE_SAME_SITE:-lax}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+      BOOKING_SERVICE_URL: http://booking-service:3004
+      BOOKING_SERVICE_API_KEY: ${BOOKING_SERVICE_API_KEY:-secure-booking-api-key-change-in-production}
       CORS_ORIGIN: http://localhost:5173
       NODE_ENV: ${NODE_ENV:-development}
       REDIS_ENABLED: "false"
@@ -133,6 +163,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - ./storage/uploads/properties:/app/services/property-service/uploads/properties
 
   # Booking Service (Status Sync)
   booking-service:
@@ -142,10 +174,12 @@ services:
     container_name: airbnb_booking_service
     ports:
       - "7004:3004"
+      - "3004:3004"
     environment:
       PORT: 3004
       MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
-      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-key-minimum-32-chars-required-for-security}
+      BOOKING_SERVICE_API_KEY: ${BOOKING_SERVICE_API_KEY:-secure-booking-api-key-change-in-production}
       KAFKA_BROKERS: kafka:9092
       NODE_ENV: ${NODE_ENV:-development}
     depends_on:
@@ -167,16 +201,17 @@ services:
     container_name: airbnb_agent_service
     ports:
       - "7000:8000"
+      - "8000:8000"
     environment:
       MONGODB_URI: mongodb://admin:adminpassword@mongodb:27017/airbnb?authSource=admin
       AGENT_MODEL: ${AGENT_MODEL:-qwen2.5-coder:1.5b-base}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://ollama:11434}
       TAVILY_API_KEY: ${TAVILY_API_KEY}
-      JWT_SECRET: ${JWT_SECRET:-your-secret-key-change-in-production}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-key-minimum-32-chars-required-for-security}
     depends_on:
       mongodb:
+        condition: service_healthy
+      ollama:
         condition: service_healthy
     healthcheck:
       test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')" ]
@@ -184,19 +219,32 @@ services:
       timeout: 5s
       retries: 5
 
+  # Ollama (local LLM runtime)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: airbnb_ollama
+    volumes:
+      - ${OLLAMA_MODELS_DIR:-${HOME}/.ollama}:/root/.ollama
+    healthcheck:
+      test: [ "CMD", "/bin/sh", "-c", "ollama list >/dev/null 2>&1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   # Frontend
   frontend:
     build:
       context: .
       dockerfile: services/frontend/Dockerfile
+      args:
+        VITE_TRAVELER_API_URL: ${VITE_TRAVELER_API_URL:-http://localhost:7001}
+        VITE_OWNER_API_URL: ${VITE_OWNER_API_URL:-http://localhost:7002}
+        VITE_PROPERTY_API_URL: ${VITE_PROPERTY_API_URL:-http://localhost:7003}
+        VITE_AGENT_API_URL: ${VITE_AGENT_API_URL:-http://localhost:7000}
     container_name: airbnb_frontend
     ports:
-      - "5173:5173"
-    environment:
-      VITE_TRAVELER_API_URL: http://localhost:7001
-      VITE_OWNER_API_URL: http://localhost:7002
-      VITE_PROPERTY_API_URL: http://localhost:7003
-      VITE_AGENT_API_URL: http://localhost:7000
+      - "5173:80"
     depends_on:
       - traveler-service
       - owner-service

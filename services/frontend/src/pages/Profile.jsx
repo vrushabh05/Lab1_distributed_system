@@ -10,6 +10,14 @@ const US_STATES = [
   "WV", "WY"
 ]
 
+const TRAVELER_API_BASE = import.meta.env.VITE_TRAVELER_API_URL || 'http://localhost:3001';
+
+const resolveAvatarUrl = (path) => {
+  if (!path) return null;
+  if (path.startsWith('http://') || path.startsWith('https://')) return path;
+  return `${TRAVELER_API_BASE}${path}`;
+};
+
 export default function Profile() {
   const dispatch = useDispatch()
   const { user: profile, loading, error: authError } = useSelector((state) => state.auth)
@@ -57,7 +65,11 @@ export default function Profile() {
       const result = await dispatch(updateProfile({ name, phone, about, city, state, country, languages, gender }))
 
       if (updateProfile.fulfilled.match(result)) {
-        setMsg('Profile saved successfully!')
+        setMsg('Saved')
+        // Update localProfile with the response to ensure view mode shows latest data
+        if (result.payload) {
+          setLocalProfile({ ...localProfile, ...result.payload })
+        }
         setIsEditing(false) // Switch back to view mode after save
         setTimeout(() => setMsg(null), 3000)
       } else {
@@ -117,6 +129,8 @@ export default function Profile() {
 
   if (!localProfile) return null
 
+  const avatarUrl = resolveAvatarUrl(localProfile?.avatar_url || localProfile?.avatar)
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 md:px-6">
       <div className="max-w-2xl mx-auto">
@@ -149,8 +163,8 @@ export default function Profile() {
             <div className="bg-white rounded-lg shadow-md p-8">
               <div className="flex flex-col items-center">
                 <div className="w-32 h-32 rounded-full bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center text-6xl overflow-hidden border-4 border-rose-200 mb-4">
-                  {localProfile?.avatar_url ? (
-                    <img src={localProfile.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
                   ) : (
                     <span>👤</span>
                   )}
@@ -217,8 +231,8 @@ export default function Profile() {
                 {/* Avatar Display */}
                 <div className="flex-shrink-0">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-rose-100 to-pink-100 flex items-center justify-center text-6xl overflow-hidden border-4 border-rose-200">
-                    {localProfile.avatar_url ? (
-                      <img src={localProfile.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
                     ) : (
                       <span>👤</span>
                     )}
@@ -275,7 +289,7 @@ export default function Profile() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">📞 Phone</label>
                   <input
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-rose-500 focus:outline-none transition"
-                    placeholder="Your phone number"
+                    placeholder="Phone"
                     value={localProfile.phone || ''}
                     onChange={e => setLocalProfile({ ...localProfile, phone: e.target.value })}
                   />
@@ -284,7 +298,7 @@ export default function Profile() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">⚧️ Gender</label>
                   <input
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-rose-500 focus:outline-none transition"
-                    placeholder="Your gender"
+                    placeholder="Gender"
                     value={localProfile.gender || ''}
                     onChange={e => setLocalProfile({ ...localProfile, gender: e.target.value })}
                   />
@@ -297,7 +311,7 @@ export default function Profile() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">🏙️ City</label>
                   <input
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-rose-500 focus:outline-none transition"
-                    placeholder="Your city"
+                    placeholder="City"
                     value={localProfile.city || ''}
                     onChange={e => setLocalProfile({ ...localProfile, city: e.target.value })}
                   />
@@ -319,7 +333,7 @@ export default function Profile() {
                     <label className="block text-sm font-semibold text-gray-700 mb-2">🗺️ State/Region</label>
                     <input
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-rose-500 focus:outline-none transition"
-                      placeholder="Your state or region"
+                      placeholder="State"
                       value={localProfile.state || ''}
                       onChange={e => setLocalProfile({ ...localProfile, state: e.target.value })}
                     />
@@ -333,9 +347,10 @@ export default function Profile() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">🌍 Country</label>
                   <select
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-rose-500 focus:outline-none transition"
-                    value={localProfile.country || 'USA'}
+                    value={localProfile.country || ''}
                     onChange={e => setLocalProfile({ ...localProfile, country: e.target.value })}
                   >
+                    <option value="">Select Country</option>
                     {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
@@ -375,6 +390,7 @@ export default function Profile() {
                 <button
                   onClick={save}
                   disabled={loading}
+                  aria-label="Save"
                   className="flex-1 bg-gradient-to-r from-rose-500 to-pink-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition disabled:opacity-50"
                 >
                   {loading ? '⏳ Saving...' : '💾 Save Changes'}

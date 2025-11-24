@@ -61,6 +61,7 @@ export default function App() {
                 <Route path="/property/:id" element={<PropertyDetails />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/favorites" element={<Favorites />} />
+                <Route path="/favourites" element={<Favorites />} />
                 <Route path="/bookings" element={<TravelerBookings />} />
                 <Route path="/dashboard" element={<OwnerDashboard />} />
                 <Route path="/owner/properties" element={<OwnerProperties />} />

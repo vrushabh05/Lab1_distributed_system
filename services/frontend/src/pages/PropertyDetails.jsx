@@ -1,32 +1,77 @@
-import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useEffect, useMemo, useState } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPropertyById } from '../store/slices/propertiesSlice'
+import { fetchPropertyById, fetchPropertyReviews } from '../store/slices/propertiesSlice'
 import { fetchFavorites, addFavorite, removeFavorite } from '../store/slices/favoritesSlice'
 import { useToast } from '../context/ToastContext'
 import { 
   MapPin, Users, BedDouble, Bath, Wifi, Tv, Coffee, 
   Wind, Star, Heart, X, ChevronLeft, ChevronRight, Check, Calendar 
 } from 'lucide-react'
+import { getPropertyPhotos, DEFAULT_PROPERTY_PLACEHOLDER } from '../utils/propertyImages'
+
+const isValidDate = value => {
+  if (!value) return false
+  const d = new Date(value)
+  return !isNaN(d.getTime())
+}
+
+const toISODate = value => {
+  if (!value) return ''
+  const d = new Date(value)
+  if (isNaN(d.getTime())) return ''
+  return d.toISOString().split('T')[0]
+}
 
 export default function PropertyDetails() {
   const { id } = useParams()
+  const location = useLocation()
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const toast = useToast()
-  const { selectedProperty: p, loading: propertyLoading } = useSelector((state) => state.properties)
+  const {
+    selectedProperty: p,
+    loading: propertyLoading,
+    selectedReviews,
+    reviewsStats,
+    reviewsLoading
+  } = useSelector((state) => state.properties)
   const { items: favorites } = useSelector((state) => state.favorites)
+  const { isAuthenticated, user } = useSelector((state) => state.auth)
   
   const today = new Date()
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const dayAfter = new Date(tomorrow)
-  dayAfter.setDate(dayAfter.getDate() + 2)
+  const tomorrow = useMemo(() => {
+    const t = new Date()
+    t.setDate(t.getDate() + 1)
+    return t
+  }, [])
+  const dayAfter = useMemo(() => {
+    const d = new Date()
+    d.setDate(d.getDate() + 3)
+    return d
+  }, [])
+
+  const stateParams = location.state || {}
+  const urlParams = new URLSearchParams(location.search)
+
+  const initialStart = (() => {
+    const candidate = stateParams.checkIn || urlParams.get('checkIn')
+    if (isValidDate(candidate)) return toISODate(candidate)
+    return tomorrow.toISOString().split('T')[0]
+  })()
+
+  const initialEnd = (() => {
+    const candidate = stateParams.checkOut || urlParams.get('checkOut')
+    if (isValidDate(candidate)) return toISODate(candidate)
+    return dayAfter.toISOString().split('T')[0]
+  })()
+
+  const initialGuests = Number(stateParams.guests || urlParams.get('guests')) || 2
   
   const minDate = today.toISOString().split('T')[0]
-  const [start, setStart] = useState(tomorrow.toISOString().split('T')[0])
-  const [end, setEnd] = useState(dayAfter.toISOString().split('T')[0])
-  const [guests, setGuests] = useState(2)
+  const [start, setStart] = useState(initialStart)
+  const [end, setEnd] = useState(initialEnd)
+  const [guests, setGuests] = useState(initialGuests)
   const [msg, setMsg] = useState(null)
   const [error, setError] = useState(null)
   const [showGallery, setShowGallery] = useState(false)
@@ -35,23 +80,35 @@ export default function PropertyDetails() {
   
   // Handle both MongoDB _id and id
   const propertyId = p?._id || p?.id
-  const isFav = favorites.some(f => String(f.propertyId || f._id || f.id) === String(propertyId))
+  const isFav = (favorites || []).some(f => String(f.propertyId || f._id || f.id) === String(propertyId))
+  const isOwner = user?.role === 'OWNER' && String(user?._id || user?.id) === String(p?.ownerId || p?.owner_id)
 
   useEffect(() => {
     dispatch(fetchPropertyById(id))
-    dispatch(fetchFavorites())
-  }, [dispatch, id])
+    if (isAuthenticated) {
+      dispatch(fetchFavorites())
+    }
+  }, [dispatch, id, isAuthenticated])
 
-  const fallbackImages = [
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=90',
-    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=90',
-    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=90',
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=90',
-    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=90'
-  ]
+  useEffect(() => {
+    if (!propertyId) return
+    dispatch(fetchPropertyReviews(propertyId))
+  }, [dispatch, propertyId])
 
-  const photos = Array.isArray(p?.photos) && p.photos.length > 0 ? p.photos : fallbackImages
-  const galleryImages = photos.length >= 5 ? photos.slice(0, 5) : [...photos, ...fallbackImages].slice(0, 5)
+  const rawGallery = getPropertyPhotos(p)
+  const galleryImages = (() => {
+    if (rawGallery.length >= 5) return rawGallery.slice(0, 5)
+    const filled = [...rawGallery]
+    while (filled.length < 5) {
+      filled.push(rawGallery[0] || DEFAULT_PROPERTY_PLACEHOLDER)
+    }
+    return filled
+  })()
+  const overlayPhotos = rawGallery.length ? rawGallery : [DEFAULT_PROPERTY_PLACEHOLDER]
+
+  const ratingCount = p?.ratingCount ?? reviewsStats.ratingCount ?? 0
+  const ratingAverageValue = p?.ratingAverage ?? reviewsStats.ratingAverage ?? 0
+  const ratingLabel = ratingCount > 0 ? Number(ratingAverageValue).toFixed(1) : null
 
   const numNights = p ? Math.max(1, Math.ceil((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24))) : 1
   const pricePerNight = p ? (p.price_per_night || p.pricePerNight || 0) : 0
@@ -62,6 +119,12 @@ export default function PropertyDetails() {
   const book = async () => {
     setError(null)
     setIsBooking(true)
+
+    if (isOwner) {
+      setError('Hosts cannot book their own listing.')
+      setIsBooking(false)
+      return
+    }
     
     const today = new Date().toISOString().split('T')[0]
     
@@ -79,6 +142,9 @@ export default function PropertyDetails() {
     // Small delay to show loading state
     await new Promise(resolve => setTimeout(resolve, 300))
     
+    setMsg('Booking created. Redirecting to checkout...')
+    toast.success('Booking created.')
+    setTimeout(() => {
     navigate('/checkout', {
       state: {
         bookingData: {
@@ -95,6 +161,7 @@ export default function PropertyDetails() {
       }
     })
     setIsBooking(false)
+    }, 600)
   }
 
   const toggleFavorite = async () => {
@@ -104,16 +171,16 @@ export default function PropertyDetails() {
     if (isFav) {
       const result = await dispatch(removeFavorite(propertyId || id))
       if (removeFavorite.fulfilled.match(result)) {
-        toast.success('Removed from favorites')
+        toast.success('Removed from favourites')
       } else {
-        toast.error('Failed to remove from favorites')
+        toast.error('Failed to remove from favourites')
       }
     } else {
       const result = await dispatch(addFavorite(propertyId || id))
       if (addFavorite.fulfilled.match(result)) {
-        toast.success('Added to favorites!')
+        toast.success('Added to favourites!')
       } else {
-        toast.error('Failed to add to favorites')
+        toast.error('Failed to add to favourites')
       }
     }
   }
@@ -170,15 +237,15 @@ export default function PropertyDetails() {
           <button onClick={() => setShowGallery(false)} className="absolute top-6 right-6 text-white p-3 hover:bg-white/10 rounded-full transition z-10">
             <X className="w-6 h-6" />
           </button>
-          <button onClick={() => setCurrentImage((currentImage - 1 + photos.length) % photos.length)} className="absolute left-6 text-white p-3 hover:bg-white/10 rounded-full transition z-10">
+          <button onClick={() => setCurrentImage((currentImage - 1 + overlayPhotos.length) % overlayPhotos.length)} className="absolute left-6 text-white p-3 hover:bg-white/10 rounded-full transition z-10">
             <ChevronLeft className="w-8 h-8" />
           </button>
-          <img src={photos[currentImage]} alt="Gallery" className="max-w-5xl max-h-[90vh] object-contain" />
-          <button onClick={() => setCurrentImage((currentImage + 1) % photos.length)} className="absolute right-6 text-white p-3 hover:bg-white/10 rounded-full transition z-10">
+          <img src={overlayPhotos[currentImage]} alt="Gallery" className="max-w-5xl max-h-[90vh] object-contain" />
+          <button onClick={() => setCurrentImage((currentImage + 1) % overlayPhotos.length)} className="absolute right-6 text-white p-3 hover:bg-white/10 rounded-full transition z-10">
             <ChevronRight className="w-8 h-8" />
           </button>
           <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white text-sm">
-            {currentImage + 1} / {photos.length}
+            {currentImage + 1} / {overlayPhotos.length}
           </div>
         </div>
       )}
@@ -205,6 +272,11 @@ export default function PropertyDetails() {
                   <h1 className="text-heading text-4xl md:text-5xl font-bold text-[var(--color-ink)] mb-3">
                     {p.title || p.name}
                   </h1>
+                  {p.isSample && (
+                    <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-cloud)] text-xs font-semibold text-[var(--color-slate)] mb-2">
+                      Demo listing
+                    </span>
+                  )}
                   <div className="flex items-center gap-4 text-[var(--color-slate)]">
                     <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5" />
@@ -212,15 +284,33 @@ export default function PropertyDetails() {
                         {[p.city, p.state, p.country].filter(Boolean).join(', ')}
                       </span>
                     </div>
-                    <div className="rating">
+                    <div className="rating flex items-center gap-2">
                       <Star className="w-5 h-5 fill-current rating-star" />
-                      <span>4.9</span>
-                      <span className="text-[var(--color-mist)]">(128 reviews)</span>
+                      {ratingCount > 0 ? (
+                        <>
+                          <span>{ratingLabel}</span>
+                          <span className="text-[var(--color-mist)]">
+                            ({ratingCount} review{ratingCount === 1 ? '' : 's'})
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-[var(--color-mist)]">No reviews yet</span>
+                      )}
                     </div>
+                    {p.isSample && (
+                      <p className="text-xs text-[var(--color-slate)] mt-2">
+                        Demo catalog listing shown for illustrative purposes.
+                      </p>
+                    )}
                   </div>
                 </div>
                 
-                <button onClick={toggleFavorite} className={`wishlist-heart ${isFav ? 'active' : ''}`}>
+                <button
+                  onClick={toggleFavorite}
+                  className={`wishlist-heart ${isFav ? 'active' : ''}`}
+                  aria-label={isFav ? 'Remove from favourites' : 'Add to favourites'}
+                  aria-pressed={isFav}
+                >
                   <Heart className={`w-6 h-6 ${isFav ? 'fill-current' : ''}`} />
                 </button>
               </div>
@@ -266,32 +356,57 @@ export default function PropertyDetails() {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <Star className="w-8 h-8 fill-current text-[var(--color-warning)]" />
-                <h2 className="text-heading text-2xl font-bold text-[var(--color-ink)]">4.9 · 128 reviews</h2>
+                {ratingCount > 0 ? (
+                  <h2 className="text-heading text-2xl font-bold text-[var(--color-ink)]">
+                    {ratingLabel} · {ratingCount} review{ratingCount === 1 ? '' : 's'}
+                  </h2>
+                ) : (
+                  <h2 className="text-heading text-2xl font-bold text-[var(--color-ink)]">No reviews yet</h2>
+                )}
               </div>
-              
-              <div className="space-y-6">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="border-b border-[var(--color-cloud)] pb-6 last:border-0">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-dark)] flex items-center justify-center text-white font-bold">
-                        JD
+
+              {reviewsLoading ? (
+                <div className="space-y-4">
+                  {[1, 2].map((s) => (
+                    <div key={s} className="skeleton h-24 rounded-2xl"></div>
+                  ))}
+                </div>
+              ) : selectedReviews.length === 0 ? (
+                <div className="p-6 border border-dashed border-[var(--color-cloud)] rounded-2xl text-[var(--color-slate)]">
+                  Be the first guest to share feedback after your stay.
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {selectedReviews.map((review) => (
+                    <div key={review._id} className="border-b border-[var(--color-cloud)] pb-6 last:border-0">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-dark)] flex items-center justify-center text-white font-bold">
+                          {review.travelerName?.slice(0, 2)?.toUpperCase() || 'TR'}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-[var(--color-ink)]">{review.travelerName || 'Traveler'}</div>
+                          <div className="text-sm text-[var(--color-slate)]">
+                            {new Date(review.createdAt || review.publishedAt).toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-semibold text-[var(--color-ink)]">John Doe</div>
-                        <div className="text-sm text-[var(--color-slate)]">October 2025</div>
+                      <div className="rating mb-2 flex gap-1">
+                        {[...Array(5)].map((_, starIndex) => (
+                          <Star
+                            key={starIndex}
+                            className={`w-4 h-4 ${starIndex < (review.rating || 0) ? 'fill-current rating-star' : 'text-[var(--color-cloud)]'}`}
+                          />
+                        ))}
                       </div>
+                      <p className="text-[var(--color-charcoal)]">
+                        {review.comment?.trim().length
+                          ? review.comment
+                          : 'This guest rated their stay but did not leave a written comment.'}
+                      </p>
                     </div>
-                    <div className="rating mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-current rating-star inline" />
-                      ))}
-                    </div>
-                    <p className="text-[var(--color-charcoal)]">
-                      Amazing property with stunning views! The host was incredibly responsive and helpful.
-                    </p>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -302,10 +417,18 @@ export default function PropertyDetails() {
                   <span className="text-4xl font-bold text-[var(--color-ink)]">${pricePerNight}</span>
                   <span className="text-[var(--color-slate)]">/ night</span>
                 </div>
-                <div className="rating">
+                <div className="rating flex items-center gap-2">
                   <Star className="w-4 h-4 fill-current rating-star" />
-                  <span>4.9</span>
-                  <span className="text-[var(--color-mist)]">(128 reviews)</span>
+                  {ratingCount > 0 ? (
+                    <>
+                      <span>{ratingLabel}</span>
+                      <span className="text-[var(--color-mist)]">
+                        ({ratingCount} review{ratingCount === 1 ? '' : 's'})
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-[var(--color-mist)]">No reviews yet</span>
+                  )}
                 </div>
               </div>
 
@@ -322,6 +445,7 @@ export default function PropertyDetails() {
                     min={minDate} 
                     className="input" 
                     required
+                    disabled={isOwner}
                   />
                 </div>
 
@@ -337,6 +461,7 @@ export default function PropertyDetails() {
                     min={start || minDate} 
                     className="input" 
                     required
+                    disabled={isOwner}
                   />
                 </div>
 
@@ -345,7 +470,7 @@ export default function PropertyDetails() {
                     <Users className="w-4 h-4" />
                     Guests
                   </label>
-                  <select value={guests} onChange={e => setGuests(Number(e.target.value))} className="input">
+                  <select value={guests} onChange={e => setGuests(Number(e.target.value))} className="input" disabled={isOwner}>
                     {[...Array(p.max_guests || p.maxGuests || 8)].map((_, i) => (
                       <option key={i + 1} value={i + 1}>{i + 1} guest{i > 0 ? 's' : ''}</option>
                     ))}
@@ -368,6 +493,12 @@ export default function PropertyDetails() {
                 </div>
               </div>
 
+              {isOwner ? (
+                <p className="text-sm text-center text-[var(--color-slate)] font-medium">
+                  Hosts can’t book their own listings.
+                </p>
+              ) : (
+                <>
               <button 
                 onClick={book} 
                 disabled={isBooking}
@@ -379,11 +510,13 @@ export default function PropertyDetails() {
                     Processing...
                   </>
                 ) : (
-                  'Reserve'
+                      'Book'
                 )}
               </button>
 
               <p className="text-xs text-center text-[var(--color-slate)]">You won't be charged yet</p>
+                </>
+              )}
             </div>
           </div>
         </div>

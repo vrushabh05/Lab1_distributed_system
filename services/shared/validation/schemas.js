@@ -94,7 +94,7 @@ export const propertySchemas = {
     type: Joi.string()
       .valid('House', 'Apartment', 'Villa', 'Condo', 'Cabin', 'Other')
       .required(),
-    description: Joi.string().min(20).max(2000).required(),
+    description: Joi.string().min(3).max(2000).required(),
     address: Joi.string().max(200).optional(),
     city: Joi.string().max(100).required(),
     state: Joi.string().max(100).optional(),
@@ -102,7 +102,7 @@ export const propertySchemas = {
     pricePerNight: Joi.number().min(1).max(100000).required(),
     bedrooms: Joi.number().integer().min(0).max(50).default(1),
     bathrooms: Joi.number().integer().min(0).max(50).default(1),
-    maxGuests: Joi.number().integer().min(1).max(50).required(),
+    maxGuests: Joi.number().integer().min(1).max(50).optional().default(1),
     amenities: Joi.array().items(Joi.string().max(100)).max(50).optional(),
     photos: Joi.array().items(Joi.string().uri()).max(20).optional()
   }),
@@ -123,6 +123,18 @@ export const propertySchemas = {
     maxGuests: Joi.number().integer().min(1).max(50).optional(),
     amenities: Joi.array().items(Joi.string().max(100)).max(50).optional(),
     photos: Joi.array().items(Joi.string().uri()).max(20).optional()
+  })
+};
+
+// ============================================================================
+// REVIEW SCHEMAS
+// ============================================================================
+
+export const reviewSchemas = {
+  create: Joi.object({
+    rating: Joi.number().integer().min(1).max(5).required(),
+    comment: Joi.string().min(3).max(2000).allow(''),
+    bookingId: Joi.string().required()
   })
 };
 

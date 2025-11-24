@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchFavorites, removeFavorite } from '../store/slices/favoritesSlice'
 import { Heart, MapPin, Star } from 'lucide-react'
+import { getPrimaryPhoto } from '../utils/propertyImages'
 
 export default function Favorites() {
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ export default function Favorites() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-[var(--color-pearl)] py-12 px-4 flex items-center justify-center">
-        <p className="text-lg text-[var(--color-slate)]">Please sign in to view your favorites.</p>
+        <p className="text-lg text-[var(--color-slate)]">Please sign in to view your favourites.</p>
       </div>
     )
   }
@@ -53,12 +54,12 @@ export default function Favorites() {
           <div className="flex items-center gap-4 mb-3">
             <Heart className="w-10 h-10 text-[var(--color-action)] fill-current" />
             <h1 className="text-heading text-5xl font-bold text-[var(--color-ink)]">
-              Wishlists
+              Favourites
             </h1>
           </div>
           <p className="text-lg text-[var(--color-slate)]">
             {items.length === 0 
-              ? 'Start saving your favorite places to stay' 
+              ? 'Start saving your favourite places to stay' 
               : `${items.length} saved ${items.length === 1 ? 'stay' : 'stays'}`
             }
           </p>
@@ -76,10 +77,10 @@ export default function Favorites() {
               <Heart className="w-12 h-12 text-white" />
             </div>
             <h2 className="text-heading text-3xl font-bold text-[var(--color-ink)] mb-3">
-              Your wishlist is empty
+              Your favourites list is empty
             </h2>
             <p className="text-lg text-[var(--color-slate)] mb-8">
-              Start exploring and save your favorite stays for later
+              Start exploring and save your favourite stays for later
             </p>
             <Link to="/search" className="btn btn-primary btn-lg inline-flex">
               Explore stays
@@ -87,7 +88,7 @@ export default function Favorites() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map(p => {
+            {(items || []).map(p => {
               const propertyData = p.property || p
               const propertyId = propertyData?._id || propertyData?.id || p.propertyId
               const cardKey = propertyId || p._id || p.favoriteId
@@ -96,7 +97,7 @@ export default function Favorites() {
                 .filter(Boolean)
                 .join(', ')
               const nightlyRate = propertyData?.pricePerNight || propertyData?.price_per_night || p.pricePerNight || p.price_per_night || 0
-              const imageSrc = propertyData?.photos?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80'
+              const imageSrc = getPrimaryPhoto(propertyData)
 
               return (
               <div key={cardKey} className="listing-card group">
@@ -110,7 +111,8 @@ export default function Favorites() {
                   <button
                     onClick={() => propertyId && remove(propertyId)}
                     className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg z-10"
-                    title="Remove from wishlist"
+                    title="Remove from favourites"
+                    aria-label={propertyId ? `Unfavourite ${title}` : 'Unfavourite stay'}
                   >
                     <Heart className="w-5 h-5 text-[var(--color-action)] fill-current" />
                   </button>

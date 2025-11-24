@@ -2,16 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { createProperty } from '../store/slices/propertiesSlice'
-import axios from 'axios'
+import { propertyApi } from '../api'
 import {
   Home, MapPin, DollarSign, Users, BedDouble, Bath,
   Wifi, Car, Utensils, Wind, Tv, Coffee, Camera, X, CheckCircle, AlertCircle,
   Loader2, Image as ImageIcon
 } from 'lucide-react'
 
-const PROPERTY_API_URL = import.meta.env.VITE_PROPERTY_API_URL || import.meta.env.VITE_PROPERTY_API || 'http://localhost:7003'
-
-const PROPERTY_TYPES = ['Apartment', 'House', 'Condo', 'Villa', 'Studio', 'Townhouse', 'Cabin', 'Loft']
+// Match backend validation schema exactly (from shared/validation/schemas.js)
+const PROPERTY_TYPES = ['Apartment', 'House', 'Condo', 'Villa', 'Cabin', 'Other']
 
 const AMENITIES_LIST = [
   { id: 'wifi', label: 'WiFi', icon: Wifi },
@@ -96,27 +95,68 @@ export default function NewProperty() {
     setErr(null)
     setMsg(null)
 
-    // Minimal Validation
-    if (!form.title.trim()) {
-      setErr('Please provide a property title.')
+    // CRITICAL FIX: Enhanced validation matching backend requirements
+    if (!form.title.trim() || form.title.trim().length < 5) {
+      setErr('Property title must be at least 5 characters long.')
       window.scrollTo(0, 0)
       return
     }
 
-    // Smart Defaults
+    if (!form.city.trim()) {
+      setErr('City is required.')
+      window.scrollTo(0, 0)
+      return
+    }
+
+    if (!form.country.trim()) {
+      setErr('Country is required.')
+      window.scrollTo(0, 0)
+      return
+    }
+
+    const priceNum = Number(form.pricePerNight)
+    if (!priceNum || priceNum < 1) {
+      setErr('Price per night must be at least $1.')
+      window.scrollTo(0, 0)
+      return
+    }
+
+    const guestsNum = Number(form.maxGuests)
+    if (!guestsNum || guestsNum < 1) {
+      setErr('Maximum guests must be at least 1.')
+      window.scrollTo(0, 0)
+      return
+    }
+
+    // Ensure description meets minimum length (20 characters)
+    let finalDescription = form.description.trim()
+    if (finalDescription.length < 20) {
+      finalDescription = finalDescription + ' This is a wonderful place to stay with great amenities and comfortable living space perfect for your next trip.'
+    }
+
+    // Build payload with validated data
     const payload = {
-      ...form,
-      pricePerNight: Number(form.pricePerNight) || 50,
-      bedrooms: Number(form.bedrooms) || 1,
-      bathrooms: Number(form.bathrooms) || 1,
-      maxGuests: Number(form.maxGuests) || 2,
-      city: form.city || 'Unknown City',
-      country: form.country || 'USA',
-      description: form.description.length < 20
-        ? (form.description + ' - A wonderful place to stay with great amenities and comfortable living space.')
-        : form.description,
+      title: form.title.trim(),
+      type: form.type,
+      description: finalDescription,
+      address: form.address.trim(),
+      city: form.city.trim(),
+      state: form.state.trim(),
+      country: form.country.trim(),
+      pricePerNight: priceNum,
+      bedrooms: Math.max(0, Number(form.bedrooms) || 1),
+      bathrooms: Math.max(0, Number(form.bathrooms) || 1),
+      maxGuests: guestsNum,
+      amenities: form.amenities,
       photos: []
     }
+
+    // Remove optional string fields if empty to satisfy backend schema
+    ;['address', 'state'].forEach((field) => {
+      if (!payload[field]) {
+        delete payload[field]
+      }
+    })
 
     try {
       // 1. Create Property
@@ -132,6 +172,7 @@ export default function NewProperty() {
 
       const propertyId = result.payload.id || result.payload._id
 
+      const createdMessage = `Property created with id ${propertyId}.`
       // 2. Upload Images (Graceful Handling)
       if (imageFiles.length > 0) {
         setUploading(true)
@@ -140,15 +181,12 @@ export default function NewProperty() {
         for (const file of imageFiles) {
           try {
             const formData = new FormData()
-            formData.append('file', file)
+            // IMPORTANT: propertyId must come BEFORE file so multer's storage
+            // destination can see it when handling the file part.
             formData.append('propertyId', propertyId)
+            formData.append('file', file)
 
-            await axios.post(`${PROPERTY_API_URL}/api/properties/upload-image`, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`
-              }
-            })
+            await propertyApi.post('/api/properties/upload-image', formData)
             uploadCount++
           } catch (uploadErr) {
             console.error('Failed to upload image:', uploadErr)
@@ -158,12 +196,12 @@ export default function NewProperty() {
         setUploading(false)
 
         if (uploadCount < imageFiles.length) {
-          setMsg(`Property created, but some images failed to upload (${uploadCount}/${imageFiles.length} success).`)
+          setMsg(`${createdMessage} Some images failed to upload (${uploadCount}/${imageFiles.length} success).`)
         } else {
-          setMsg('Property listed successfully with all images!')
+          setMsg(`${createdMessage} All images uploaded successfully!`)
         }
       } else {
-        setMsg('Property listed successfully!')
+        setMsg(`${createdMessage} Listing published!`)
       }
 
       // Reset form

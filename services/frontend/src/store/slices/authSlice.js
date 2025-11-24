@@ -1,7 +1,108 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { api } from '../../api.js';
 
 const API_URL = import.meta.env.VITE_TRAVELER_API_URL || 'http://localhost:3001';
+
+// ============================================================================
+// TOKEN VALIDATION HELPER (Prevents "Session Zombie" state)
+// ============================================================================
+
+/**
+ * Validates JWT token expiry without external library
+ * @param {string} token - JWT token to validate
+ * @returns {boolean} - true if token is valid and not expired
+ */
+const isTokenValid = (token) => {
+  if (!token || typeof token !== 'string') {
+    return false;
+  }
+
+  try {
+    // JWT format: header.payload.signature
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      console.warn('⚠️ Invalid JWT format (not 3 parts)');
+      return false;
+    }
+
+    // Decode payload (base64url -> JSON)
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    
+    // Check expiry (exp is in seconds, Date.now() is in milliseconds)
+    if (!payload.exp) {
+      console.warn('⚠️ JWT missing exp field');
+      return false;
+    }
+
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+    const isExpired = payload.exp < now;
+
+    if (isExpired) {
+      console.warn('⚠️ JWT token expired', {
+        expired: new Date(payload.exp * 1000).toISOString(),
+        now: new Date(now * 1000).toISOString()
+      });
+      return false;
+    }
+
+    // Token is valid and not expired
+    return true;
+  } catch (error) {
+    console.error('❌ Error validating JWT token:', error);
+    return false;
+  }
+};
+
+/**
+ * Gets a valid token from localStorage, or null if invalid/expired
+ * SIDE EFFECT: Clears localStorage if token is invalid
+ */
+const getValidToken = () => {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+    return null;
+  }
+
+  // CRITICAL FIX: Validate token before trusting it
+  if (!isTokenValid(token)) {
+    console.warn('🔴 Removing expired/invalid token from localStorage');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    return null;
+  }
+
+  return token;
+};
+
+/**
+ * Normalizes backend error payloads into human-readable strings so React components
+ * can render them safely instead of crashing on complex objects.
+ */
+const formatApiError = (error, fallback = 'Request failed') => {
+  if (!error) return fallback;
+  if (typeof error === 'string') return error;
+
+  const baseMessage = typeof error.message === 'string' ? error.message : fallback;
+  if (Array.isArray(error.details) && error.details.length) {
+    const detailMessages = error.details
+      .map((detail) => detail?.message)
+      .filter(Boolean)
+      .join('; ');
+    return detailMessages ? `${baseMessage}: ${detailMessages}` : baseMessage;
+  }
+
+  if (typeof error.code === 'string' && error.code !== 'VALIDATION_ERROR') {
+    return `${error.code}: ${baseMessage}`;
+  }
+
+  try {
+    return JSON.stringify(error);
+  } catch {
+    return baseMessage;
+  }
+};
 
 // Async thunks
 export const signup = createAsyncThunk(
@@ -20,7 +121,9 @@ export const signup = createAsyncThunk(
       
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || 'Signup failed');
+      return rejectWithValue(
+        formatApiError(error.response?.data?.error, 'Signup failed')
+      );
     }
   }
 );
@@ -39,7 +142,9 @@ export const login = createAsyncThunk(
       
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || 'Login failed');
+      return rejectWithValue(
+        formatApiError(error.response?.data?.error, 'Login failed')
+      );
     }
   }
 );
@@ -49,14 +154,13 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        return rejectWithValue('No token found');
+      const headers = {};
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
       }
       
       const response = await axios.get(`${API_URL}/api/auth/me`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       });
       
       return response.data;
@@ -70,22 +174,12 @@ export const fetchCurrentUser = createAsyncThunk(
 // Update user profile
 export const updateProfile = createAsyncThunk(
   'auth/updateProfile',
-  async (profileData, { rejectWithValue, getState }) => {
+  async (profileData, { rejectWithValue }) => {
     try {
-      const { auth } = getState();
-      const response = await axios.put(
-        `${API_URL}/api/users/me`,
-        profileData,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      );
-      
+      const response = await api.put('/api/users/me', profileData);
       return response.data.profile;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || 'Failed to update profile');
+      return rejectWithValue(formatApiError(error.response?.data?.error, 'Failed to update profile'));
     }
   }
 );
@@ -93,15 +187,13 @@ export const updateProfile = createAsyncThunk(
 // Upload avatar
 export const uploadAvatar = createAsyncThunk(
   'auth/uploadAvatar',
-  async (formData, { rejectWithValue, getState }) => {
+  async (formData, { rejectWithValue }) => {
     try {
-      const { auth } = getState();
-      const response = await axios.post(
-        `${API_URL}/api/users/me/avatar`,
+      const response = await api.post(
+        '/api/users/me/avatar',
         formData,
         {
           headers: {
-            Authorization: `Bearer ${auth.token}`,
             'Content-Type': 'multipart/form-data',
           },
         }
@@ -109,26 +201,48 @@ export const uploadAvatar = createAsyncThunk(
       
       return response.data.avatar_url;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error || 'Failed to upload avatar');
+      return rejectWithValue(formatApiError(error.response?.data?.error, 'Failed to upload avatar'));
     }
   }
 );
+
+export const logoutUser = createAsyncThunk(
+  'auth/logoutUser',
+  async (_, { getState }) => {
+    const { auth } = getState();
+    const baseUrl = auth.user?.role === 'OWNER'
+      ? (import.meta.env.VITE_OWNER_API_URL || 'http://localhost:3002')
+      : API_URL;
+    try {
+      await axios.post(`${baseUrl}/api/auth/logout`, {}, { withCredentials: true });
+    } catch (error) {
+      console.warn('Logout request failed', error?.message);
+    }
+    return true;
+  }
+);
+
+const clearAuthState = (state) => {
+  state.user = null;
+  state.token = null;
+  state.isAuthenticated = false;
+  state.error = null;
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+};
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null,
-    token: localStorage.getItem('token') || null,
+    token: getValidToken(), // CRITICAL FIX: Validate token on app initialization
     loading: false,
     error: null,
-    isAuthenticated: false,
+    isAuthenticated: false, // Will be set to true when user is fetched
   },
   reducers: {
     logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem('token');
+      clearAuthState(state);
     },
     clearError: (state) => {
       state.error = null;
@@ -210,10 +324,19 @@ const authSlice = createSlice({
       .addCase(uploadAvatar.fulfilled, (state, action) => {
         if (state.user) {
           state.user.avatar_url = action.payload;
+          state.user.avatar = action.payload;
         }
       })
       .addCase(uploadAvatar.rejected, (state, action) => {
         state.error = action.payload;
+      });
+
+    builder
+      .addCase(logoutUser.fulfilled, (state) => {
+        clearAuthState(state);
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        clearAuthState(state);
       });
   },
 });

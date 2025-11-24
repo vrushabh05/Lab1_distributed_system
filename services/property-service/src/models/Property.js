@@ -1,4 +1,4 @@
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 
 const propertySchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -15,6 +15,10 @@ const propertySchema = new mongoose.Schema({
   amenities: [String],
   photos: [String],
   ownerId: { type: String, required: true },
+  isSample: { type: Boolean, default: false },
+  ratingCount: { type: Number, default: 0 },
+  ratingTotal: { type: Number, default: 0 },
+  ratingAverage: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });

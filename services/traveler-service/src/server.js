@@ -9,8 +9,9 @@ import {
   createDatabaseManager,
   createKafkaManager,
   createHealthChecker,
+  createSessionMiddleware,
   ApplicationError
-} from '../shared/core/index.js';
+} from '../../shared/core/index.js';
 import path from 'path';
 import authRoutes from './routes/auth.js';
 import favoritesRoutes from './routes/favorites.js';
@@ -34,6 +35,7 @@ const health = createHealthChecker(SERVICE_NAME, logger);
 export { kafka };
 
 const app = express();
+app.set('trust proxy', 1);
 
 // ============================================================================
 // MIDDLEWARE
@@ -54,6 +56,8 @@ app.use(helmet({
     includeSubDomains: true,
     preload: true
   },
+  // Allow avatars to be loaded cross-origin by the frontend dev server
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 app.use(compression());
 
@@ -81,6 +85,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(createSessionMiddleware(config, logger));
+app.use((req, _res, next) => {
+  if (req.session?.user && !req.user) {
+    req.user = req.session.user;
+  }
+  next();
+});
 app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
@@ -235,30 +246,43 @@ let server;
 
 async function startup() {
   try {
+    // CRITICAL FIX: Strict initialization order to prevent race conditions
     logger.info(`Starting ${SERVICE_NAME}...`);
 
-    // Connect to MongoDB
+    // Step 1: Connect to MongoDB (MUST complete before any DB operations)
+    logger.info('Step 1/4: Connecting to MongoDB...');
     await db.connect();
+    logger.info('✅ MongoDB connected - ready for database operations');
 
-    // Initialize Kafka
+    // Step 2: Initialize Kafka infrastructure
+    logger.info('Step 2/4: Initializing Kafka...');
     kafka.initialize();
     await kafka.createProducer();
-    await setupKafkaConsumer();
+    logger.info('✅ Kafka producer initialized - ready to send messages');
 
-    // Register health checks
+    // Step 3: Setup Kafka consumer (will start processing messages)
+    // MongoDB MUST be ready before consumer starts processing
+    logger.info('Step 3/4: Setting up Kafka consumer...');
+    await setupKafkaConsumer();
+    logger.info('✅ Kafka consumer ready - MongoDB connection verified before message processing');
+
+    // Step 4: Register health checks
     health.registerCheck('database', () => db.healthCheck());
     health.registerCheck('kafka', () => kafka.healthCheck());
 
-    // Start HTTP server
+    // Step 5: Start HTTP server (only after all dependencies ready)
+    logger.info('Step 4/4: Starting HTTP server...');
     server = app.listen(config.PORT, () => {
       logger.info(`${SERVICE_NAME} listening on port ${config.PORT}`, {
         environment: config.NODE_ENV,
         kafkaEnabled: config.KAFKA_ENABLED
       });
+      logger.info('✅ All systems operational - service ready to process requests');
     });
 
   } catch (error) {
     logger.error('Startup failed', error);
+    console.error(`❌ FATAL: ${SERVICE_NAME} startup failed:`, error.message);
     process.exit(1);
   }
 }

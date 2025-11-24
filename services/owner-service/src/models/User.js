@@ -1,4 +1,4 @@
-import { mongoose } from '../../shared/core/database.js';
+import { mongoose } from '../../../shared/core/database.js';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },

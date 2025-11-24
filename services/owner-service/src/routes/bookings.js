@@ -1,48 +1,30 @@
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import Booking from '../models/Booking.js';
 import { kafka } from '../server.js';
+import { createAuthMiddleware } from '../../../shared/core/index.js';
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is required for owner-service bookings routes');
-}
-
-// Middleware to verify JWT
-const authMiddleware = (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return res.status(401).json({ error: 'No token provided' });
-    }
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token' });
-  }
-};
+const requireOwner = createAuthMiddleware({ roles: ['OWNER'] });
 
 // Get bookings for owner's properties
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/', requireOwner, async (req, res) => {
   try {
     if (req.user.role !== 'OWNER') {
       return res.status(403).json({ error: 'Only owners can view bookings' });
     }
 
+    const ownerObjectId = mongoose.Types.ObjectId.isValid(req.user.id)
+      ? new mongoose.Types.ObjectId(req.user.id)
+      : req.user.id;
+
     const bookings = await Booking.aggregate([
-      { $match: { ownerId: req.user.id } },
+      { $match: { ownerId: ownerObjectId } },
       { $sort: { createdAt: -1 } },
-      {
-        $addFields: {
-          travelerObjectId: { $toObjectId: "$travelerId" }
-        }
-      },
       {
         $lookup: {
           from: "users",
-          localField: "travelerObjectId",
+          localField: "travelerId",
           foreignField: "_id",
           as: "traveler"
         }
@@ -68,10 +50,13 @@ router.get('/', authMiddleware, async (req, res) => {
           createdAt: 1,
           updatedAt: 1,
           traveler: {
-            name: 1,
-            email: 1,
-            phone: 1,
-            avatar_url: 1
+            name: '$traveler.name',
+            email: '$traveler.email',
+            phone: '$traveler.phone',
+            avatar: '$traveler.avatar',
+            avatar_url: {
+              $ifNull: ['$traveler.avatar', '$traveler.avatar_url']
+            }
           }
         }
       }
@@ -84,16 +69,23 @@ router.get('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Accept booking - Publish status update to Kafka
-router.put('/:id/accept', authMiddleware, async (req, res) => {
+// Accept booking - Publish status update to Kafka with compensating transaction
+router.put('/:id/accept', requireOwner, async (req, res) => {
   try {
     if (req.user.role !== 'OWNER') {
       return res.status(403).json({ error: 'Only owners can accept bookings' });
     }
 
+    const bookingId = mongoose.Types.ObjectId.isValid(req.params.id)
+      ? new mongoose.Types.ObjectId(req.params.id)
+      : req.params.id;
+    const ownerObjectId = mongoose.Types.ObjectId.isValid(req.user.id)
+      ? new mongoose.Types.ObjectId(req.user.id)
+      : req.user.id;
+
     const booking = await Booking.findOne({
-      _id: req.params.id,
-      ownerId: req.user.id,
+      _id: bookingId,
+      ownerId: ownerObjectId,
     });
 
     if (!booking) {
@@ -104,23 +96,40 @@ router.put('/:id/accept', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Can only accept pending bookings' });
     }
 
+    // Store original status for rollback
+    const originalStatus = booking.status;
+    
     booking.status = 'ACCEPTED';
     booking.updatedAt = new Date();
     await booking.save();
 
-    // Publish status update to Kafka using shared KafkaManager
-    await kafka.sendMessage(
-      'booking-updates',
-      {
-        bookingId: booking._id,
-        status: 'ACCEPTED',
-        updatedBy: 'OWNER',
-        timestamp: new Date().toISOString(),
-      },
-      booking._id.toString()
-    );
+    // COMPENSATING TRANSACTION: Publish to Kafka with rollback on failure
+    try {
+      await kafka.sendMessage(
+        'booking-updates',
+        {
+          bookingId: booking._id,
+          status: 'ACCEPTED',
+          updatedBy: 'OWNER',
+          timestamp: new Date().toISOString(),
+        },
+        booking._id.toString()
+      );
+      console.log(`📤 Booking ACCEPTED published to Kafka: ${booking._id}`);
+    } catch (kafkaError) {
+      console.error(`❌ CRITICAL: Kafka publish failed for acceptance ${booking._id}`, kafkaError);
+      
+      // ROLLBACK: Restore original status
+      booking.status = originalStatus;
+      await booking.save();
+      console.log(`🔄 Compensating transaction: Rolled back acceptance for ${booking._id}`);
+      
+      return res.status(503).json({ 
+        error: 'Acceptance service temporarily unavailable. Please try again.',
+        code: 'KAFKA_UNAVAILABLE'
+      });
+    }
 
-    console.log(`📤 Booking ACCEPTED published to Kafka: ${booking._id}`);
     res.json({ message: 'Booking accepted', booking });
   } catch (error) {
     console.error('Accept booking error:', error);
@@ -128,16 +137,23 @@ router.put('/:id/accept', authMiddleware, async (req, res) => {
   }
 });
 
-// Reject/Cancel booking - Publish status update to Kafka
-router.put('/:id/cancel', authMiddleware, async (req, res) => {
+// Reject/Cancel booking - Publish status update to Kafka with compensating transaction
+router.put('/:id/cancel', requireOwner, async (req, res) => {
   try {
     if (req.user.role !== 'OWNER') {
       return res.status(403).json({ error: 'Only owners can cancel bookings' });
     }
 
+    const bookingId = mongoose.Types.ObjectId.isValid(req.params.id)
+      ? new mongoose.Types.ObjectId(req.params.id)
+      : req.params.id;
+    const ownerObjectId = mongoose.Types.ObjectId.isValid(req.user.id)
+      ? new mongoose.Types.ObjectId(req.user.id)
+      : req.user.id;
+
     const booking = await Booking.findOne({
-      _id: req.params.id,
-      ownerId: req.user.id,
+      _id: bookingId,
+      ownerId: ownerObjectId,
     });
 
     if (!booking) {
@@ -148,23 +164,40 @@ router.put('/:id/cancel', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Cannot cancel completed bookings' });
     }
 
+    // Store original status for rollback
+    const originalStatus = booking.status;
+    
     booking.status = 'CANCELLED';
     booking.updatedAt = new Date();
     await booking.save();
 
-    // Publish status update to Kafka using shared KafkaManager
-    await kafka.sendMessage(
-      'booking-updates',
-      {
-        bookingId: booking._id,
-        status: 'CANCELLED',
-        updatedBy: 'OWNER',
-        timestamp: new Date().toISOString(),
-      },
-      booking._id.toString()
-    );
+    // COMPENSATING TRANSACTION: Publish to Kafka with rollback on failure
+    try {
+      await kafka.sendMessage(
+        'booking-updates',
+        {
+          bookingId: booking._id,
+          status: 'CANCELLED',
+          updatedBy: 'OWNER',
+          timestamp: new Date().toISOString(),
+        },
+        booking._id.toString()
+      );
+      console.log(`📤 Booking CANCELLED published to Kafka: ${booking._id}`);
+    } catch (kafkaError) {
+      console.error(`❌ CRITICAL: Kafka publish failed for cancellation ${booking._id}`, kafkaError);
+      
+      // ROLLBACK: Restore original status
+      booking.status = originalStatus;
+      await booking.save();
+      console.log(`🔄 Compensating transaction: Rolled back cancellation for ${booking._id}`);
+      
+      return res.status(503).json({ 
+        error: 'Cancellation service temporarily unavailable. Please try again.',
+        code: 'KAFKA_UNAVAILABLE'
+      });
+    }
 
-    console.log(`📤 Booking CANCELLED published to Kafka: ${booking._id}`);
     res.json({ message: 'Booking cancelled', booking });
   } catch (error) {
     console.error('Cancel booking error:', error);

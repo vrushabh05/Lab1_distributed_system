@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateProperty } from '../store/slices/propertiesSlice'
+import { propertyApi } from '../api'
+import { resolvePhotoUrl } from '../utils/propertyImages'
 
 export default function EditPropertyModal({ property, onClose }) {
     const dispatch = useDispatch()
+    const propertyId = property?._id || property?.id
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -18,6 +21,10 @@ export default function EditPropertyModal({ property, onClose }) {
         amenities: [],
         type: 'Apartment'
     })
+    const [photos, setPhotos] = useState(property?.photos || [])
+    const [photoError, setPhotoError] = useState(null)
+    const [photoLoading, setPhotoLoading] = useState(false)
+    const [deletingPhoto, setDeletingPhoto] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
@@ -37,6 +44,7 @@ export default function EditPropertyModal({ property, onClose }) {
                 amenities: property.amenities || [],
                 type: property.type || 'Apartment'
             })
+            setPhotos(Array.isArray(property.photos) ? property.photos : [])
         }
     }, [property])
 
@@ -51,6 +59,66 @@ export default function EditPropertyModal({ property, onClose }) {
             setFormData(prev => ({ ...prev, amenities: [...prev.amenities, amenity] }))
         } else {
             setFormData(prev => ({ ...prev, amenities: prev.amenities.filter(a => a !== amenity) }))
+        }
+    }
+
+    const handlePhotoUpload = async (event) => {
+        if (!propertyId) return
+        const files = Array.from(event.target.files || [])
+        if (!files.length) return
+        setPhotoError(null)
+        setPhotoLoading(true)
+        for (const file of files) {
+            const uploadData = new FormData()
+            // IMPORTANT: propertyId must come BEFORE file so multer's storage
+            // destination can see it when handling the file part.
+            uploadData.append('propertyId', propertyId)
+            uploadData.append('file', file)
+            try {
+                const { data } = await propertyApi.post('/api/properties/upload-image', uploadData)
+                if (data?.photo) {
+                    setPhotos(prev => [...prev, data.photo])
+                }
+            } catch (uploadErr) {
+                const rawError = uploadErr.response?.data?.error
+                let message
+                if (typeof rawError === 'string') {
+                    message = rawError
+                } else if (rawError && typeof rawError === 'object') {
+                    message = rawError.message || uploadErr.message || 'Failed to upload photo'
+                } else {
+                    message = uploadErr.message || 'Failed to upload photo'
+                }
+                setPhotoError(message)
+                break
+            }
+        }
+        setPhotoLoading(false)
+        event.target.value = ''
+    }
+
+    const handlePhotoDelete = async (photoPath) => {
+        if (!propertyId || !photoPath) return
+        setPhotoError(null)
+        setDeletingPhoto(photoPath)
+        try {
+            await propertyApi.delete(`/api/properties/${propertyId}/photos`, {
+                data: { photo: photoPath }
+            })
+            setPhotos(prev => prev.filter(p => p !== photoPath))
+        } catch (deleteErr) {
+            const rawError = deleteErr.response?.data?.error
+            let message
+            if (typeof rawError === 'string') {
+                message = rawError
+            } else if (rawError && typeof rawError === 'object') {
+                message = rawError.message || deleteErr.message || 'Failed to delete photo'
+            } else {
+                message = deleteErr.message || 'Failed to delete photo'
+            }
+            setPhotoError(message)
+        } finally {
+            setDeletingPhoto(null)
         }
     }
 
@@ -228,6 +296,60 @@ export default function EditPropertyModal({ property, onClose }) {
                                 ))}
                             </div>
                         </div>
+
+                        <div className="col-span-2 space-y-4">
+                            <div className="flex items-center justify-between">
+                                <label className="block text-sm font-medium text-gray-700">Photos</label>
+                                <span className="text-xs text-gray-500">{photos.length}/20</span>
+                            </div>
+
+                            {photoError && (
+                                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded">
+                                    {photoError}
+                                </div>
+                            )}
+
+                            {photos.length > 0 ? (
+                                <div className="grid grid-cols-2 gap-4">
+                                    {photos.map((photo) => (
+                                        <div key={photo} className="relative rounded-lg overflow-hidden border border-gray-200">
+                                            <img
+                                                src={resolvePhotoUrl(photo)}
+                                                alt="Property"
+                                                className="w-full h-32 object-cover"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => handlePhotoDelete(photo)}
+                                                disabled={Boolean(deletingPhoto)}
+                                                className="absolute top-2 right-2 bg-white/90 text-xs px-2 py-1 rounded shadow hover:bg-white transition"
+                                            >
+                                                {deletingPhoto === photo ? 'Removing…' : 'Remove'}
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-gray-500">No photos uploaded yet.</p>
+                            )}
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Add photos</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    onChange={handlePhotoUpload}
+                                    disabled={photoLoading || !propertyId}
+                                />
+                                {photoLoading && (
+                                    <p className="text-xs text-gray-500 mt-1">Uploading photos…</p>
+                                )}
+                                {!propertyId && (
+                                    <p className="text-xs text-red-500 mt-1">Save the property before uploading photos.</p>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
                     <div className="flex justify-end gap-4 pt-4 border-t border-gray-200">
@@ -242,7 +364,7 @@ export default function EditPropertyModal({ property, onClose }) {
                         <button
                             type="submit"
                             className="px-6 py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg hover:shadow-lg transition font-medium disabled:opacity-50"
-                            disabled={loading}
+                            disabled={loading || photoLoading || Boolean(deletingPhoto)}
                         >
                             {loading ? 'Saving...' : 'Save Changes'}
                         </button>

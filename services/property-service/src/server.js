@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
+import fs from 'fs';
+import path from 'path';
 import {
   config,
   createLogger,
@@ -10,7 +12,8 @@ import {
   createHealthChecker,
   CacheManager,
   ApplicationError,
-} from '../shared/core/index.js';
+  createSessionMiddleware,
+} from '../../shared/core/index.js';
 import propertyRoutes from './routes/properties.js';
 import searchRoutes from './routes/search.js';
 
@@ -27,13 +30,18 @@ const cache = new CacheManager(config, logger);
 const health = createHealthChecker(SERVICE_NAME, logger);
 
 const app = express();
+app.set('trust proxy', 1);
 
 // ============================================================================
 // MIDDLEWARE
 // ============================================================================
 
 // Security & compression
-app.use(helmet());
+// Allow cross-origin use of static assets like uploaded photos while
+// keeping other Helmet protections enabled.
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
 app.use(compression());
 
 // Stricter CORS configuration with origin validation
@@ -56,7 +64,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(createSessionMiddleware(config, logger));
+app.use((req, _res, next) => {
+  if (req.session?.user && !req.user) {
+    req.user = req.session.user;
+  }
+  next();
+});
 app.use(express.json({ limit: '10mb' }));
+
+const uploadsDir = path.join(process.cwd(), 'uploads');
+fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
 
 // Request logging
 app.use((req, res, next) => {

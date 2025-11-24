@@ -9,6 +9,15 @@ export { DatabaseManager, createDatabaseManager } from './database.js';
 export { KafkaManager, createKafkaManager } from './kafka.js';
 export { HealthChecker, createHealthChecker } from './health.js';
 export { CacheManager } from './cache.js';
+export { createSessionMiddleware, buildSessionCookieOptions } from './session.js';
+export {
+  resolveRequestUser,
+  createAuthMiddleware,
+  persistSessionUser,
+  destroySession,
+  issueAuthToken,
+  sanitizeUserProfile
+} from './auth.js';
 export {
   ApplicationError,
   ValidationError,

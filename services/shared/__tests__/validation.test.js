@@ -8,6 +8,7 @@ import {
   bookingSchemas, 
   propertySchemas, 
   searchSchemas,
+  reviewSchemas,
   validateBody,
   validateQuery,
   sanitizeInput,
@@ -321,17 +322,30 @@ describe('Property Validation Schemas', () => {
       expect(error).toBeDefined();
     });
 
-    test('should reject description shorter than 20 characters', () => {
+    test('should reject description shorter than 3 characters', () => {
       const { error } = propertySchemas.create.validate({
         title: 'Beautiful Home',
         type: 'House',
-        description: 'Short description',
+        description: 'Wi',
         city: 'New York',
         country: 'USA',
         pricePerNight: 100,
         maxGuests: 4
       });
       expect(error).toBeDefined();
+    });
+
+    test('should default maxGuests to 1 when omitted', () => {
+      const { error, value } = propertySchemas.create.validate({
+        title: 'Beautiful Home',
+        type: 'House',
+        description: 'Cozy space perfect for short stays',
+        city: 'New York',
+        country: 'USA',
+        pricePerNight: 100
+      });
+      expect(error).toBeUndefined();
+      expect(value.maxGuests).toBe(1);
     });
 
     test('should reject invalid property type', () => {
@@ -459,6 +473,35 @@ describe('Property Validation Schemas', () => {
       });
       expect(error).toBeDefined();
     });
+  });
+});
+
+describe('Review Validation Schemas', () => {
+  test('should reject rating outside 1-5', () => {
+    const { error } = reviewSchemas.create.validate({
+      rating: 6,
+      comment: 'Great stay',
+      bookingId: 'abc123'
+    });
+    expect(error).toBeDefined();
+  });
+
+  test('should require bookingId', () => {
+    const { error } = reviewSchemas.create.validate({
+      rating: 5,
+      comment: 'Wonderful stay'
+    });
+    expect(error).toBeDefined();
+  });
+
+  test('should accept valid review payload', () => {
+    const { error, value } = reviewSchemas.create.validate({
+      rating: 4,
+      comment: 'Relaxing visit with responsive host',
+      bookingId: 'booking123'
+    });
+    expect(error).toBeUndefined();
+    expect(value.rating).toBe(4);
   });
 });
 

@@ -3,7 +3,7 @@ import { MongoClient } from 'mongodb';
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://admin:adminpassword@localhost:7017/airbnb?authSource=admin';
 
-const sampleProperties = [
+const baseSampleProperties = [
     {
         title: 'Traditional Machiya House',
         type: 'House',
@@ -181,6 +181,11 @@ const sampleProperties = [
         updatedAt: new Date()
     }
 ];
+
+const sampleProperties = baseSampleProperties.map(prop => ({
+    ...prop,
+    isSample: true
+}));
 
 async function seedDatabase() {
     let client;
