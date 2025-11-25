@@ -21,133 +21,217 @@ A production-style **Airbnb distributed system** built for Lab 1 & Lab 2, showca
 
 ---
 
-## ✨ High-Level Features
+# Lab 2 - Microservices Architecture with Kafka & MongoDB
 
-### 👤 Two Main Personas
-- **Traveler**
-  - Search properties
-  - Make bookings
-  - Manage profile & favorites
-  - View past trips
-- **Owner (Host)**
-  - Post/manage property listings
-  - Accept/Reject booking requests
-  - Dashboard with booking history
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                    FRONTEND (React + Redux + Vite)                   │
+│                         http://localhost:5173                        │
+│                                                                      │
+│  Redux Store:                                                        │
+│  • authSlice         - User authentication, JWT tokens              │
+│  • propertiesSlice   - Property search results, details             │
+│  • bookingsSlice     - Booking list, status updates                 │
+│  • favoritesSlice    - Favorite properties                          │
+│  • dashboardSlice    - Owner dashboard stats                        │
+│                                                                      │
+│  Technologies: React, Redux Toolkit, TailwindCSS, Axios             │
+└──────┬───────────────┬────────────────┬──────────────┬──────────────┘
+       │               │                │              │
+       │ JWT Auth      │ JWT Auth       │ JWT Auth     │ HTTP
+       │               │                │              │
+       ↓               ↓                ↓              ↓
+┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+│   TRAVELER   │ │    OWNER     │ │   PROPERTY   │ │    AGENT     │
+│   SERVICE    │ │   SERVICE    │ │   SERVICE    │ │   SERVICE    │
+│  Port: 3001  │ │  Port: 3002  │ │  Port: 3003  │ │  Port: 8000  │
+│              │ │              │ │              │ │              │
+│  Routes:     │ │  Routes:     │ │  Routes:     │ │  Endpoints:  │
+│  /api/auth   │ │  /api/auth   │ │  /api/props  │ │  /agent/plan │
+│  /api/favs   │ │  /api/props  │ │  (CRUD)      │ │  /health     │
+│  /api/books  │ │  /api/books  │ │              │ │              │
+│  (PRODUCER)  │ │  (PRODUCER)  │ │              │ │              │
+└──────┬───────┘ └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+       │                │                │                │
+       │ Mongoose       │ Mongoose       │ Mongoose       │ Mongoose
+       │                │                │                │
+       ↓                ↓                ↓                ↓
+┌──────────────────────────────────────────────────────────────────────┐
+│                       MongoDB (Port: 27017)                          │
+│                                                                      │
+│  Database: airbnb                                                    │
+│                                                                      │
+│  Collections:                                                        │
+│  • users          - Travelers & Owners (role, email, password)      │
+│  • properties     - Property listings (location, price, amenities)  │
+│  • bookings       - Bookings (status: PENDING/ACCEPTED/CANCELLED)   │
+│  • favorites      - Favorite properties by travelers                │
+│                                                                      │
+│  Authentication: admin/adminpassword                                 │
+└──────────────────────────────────────────────────────────────────────┘
 
-### 🔁 End-to-End Booking Flow
-- Booking acceptance blocks date availability  
-- Cancellations free the calendar
+┌──────────────────────────────────────────────────────────────────────┐
+│                    KAFKA MESSAGE BROKER                              │
+│                 (Port: 9092, UI: 9093)                               │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │  Topic: booking-requests                                    │    │
+│  │  Purpose: New booking creation notifications                │    │
+│  │  Producer: Traveler Service                                 │    │
+│  │  Consumer: (Optional) Owner Service for notifications       │    │
+│  │                                                              │    │
+│  │  Message Schema:                                            │    │
+│  │  {                                                           │    │
+│  │    bookingId, travelerId, propertyId, ownerId,              │    │
+│  │    startDate, endDate, totalPrice, status, timestamp        │    │
+│  │  }                                                           │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │  Topic: booking-updates                                     │    │
+│  │  Purpose: Booking status changes (ACCEPTED/CANCELLED)       │    │
+│  │  Producers: Owner Service, Traveler Service                 │    │
+│  │  Consumer: Booking Service (status sync)                    │    │
+│  │                                                              │    │
+│  │  Message Schema:                                            │    │
+│  │  {                                                           │    │
+│  │    bookingId, status, updatedBy, timestamp                  │    │
+│  │  }                                                           │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                      │
+│  Backed by: Zookeeper (Port: 2181)                                  │
+└───────────────┬──────────────────────────────────┬──────────────────┘
+                │                                  │
+                │ Subscribes                       │ Subscribes
+                │ (booking-updates)                │ (booking-updates)
+                ↓                                  ↓
+      ┌──────────────────┐              ┌──────────────────┐
+      │     BOOKING      │              │  (Other Future   │
+      │     SERVICE      │              │   Consumers)     │
+      │   Port: 3004     │              │                  │
+      │                  │              │  e.g., Email     │
+      │  Consumer Group: │              │  Notification    │
+      │  booking-status  │              │  Service         │
+      │  -sync-group     │              └──────────────────┘
+      │                  │
+      │  Function:       │
+      │  Synchronize     │
+      │  booking status  │
+      │  across services │
+      └──────────────────┘
 
-### 📸 Rich Profile Management
-- Image uploads  
-- Editable personal details  
-- Traveler & Host-specific information  
+┌──────────────────────────────────────────────────────────────────────┐
+│                         KAFKA MESSAGE FLOW                           │
+│                                                                      │
+│  SCENARIO 1: Traveler Creates Booking                               │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│                                                                      │
+│  1. Traveler → POST /api/bookings (Traveler Service)                │
+│  2. Traveler Service → MongoDB (Create booking, status=PENDING)     │
+│  3. Traveler Service → Kafka (Publish to booking-requests)          │
+│  4. Owner can query bookings to see new request                     │
+│                                                                      │
+│  SCENARIO 2: Owner Accepts Booking                                  │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│                                                                      │
+│  1. Owner → PUT /api/bookings/:id/accept (Owner Service)            │
+│  2. Owner Service → MongoDB (Update status=ACCEPTED)                │
+│  3. Owner Service → Kafka (Publish to booking-updates)              │
+│        Message: { bookingId, status: "ACCEPTED", ... }              │
+│  4. Kafka → Booking Service (Consumer receives message)             │
+│  5. Booking Service → MongoDB (Sync status=ACCEPTED)                │
+│  6. Traveler sees updated status when querying bookings             │
+│                                                                      │
+│  SCENARIO 3: Owner/Traveler Cancels Booking                         │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│                                                                      │
+│  1. User → PUT /api/bookings/:id/cancel (Owner or Traveler Service) │
+│  2. Service → MongoDB (Update status=CANCELLED)                     │
+│  3. Service → Kafka (Publish to booking-updates)                    │
+│  4. Kafka → Booking Service (Consumer syncs status)                 │
+└──────────────────────────────────────────────────────────────────────┘
 
-### 🤖 Agentic AI Concierge
-Built using:
-- **Python FastAPI**
-- **LangChain**
-- **External data via Tavily**
+┌──────────────────────────────────────────────────────────────────────┐
+│                   PRODUCER-CONSUMER ARCHITECTURE                     │
+│                                                                      │
+│  FRONTEND SERVICES (Producers)                                      │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━                                   │
+│  • Traveler Service - Handles user-facing traveler operations       │
+│  • Owner Service    - Handles user-facing owner operations          │
+│  • Property Service - Manages property CRUD                          │
+│                                                                      │
+│  These services:                                                     │
+│  ✓ Accept HTTP requests from frontend                               │
+│  ✓ Perform immediate database operations                            │
+│  ✓ Publish events to Kafka for async processing                     │
+│  ✓ Return responses to frontend quickly                             │
+│                                                                      │
+│  BACKEND SERVICES (Consumers)                                       │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━                                    │
+│  • Booking Service  - Syncs booking status across services          │
+│  • (Future) Email Service - Send notifications                      │
+│  • (Future) Analytics Service - Track metrics                       │
+│                                                                      │
+│  These services:                                                     │
+│  ✓ Subscribe to Kafka topics                                        │
+│  ✓ Process messages asynchronously                                  │
+│  ✓ Update databases or trigger actions                              │
+│  ✓ No direct HTTP API (event-driven)                                │
+└──────────────────────────────────────────────────────────────────────┘
 
-Outputs:
-- Day-by-day itinerary  
-- POIs & activities with tags  
-- Restaurant suggestions (dietary-aware)  
-- Weather-aware packing checklist  
+┌──────────────────────────────────────────────────────────────────────┐
+│                      KEY CHARACTERISTICS                             │
+│                                                                      │
+│  ✓ Microservices - Separate services for each domain                │
+│  ✓ Decoupled - Services communicate via Kafka messages              │
+│  ✓ Async processing - Non-blocking booking status updates           │
+│  ✓ Scalable - Each service can scale independently                  │
+│  ✓ Fault-tolerant - Kafka ensures message delivery                  │
+│  ✓ JWT Authentication - Stateless auth with tokens                  │
+│  ✓ MongoDB - NoSQL database for flexible schemas                    │
+│  ✓ Redux - Centralized frontend state management                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
-🖥️ UI integrated into the dashboard as a floating button (bottom-right).
+## Deployment (docker-compose-lab2.yml)
 
-### ☁ Distributed Microservices Architecture
-- Separate services for:
-  - Traveler  
-  - Owner  
-  - Property  
-  - Booking  
-  - AI Concierge Service  
-- **Kafka** for booking events  
-- **MongoDB / MySQL** for persistence  
+```
+Services:
+  1. mongodb              - Port 27017
+  2. zookeeper            - Port 2181
+  3. kafka                - Port 9092, 9093
+  4. traveler-service     - Port 3001
+  5. owner-service        - Port 3002
+  6. property-service     - Port 3003
+  7. booking-service      - Port 3004
+  8. agent-service        - Port 8000
+  9. frontend             - Port 5173
 
-### 🧪 Performance Testing
-Using **Apache JMeter**:
-- Load tests with **100–500 concurrent users**
-- Graphs for average response time, throughput, and error rate
-- Performance analysis included
+Networks: airbnb_network (custom)
+Volumes:  mongodb_data
+```
 
----
+## Technology Stack
 
-## 🧱 System Architecture
+| Layer | Technologies |
+|-------|-------------|
+| Frontend | React, Redux Toolkit, Vite, TailwindCSS, Axios |
+| Microservices | Node.js, Express, Mongoose, KafkaJS, JWT |
+| Message Broker | Apache Kafka 7.5.0, Zookeeper |
+| Database | MongoDB 7.0 |
+| Agent | Python 3.11, FastAPI, Langchain |
+| Orchestration | Docker, Docker Compose, Kubernetes |
+| Deployment | AWS EKS (planned), Local K8s (minikube/kind) |
 
-```text
- React + Redux Frontend
-         │
-         ▼
-   REST API Gateway (Axios)
-         │
-         ▼
- ┌─────────────────────────────────────┐
- │ Node.js Backend Services (Express) │
- │ ├── Traveler Service               │
- │ ├── Owner Service                  │
- │ ├── Property Service               │
- │ ├── Booking Service                │  ← Kafka consumer/producer
- │ └── Session Store (MongoDB)        │
- └─────────────────────────────────────┘
+## Advantages Over Lab 1
 
- Python FastAPI AI Concierge Service (LangChain)
-         │
-         ▼
-      Kafka Broker (booking events)
+1. **Scalability**: Each service can scale independently
+2. **Resilience**: Failure in one service doesn't crash entire system
+3. **Async Processing**: Kafka enables non-blocking operations
+4. **Team Autonomy**: Different teams can work on different services
+5. **Technology Flexibility**: Each service can use different tech stack
+6. **Better State Management**: Redux provides predictable state updates
 
- Dockerized → Deployed to Kubernetes → Hosted on AWS
-
-🏗 Tech Stack Overview
-🌐 Frontend (React + Redux)
-
-React (Vite/CRA)
-
-Redux Toolkit
-
-React Router
-
-Axios
-
-Bootstrap / Tailwind CSS
-
-🖥 Backend (Node.js + Express)
-
-REST APIs for:
-
-Authentication
-
-Property Search
-
-Bookings
-
-Dashboards
-
-MySQL / MongoDB
-
-bcrypt for password hashing
-
-express-session or JWT
-
-🤖 AI Agent Service (FastAPI)
-
-Python 3.x
-
-LangChain
-
-External web search (Tavily)
-
-Generates multi-day travel plans
-
-🐳 DevOps & Cloud
-
-Docker (Service-level containers)
-
-Kubernetes (Deployments, Services, Ingress)
-
-Kafka + Zookeeper
 
 AWS EC2/EKS
 
