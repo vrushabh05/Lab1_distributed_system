@@ -16,3 +16,7 @@ node_modules
 
 # local session cookies
 *.cookies
+
+# generated test artifacts
+playwright-report/
+test-results/
