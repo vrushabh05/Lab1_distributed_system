@@ -13,3 +13,6 @@ __pycache__/
 *.cookie
 .aider*
 node_modules
+
+# local session cookies
+*.cookies
